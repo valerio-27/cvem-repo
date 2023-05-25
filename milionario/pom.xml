@@ -11,6 +11,7 @@
 		<module>milionario-core</module>
 		<module>milionario-core-impl</module>
 		<module>milionario-screen-interface</module>
+		<module>milionario-manager</module>
 	</modules>
 
 	<properties>
