@@ -6,4 +6,13 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>milionario-screen-interface</artifactId>
+  	<dependencies>
+		<dependency>
+			<groupId>it.academy.gaming.milionario</groupId>
+			<artifactId>milionario-core-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+  
 </project>
