@@ -1,0 +1,43 @@
+package it.academy.gaming.milionario.core.domain;
+
+import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
+
+//Domanda domanda 
+//.String testo
+//.Enum Categoria categoria
+//.InformazioniDomanda informazioni NON obbligatorio
+
+public class Domanda {
+	private String testo;
+	private Categoria categoria;
+	private InformazioniDomanda informazione;
+
+	public Domanda(String testo, Categoria categoria, InformazioniDomanda informazione)
+			throws CreazioneDomandaException {
+		if (testo == null) {
+			throw CreazioneDomandaException.testoAssente();
+		}
+		if (categoria == null) {
+			throw CreazioneDomandaException.categoriaAssente();
+		}
+		if (informazione == null) {
+			throw CreazioneDomandaException.informazioniAssenti();
+		}
+		this.testo = testo;
+		this.categoria = categoria;
+		this.informazione = informazione;
+	}
+
+	public String getTesto() {
+		return testo;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public InformazioniDomanda getInformazione() {
+		return informazione;
+	}
+
+}
