@@ -1,10 +1,10 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
-public class RicercaQuesitoPerDifficoltaCommand {
+public class RicercaQuesitoPerDifficoltaQuery {
 
 	private int livelloDifficolta;
 
-	public RicercaQuesitoPerDifficoltaCommand(int livelloDifficolta) {
+	public RicercaQuesitoPerDifficoltaQuery(int livelloDifficolta) {
 		super();
 		this.livelloDifficolta = livelloDifficolta;
 	}

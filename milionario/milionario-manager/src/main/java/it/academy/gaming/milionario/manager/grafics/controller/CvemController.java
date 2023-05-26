@@ -3,7 +3,9 @@ package it.academy.gaming.milionario.manager.grafics.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
+import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -11,8 +13,8 @@ import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoComman
 import it.academy.gaming.milionario.manager.core.commands.InserisciRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
 import it.academy.gaming.milionario.manager.core.commands.RecuperaQuesitoCommand;
-import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerCategoriaCommand;
-import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerDifficoltaCommand;
+import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerCategoriaQuery;
+import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerDifficoltaQuery;
 import it.academy.gaming.milionario.manager.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.grafics.requests.CancellaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
@@ -90,13 +92,13 @@ public class CvemController {
 		service.inserisci(quesitoCommand);
 	}
 
-	public void cancellaQuesito(CancellaQuesitoRequest request) {
+	public void cancellaQuesito(CancellaQuesitoRequest request) throws CodiceInvalidoException {
 		CancellaQuesitoCommand command = new CancellaQuesitoCommand(request.getTestoQuesito());
 		service.cancellaQuesito(command);
 	}
 
-	public void cercaPerDifficolta(RicercaQuesitoPerDifficoltaRequest requestPerDifficolta) {
-		RicercaQuesitoPerDifficoltaCommand command = new RicercaQuesitoPerDifficoltaCommand(
+	public void cercaPerDifficolta(RicercaQuesitoPerDifficoltaRequest requestPerDifficolta) throws DifficoltaNonInRangeException {
+		RicercaQuesitoPerDifficoltaQuery command = new RicercaQuesitoPerDifficoltaQuery(
 				requestPerDifficolta.getLivelloDifficolta());
 
 		List<QuesitoView> quesitiView = service.cercaPerLivelloDifficolta(command);
@@ -105,7 +107,7 @@ public class CvemController {
 	}
 
 	public void cercaPerCategoria(RicercaQuesitoPerCategoriaRequest requestPerCategoria) {
-		RicercaQuesitoPerCategoriaCommand command = new RicercaQuesitoPerCategoriaCommand(
+		RicercaQuesitoPerCategoriaQuery command = new RicercaQuesitoPerCategoriaQuery(
 				requestPerCategoria.getCategoriaRicercata());
 
 		List<QuesitoView> quesitiView = service.cercaPerCategoria(command);

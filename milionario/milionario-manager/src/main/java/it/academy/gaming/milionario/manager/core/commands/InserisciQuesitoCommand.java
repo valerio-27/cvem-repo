@@ -1,6 +1,7 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
 public class InserisciQuesitoCommand {
+	
 	private InserisciDomandaCommand domandaRequest;
 	private InserisciRispostaCommand[] rispostaRequests ;
 	private int livelloDifficolta;

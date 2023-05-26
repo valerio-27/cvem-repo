@@ -2,20 +2,25 @@ package it.academy.gaming.milionario.core.domain;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class CodiceQuesito {
+import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 
-	private String codice;
+public class CodiceQuesito extends Codice {
 
-	private CodiceQuesito(String codice) {
-		this.codice = codice;
+	private CodiceQuesito(String codice) throws CodiceInvalidoException {
+		super(codice);
 	}
 
 	public static CodiceQuesito crea() {
-		return new CodiceQuesito(RandomStringUtils.randomAlphanumeric(8));
+		CodiceQuesito codiceQuesito = null;
+		try {
+			codiceQuesito = new CodiceQuesito(RandomStringUtils.randomAlphanumeric(8));
+		} catch (CodiceInvalidoException ignored) {
+		}
+		return codiceQuesito;
 	}
 
-	public String getCodice() {
-		return codice;
+	public static CodiceQuesito parse(String codice) throws CodiceInvalidoException {
+		return new CodiceQuesito(codice);
 	}
 
 }

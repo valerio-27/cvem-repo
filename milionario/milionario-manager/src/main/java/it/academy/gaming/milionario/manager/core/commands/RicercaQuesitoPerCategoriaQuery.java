@@ -2,10 +2,10 @@ package it.academy.gaming.milionario.manager.core.commands;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
 
-public class RicercaQuesitoPerCategoriaCommand {
+public class RicercaQuesitoPerCategoriaQuery {
 	private Categoria categoriaRicercata;
 
-	public RicercaQuesitoPerCategoriaCommand(Categoria categoriaRicercata) {
+	public RicercaQuesitoPerCategoriaQuery(Categoria categoriaRicercata) {
 		super();
 		this.categoriaRicercata = categoriaRicercata;
 	}

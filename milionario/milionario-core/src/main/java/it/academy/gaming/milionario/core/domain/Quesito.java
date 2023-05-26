@@ -17,7 +17,7 @@ public class Quesito {
 		this.domanda = domanda;
 		this.risposte = risposte;
 		this.difficolta = difficolta;
-		this.valore=Valore.calcola(difficolta);
+		this.valore = Valore.calcola(difficolta);
 	}
 
 	public static QuesitoBuilder builder() {
@@ -116,4 +116,7 @@ public class Quesito {
 		return codice;
 	}
 
+	public Valore getValore() {
+		return valore;
+	}
 }

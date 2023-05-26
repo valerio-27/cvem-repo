@@ -4,6 +4,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteEx
 
 public class Risposta {
 
+	private CodiceRisposta codiceRisposta;
 	private String testo;
 	private boolean corretta;
 
@@ -11,6 +12,7 @@ public class Risposta {
 		if (testo == null) {
 			throw new TestoRipostaAssenteException();
 		}
+		this.codiceRisposta = CodiceRisposta.crea();
 		this.testo = testo;
 		this.corretta = corretta;
 	}
@@ -21,6 +23,10 @@ public class Risposta {
 
 	public boolean isCorretta() {
 		return corretta;
+	}
+
+	public CodiceRisposta getCodiceRisposta() {
+		return codiceRisposta;
 	}
 
 }
