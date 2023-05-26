@@ -12,12 +12,25 @@ public class Quesito {
 	private Difficolta difficolta;
 	private Valore valore;
 
-	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta) throws CreazioneQuesitoException {
-		this.codice = CodiceQuesito.crea();
+	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
+		try {
+			new Quesito(CodiceQuesito.crea(), domanda, risposte, difficolta);
+		} catch (CreazioneQuesitoException ignored) {
+		}
+	}
+
+	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta)
+			throws CreazioneQuesitoException {
+		this.codice = codiceQuesito;
 		this.domanda = domanda;
 		this.risposte = risposte;
 		this.difficolta = difficolta;
 		this.valore = Valore.calcola(difficolta);
+	}
+
+	public static Quesito parse(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte,
+			Difficolta difficolta) throws CreazioneQuesitoException {
+		return new Quesito(codiceQuesito, domanda, risposte, difficolta);
 	}
 
 	public static QuesitoBuilder builder() {

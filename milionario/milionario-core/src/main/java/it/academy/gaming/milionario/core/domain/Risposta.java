@@ -8,13 +8,21 @@ public class Risposta {
 	private String testo;
 	private boolean corretta;
 
-	public Risposta(String testo, boolean corretta) throws TestoRipostaAssenteException {
+	private Risposta(CodiceRisposta codiceRisposta, String testo, boolean corretta) {
+		this.codiceRisposta = codiceRisposta;
+		this.testo = testo;
+		this.corretta = corretta;
+	}
+
+	public static Risposta crea(String testo, boolean corretta) throws TestoRipostaAssenteException {
 		if (testo == null) {
 			throw new TestoRipostaAssenteException();
 		}
-		this.codiceRisposta = CodiceRisposta.crea();
-		this.testo = testo;
-		this.corretta = corretta;
+		return new Risposta(CodiceRisposta.crea(), testo, corretta);
+	}
+
+	public static Risposta parse(CodiceRisposta codiceRisposta, String testo, boolean corretta) {
+		return new Risposta(codiceRisposta, testo, corretta);
 	}
 
 	public String getTesto() {

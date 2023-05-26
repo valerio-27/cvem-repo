@@ -150,7 +150,7 @@ public class QuesitoReader {
 				testo = rispostaString;
 			}
 
-			Risposta risposta = new Risposta(testo, corretta);
+			Risposta risposta = Risposta.crea(testo, corretta);
 
 			listaRisposte.add(risposta);
 
