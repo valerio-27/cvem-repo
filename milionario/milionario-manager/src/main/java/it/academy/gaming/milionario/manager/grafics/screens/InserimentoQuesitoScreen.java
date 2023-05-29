@@ -70,6 +70,7 @@ public class InserimentoQuesitoScreen extends Screen {
 				+ massimoDiDifficlta);
 
 		int scelta = scanner.nextInt();
+		scanner.nextLine();
 		try {
 			RangeDifficolta.verificaLimitiDifficolta(controller, scelta);
 
@@ -83,10 +84,11 @@ public class InserimentoQuesitoScreen extends Screen {
 
 	private InputRisposta acquisisciDatiRelativiAllaRisposta(int indiceDellaRisposta) {
 		mostraInfo("Inserisci la risposta numero: " + indiceDellaRisposta);
-		scanner.nextLine();
+		
 		String testo = scanner.nextLine();
 		mostraInfo("E' la risposta giusta? (SI/NO)");
 		String rispostaGiusta = scanner.next();
+		scanner.nextLine();
 		try {
 			return InputRisposta.crea(testo, rispostaGiusta);
 		} catch (Exception e) {
@@ -105,20 +107,25 @@ public class InserimentoQuesitoScreen extends Screen {
 		String frase = scanner.nextLine();
 		mostraInfo("Inserisci la categoria ");
 		String categoria = scanner.next();
+		scanner.nextLine();
 		String urlImmagine = null;
 		String urlDocumentazione = null;
 		mostraInfo("Vuoi aggiungere un'immagine? (SI/NO)");
 		String aggiuntaImmagine = scanner.next();
+		scanner.nextLine();
 		if (aggiuntaImmagine.equalsIgnoreCase("SI")) {
 			mostraInfo("Inserisci url dell'immagine");
 			urlImmagine = scanner.next();
+			scanner.nextLine();
 		}
 
 		mostraInfo("Vuoi aggiungere della documentazione? (SI/NO)");
 		String aggiuntaDocumentazione = scanner.next();
+		scanner.nextLine();
 		if (aggiuntaDocumentazione.equalsIgnoreCase("SI")) {
 			mostraInfo("Inserisci url della documentazione");
 			urlDocumentazione = scanner.next();
+			scanner.nextLine();
 		}
 
 		try {

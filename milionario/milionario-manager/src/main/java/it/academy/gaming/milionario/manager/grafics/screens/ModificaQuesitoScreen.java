@@ -60,6 +60,7 @@ public class ModificaQuesitoScreen extends Screen {
 		mostraInfo("L)ivello di difficolta'");
 		mostraInfo("M)enu");
 		String scelta = scanner.next();
+		scanner.nextLine();
 		try {
 			switch (scelta.toUpperCase()) {
 			case OPZIONE_MODIFICA_DOMANDA:
@@ -91,6 +92,7 @@ public class ModificaQuesitoScreen extends Screen {
 		mostraInfo("I)ndietro");
 
 		String scelta = scanner.next();
+		scanner.nextLine();
 		try {
 			switch (scelta.toUpperCase()) {
 
@@ -119,6 +121,7 @@ public class ModificaQuesitoScreen extends Screen {
 				+ massimoDiDifficlta);
 
 		int scelta = scanner.nextInt();
+		scanner.nextLine();
 		try {
 			RangeDifficolta.verificaLimitiDifficolta(controller, scelta);
 
@@ -131,12 +134,13 @@ public class ModificaQuesitoScreen extends Screen {
 		mostraInfo("I)ndietro");
 
 		String sceltaFinale = scanner.next();
+		scanner.nextLine();
 		try {
 			switch (sceltaFinale.toUpperCase()) {
 
 			case OPZIONE_CONFERMA:
-				ModificaDifficoltaRequest request = new ModificaDifficoltaRequest(
-						quesitoRichiestoView.getCodice(), scelta);
+				ModificaDifficoltaRequest request = new ModificaDifficoltaRequest(quesitoRichiestoView.getCodice(),
+						scelta);
 				/*
 				 * vorrei che dopo ogni modifica rimanessi comunque in questa pagina fino a
 				 * quando non vuoi uscire tu ma aggiorno costantemente i quesito ch le modifiche
@@ -193,6 +197,7 @@ public class ModificaQuesitoScreen extends Screen {
 			mostraInfo("C)onferma fine modifiche");
 
 			String scelta = scanner.next();
+			scanner.nextLine();
 			if (scelta.equalsIgnoreCase(OPZIONE_INDIETRO)) {
 				/*
 				 * ritorno al metodo che mi ha chiamato
@@ -221,7 +226,8 @@ public class ModificaQuesitoScreen extends Screen {
 
 				try {
 					this.quesitoRichiestoView = controller.modificaRisposte(request);
-				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRispostaAssenteException | CodiceInvalidoException e) {
+				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRispostaAssenteException
+						| CodiceInvalidoException e) {
 					mostraInfo(e.getMessage());
 					proponiModifiche();
 
@@ -265,6 +271,7 @@ public class ModificaQuesitoScreen extends Screen {
 		}
 		mostraInfo("Inserisci l'indice della risposta corretta");
 		int indiceRispostaCorretta = scanner.nextInt();
+		scanner.nextLine();
 		try {
 			if (indiceRispostaCorretta < 1 || indiceRispostaCorretta > 4) {
 				throw new IllegalArgumentException("L'indice deve essere compreso tra 1 e 4 ");
@@ -280,25 +287,21 @@ public class ModificaQuesitoScreen extends Screen {
 
 	private void modificaRispostaIndicata(int indiceRisposta, List<String> testiRisposteAttuali) {
 
-		
-			mostraInfo("Inserisci il testo sostitutivo");
-			scanner.nextLine();
-			String scelta = scanner.nextLine();
-			try {
-				if (StringUtils.isBlank(scelta)) {
-					throw new IllegalArgumentException("Il testo dellla risposta deve essere un alpha numerico ");
-				}
-
-				testiRisposteAttuali.set(indiceRisposta, scelta);
-
-			} catch (Exception e) {
-				mostraInfo(e.getMessage());
-				modificaRispostaIndicata(indiceRisposta, testiRisposteAttuali);
-
+		mostraInfo("Inserisci il testo sostitutivo");
+		String scelta = scanner.nextLine();
+		try {
+			if (StringUtils.isBlank(scelta)) {
+				throw new IllegalArgumentException("Il testo dellla risposta deve essere un alpha numerico ");
 			}
-		}
 
-	
+			testiRisposteAttuali.set(indiceRisposta, scelta);
+
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			modificaRispostaIndicata(indiceRisposta, testiRisposteAttuali);
+
+		}
+	}
 
 	private void modificaDomanda() {
 
@@ -340,6 +343,7 @@ public class ModificaQuesitoScreen extends Screen {
 			mostraInfo("I)ndietro");
 
 			String scelta = scanner.next();
+			scanner.nextLine();
 
 			try {
 				switch (scelta.toUpperCase()) {
@@ -386,7 +390,6 @@ public class ModificaQuesitoScreen extends Screen {
 
 	private String modificaTestoDomanda() {
 		mostraInfo("Inserisci il testo della domanda");
-		scanner.nextLine();
 		String nuovoTesto = scanner.nextLine();
 		try {
 			if (StringUtils.isAllBlank(nuovoTesto)) {
@@ -406,6 +409,7 @@ public class ModificaQuesitoScreen extends Screen {
 
 		mostraInfo("Inserisci url immagine");
 		String urlImmagine = scanner.next();
+		scanner.nextLine();
 		try {
 			if (StringUtils.isAlphanumeric(urlImmagine)) {
 				throw new IllegalArgumentException("L'url che hai inserito non e' nel formato corretto");
@@ -422,6 +426,7 @@ public class ModificaQuesitoScreen extends Screen {
 
 		mostraInfo("Inserisci url documentazione");
 		String urlDocumentazione = scanner.next();
+		scanner.nextLine();
 		try {
 			if (StringUtils.isAlphanumeric(urlDocumentazione)) {
 				throw new IllegalArgumentException("L'url che hai inserito non e' nel formato corretto");
@@ -437,6 +442,7 @@ public class ModificaQuesitoScreen extends Screen {
 	private Categoria modificaCategoria() {
 		mostraInfo("Inserisci la categoria della domanda");
 		String categoria = scanner.next();
+		scanner.nextLine();
 		Categoria nuovaCategoria = null;
 		try {
 			nuovaCategoria = Categoria.valueOf(categoria.toUpperCase());

@@ -26,8 +26,9 @@ public class RicercaQuesitoScreen extends Screen {
 		mostraInfo("M)enu");
 
 		String scelta = scanner.next();
+		scanner.nextLine();
 		try {
-			switch (scelta) {
+			switch (scelta.toUpperCase()) {
 			case OPZIONE_RICERCA_CATEGORIA:
 				Categoria categoriaScelta = acquisisciCategoria();
 				RicercaQuesitoPerCategoriaRequest requestPerCategoria = new RicercaQuesitoPerCategoriaRequest(
@@ -56,6 +57,7 @@ public class RicercaQuesitoScreen extends Screen {
 	private Categoria acquisisciCategoria() {
 		mostraInfo("Inserisci la categoria che vuoi cercare");
 		String categoriaSceltaString = scanner.next();
+		scanner.nextLine();
 		Categoria categoriaScelta = null;
 		try {
 			categoriaScelta = Categoria.valueOf(categoriaSceltaString.toUpperCase());
@@ -71,6 +73,7 @@ public class RicercaQuesitoScreen extends Screen {
 			throws DifficoltaFuoriLimitiException {
 		mostraInfo("Puoi scegliere un livello di difficolta' da " + minimoDiDifficolta + " a " + massimoDiDifficlta);
 		int difficoltaScelta = scanner.nextInt();
+		scanner.nextLine();
 
 		if (difficoltaScelta < massimoDiDifficlta || difficoltaScelta > massimoDiDifficlta) {
 			throw new DifficoltaFuoriLimitiException("La difficolta deve rientrare nei limite comunicati");

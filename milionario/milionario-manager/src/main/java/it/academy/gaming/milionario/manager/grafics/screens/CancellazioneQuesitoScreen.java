@@ -18,8 +18,9 @@ public class CancellazioneQuesitoScreen extends Screen {
 		mostraInfo("C)ancella");
 		mostraInfo("M)enu");
 		String scelta = scanner.next();
+		scanner.nextLine();
 		try {
-			switch (scelta) {
+			switch (scelta.toUpperCase()) {
 			case OPZIONE_CANCELLA_QUESITO:
 				CancellaQuesitoRequest request = new CancellaQuesitoRequest(codiceQuisito);
 				controller.cancellaQuesito(request);
