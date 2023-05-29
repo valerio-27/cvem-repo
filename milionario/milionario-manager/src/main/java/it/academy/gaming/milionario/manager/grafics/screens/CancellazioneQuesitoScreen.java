@@ -12,6 +12,7 @@ public class CancellazioneQuesitoScreen extends Screen {
 	}
 
 	public void show() {
+		super.showTitle();
 		mostraInfo("Inserisci il codice del quesito che vuoi cancellare");
 		String codiceQuisito = scanner.nextLine();
 		mostraInfo("C)ancella");

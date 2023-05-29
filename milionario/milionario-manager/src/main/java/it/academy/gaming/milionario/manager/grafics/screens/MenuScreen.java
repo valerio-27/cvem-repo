@@ -14,6 +14,7 @@ public class MenuScreen extends Screen {
 	}
 
 	public void show() {
+		super.showTitle();
 		mostraInfo("Scegli l'operazione che vuoi fare");
 		mostraInfo("I)nserisci quesito");
 		mostraInfo("M)odifica quesito");
@@ -22,7 +23,7 @@ public class MenuScreen extends Screen {
 		mostraInfo("U)scita");
 		String scelta = scanner.next();
 		try {
-			switch (scelta) {
+			switch (scelta.toUpperCase()) {
 			case OPZIONE_INSERISCI_QUESITO:
 				controller.showInserisciQuesitoScreen();
 				break;

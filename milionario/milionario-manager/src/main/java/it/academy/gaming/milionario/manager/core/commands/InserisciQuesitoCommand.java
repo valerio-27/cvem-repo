@@ -1,10 +1,11 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
 public class InserisciQuesitoCommand {
-	
+
 	private InserisciDomandaCommand domandaRequest;
-	private InserisciRispostaCommand[] rispostaRequests ;
+	private InserisciRispostaCommand[] rispostaRequests;
 	private int livelloDifficolta;
+
 	public InserisciQuesitoCommand(InserisciDomandaCommand domandaRequest, InserisciRispostaCommand[] rispostaRequests,
 			int livelloDifficolta) {
 		super();
@@ -12,16 +13,17 @@ public class InserisciQuesitoCommand {
 		this.rispostaRequests = rispostaRequests;
 		this.livelloDifficolta = livelloDifficolta;
 	}
-	public InserisciDomandaCommand getDomandaRequest() {
+
+	public InserisciDomandaCommand getDomandaCommand() {
 		return domandaRequest;
 	}
-	public InserisciRispostaCommand[] getRispostaRequests() {
+
+	public InserisciRispostaCommand[] getRispostaCommands() {
 		return rispostaRequests;
 	}
+
 	public int getLivelloDifficolta() {
 		return livelloDifficolta;
 	}
-
-	
 
 }

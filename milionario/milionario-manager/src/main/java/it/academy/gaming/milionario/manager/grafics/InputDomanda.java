@@ -47,7 +47,7 @@ public class InputDomanda {
 		/*
 		 * verifico che sia un alfanumerico
 		 */
-		boolean fraseAccettabile = StringUtils.isAlphanumericSpace(frase);
+		boolean fraseAccettabile = StringUtils.isNotBlank(frase);
 		if (!fraseAccettabile) {
 			throw new FormatoFraseNonCorrettoException("La domanda deve essere scritta in formato alfanumerico");
 		}

@@ -1,6 +1,6 @@
 package it.academy.gaming.milionario.core.domain;
 
-import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 
 public class Risposta {
 
@@ -14,9 +14,9 @@ public class Risposta {
 		this.corretta = corretta;
 	}
 
-	public static Risposta crea(String testo, boolean corretta) throws TestoRipostaAssenteException {
+	public static Risposta crea(String testo, boolean corretta) throws TestoRispostaAssenteException {
 		if (testo == null) {
-			throw new TestoRipostaAssenteException();
+			throw new TestoRispostaAssenteException();
 		}
 		return new Risposta(CodiceRisposta.crea(), testo, corretta);
 	}

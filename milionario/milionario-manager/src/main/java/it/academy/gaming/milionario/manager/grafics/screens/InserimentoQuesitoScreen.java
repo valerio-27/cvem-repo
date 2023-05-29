@@ -3,7 +3,11 @@ package it.academy.gaming.milionario.manager.grafics.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
+import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.manager.grafics.InputDomanda;
 import it.academy.gaming.milionario.manager.grafics.InputRisposta;
 import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
@@ -21,7 +25,7 @@ public class InserimentoQuesitoScreen extends Screen {
 	}
 
 	public void show() {
-
+		super.showTitle();
 		/*
 		 * deve essere inserita la domanda , poi le 4 risposte e poi la difficolta del
 		 * quesito
@@ -30,8 +34,8 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputDomanda domanda = aquisisciDatiRelativiAllaDomanda();
 		List<InputRisposta> risposte = new ArrayList<>();
 
-		for (int i = 0; i < 4; i++) {
-			risposte.add(acquisisciDatiRelativiAllaRisposta(++i));
+		for (int i = 1; i <= 4; i++) {
+			risposte.add(acquisisciDatiRelativiAllaRisposta(i));
 
 		}
 
@@ -53,7 +57,7 @@ public class InserimentoQuesitoScreen extends Screen {
 
 		try {
 			controller.inserisci(request);
-		} catch (CreazioneQuesitoException e) {
+		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException | NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException e) {
 			mostraInfo(e.getMessage());
 			show();
 		}
@@ -78,6 +82,7 @@ public class InserimentoQuesitoScreen extends Screen {
 
 	private InputRisposta acquisisciDatiRelativiAllaRisposta(int indiceDellaRisposta) {
 		mostraInfo("Inserisci la risposta numero: " + indiceDellaRisposta);
+		scanner.nextLine();
 		String testo = scanner.nextLine();
 		mostraInfo("E' la risposta giusta? (SI/NO)");
 		String rispostaGiusta = scanner.next();
@@ -95,9 +100,9 @@ public class InserimentoQuesitoScreen extends Screen {
 		 * .String testo .Enum Categoria categoria .InformazioniDomanda informazioni NON
 		 * obbligatorio
 		 */
-		mostraInfo("Inserisci la frase");
+		mostraInfo("Inserisci la domanda");
 		String frase = scanner.nextLine();
-		mostraInfo("Inserisci la categoria");
+		mostraInfo("Inserisci la categoria ");
 		String categoria = scanner.next();
 		String urlImmagine = null;
 		String urlDocumentazione = null;

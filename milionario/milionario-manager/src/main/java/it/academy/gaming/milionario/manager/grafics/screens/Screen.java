@@ -13,7 +13,11 @@ public abstract class Screen {
 		super();
 		this.nome = nome;
 		this.controller = controller;
+	}
+
+	protected void showTitle() {
 		mostraInfo(nome);
+		mostraInfo("-----------------------------------------------------------");
 	}
 
 	protected void mostraInfo(String info) {

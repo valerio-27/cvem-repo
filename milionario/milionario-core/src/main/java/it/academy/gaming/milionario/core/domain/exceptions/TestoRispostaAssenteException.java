@@ -1,8 +1,8 @@
 package it.academy.gaming.milionario.core.domain.exceptions;
 
-public class TestoRipostaAssenteException extends Exception {
+public class TestoRispostaAssenteException extends Exception {
 
-	public TestoRipostaAssenteException() {
+	public TestoRispostaAssenteException() {
 		super("La risposta necessita di un testo");
 	}
 

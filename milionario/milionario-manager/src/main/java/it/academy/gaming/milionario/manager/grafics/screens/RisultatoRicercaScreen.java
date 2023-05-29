@@ -12,6 +12,7 @@ public class RisultatoRicercaScreen extends Screen {
 	}
 
 	public void show(List<QuesitoView> quesitiView) {
+		super.showTitle();
 		mostraInfo("Questo e' il risultato della tua ricerca:");
 
 		for (QuesitoView quesitoView : quesitiView) {

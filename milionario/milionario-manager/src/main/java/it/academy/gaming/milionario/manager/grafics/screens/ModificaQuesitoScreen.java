@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import it.academy.gaming.milionario.core.domain.Categoria;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
-import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
@@ -221,7 +221,7 @@ public class ModificaQuesitoScreen extends Screen {
 
 				try {
 					this.quesitoRichiestoView = controller.modificaRisposte(request);
-				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRipostaAssenteException | CodiceInvalidoException e) {
+				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRispostaAssenteException | CodiceInvalidoException e) {
 					mostraInfo(e.getMessage());
 					proponiModifiche();
 

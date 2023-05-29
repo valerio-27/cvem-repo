@@ -18,7 +18,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaExcep
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
-import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 
 public class QuesitoReader {
 
@@ -26,7 +26,7 @@ public class QuesitoReader {
 
 	public void leggiQuesiti(File cartellaQuesiti)
 			throws it.academy.gaming.milionario.core.implementation.file.CartellaNonValidaException, IOException,
-			CreazioneDomandaException, TestoRipostaAssenteException, DifficoltaNonInRangeException,
+			CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
 			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException {
 
 		if (!cartellaQuesiti.exists() || !cartellaQuesiti.isDirectory()) {
@@ -68,7 +68,7 @@ public class QuesitoReader {
 	}
 
 	private Quesito parseQuesito(String[] componentiQuesito)
-			throws CreazioneDomandaException, TestoRipostaAssenteException, DifficoltaNonInRangeException,
+			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
 			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException {
 
 		Domanda domanda = null;
@@ -129,7 +129,7 @@ public class QuesitoReader {
 		return builder.build();
 	}
 
-	private List<Risposta> parseRisposte(String risposteString) throws TestoRipostaAssenteException {
+	private List<Risposta> parseRisposte(String risposteString) throws TestoRispostaAssenteException {
 
 		String[] risposte = risposteString.split(",");
 

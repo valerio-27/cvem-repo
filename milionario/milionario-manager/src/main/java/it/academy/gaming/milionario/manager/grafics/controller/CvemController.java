@@ -1,15 +1,15 @@
 package it.academy.gaming.milionario.manager.grafics.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
-import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
@@ -44,11 +44,11 @@ import it.academy.gaming.milionario.manager.grafics.screens.RisultatoRicercaScre
 public class CvemController {
 	private CvemService service;
 	private MenuScreen menuScreen = new MenuScreen(this);
-	private InserimentoQuesitoScreen inserimentoQuesitoScreen;
-	private ModificaQuesitoScreen modificaQuesitoScreen;
-	private CancellazioneQuesitoScreen cancellazioneQuesitoScreen;
-	private RicercaQuesitoScreen ricercaQuesitoScreen;
-	private RisultatoRicercaScreen risultatoRicercaScreen;
+	private InserimentoQuesitoScreen inserimentoQuesitoScreen=new InserimentoQuesitoScreen(this);
+	private ModificaQuesitoScreen modificaQuesitoScreen=new ModificaQuesitoScreen(this);
+	private CancellazioneQuesitoScreen cancellazioneQuesitoScreen=new CancellazioneQuesitoScreen(this);
+	private RicercaQuesitoScreen ricercaQuesitoScreen=new RicercaQuesitoScreen(this);
+	private RisultatoRicercaScreen risultatoRicercaScreen=new RisultatoRicercaScreen(this);
 
 	public CvemController(CvemService service) {
 		super();
@@ -87,7 +87,7 @@ public class CvemController {
 		return service.getMaxDiDifficolta();
 	}
 
-	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException {
+	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
 		InserisciDomandaCommand domandaCommand = new InserisciDomandaCommand(
 				request.getDomandaRequest().getTestoDomanda(), request.getDomandaRequest().getCategoria(),
 				request.getDomandaRequest().getUrlImmagne(), request.getDomandaRequest().getUrlDocumentazione());
@@ -140,7 +140,7 @@ public class CvemController {
 		return quesitoModificato;
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRipostaAssenteException, CodiceInvalidoException {
+	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRispostaAssenteException, CodiceInvalidoException {
 		List<ModificaRispostaCommand> risposteCommand = new ArrayList<>();
 		for (ModificaRispostaRequest rispostaRequest : request.getNuoveRisposte()) {
 			risposteCommand.add(new ModificaRispostaCommand(rispostaRequest.getTesto(), rispostaRequest.isCorretta()));

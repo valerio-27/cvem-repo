@@ -16,6 +16,7 @@ public class RicercaQuesitoScreen extends Screen {
 	}
 
 	public void show() {
+		super.showTitle();
 		/*
 		 * posso fare la ricerca per difficolta o per categoria
 		 */

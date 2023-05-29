@@ -1,6 +1,7 @@
 package it.academy.gaming.milionario.manager.core.application;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,14 +16,18 @@ import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoExcepti
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
-import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
+import it.academy.gaming.milionario.core.views.InformazioniView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
+import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
+import it.academy.gaming.milionario.manager.core.commands.InserisciRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
@@ -37,27 +42,51 @@ public class CvemService {
 
 	private QuesitoRepository quesitoRepository;
 
+	public CvemService(QuesitoRepository quesitoRepository) {
+		super();
+		this.quesitoRepository = quesitoRepository;
+	}
+
 	public int getMinDiDifficolta() {
-		return 0;
+		return Difficolta.getMinimo();
 	}
 
 	public int getMaxDiDifficolta() {
-		return 0;
+		return Difficolta.getMassimo();
 	}
 
 	/**
 	 * metodo in cui mi confronto con il builder e poi salvo il quesito nella
 	 * QuesitoRepository
 	 * 
-	 * @param quesitoCommand
+	 * @param inserisciQuesitoCommand
 	 * @throws CreazioneQuesitoException
+	 * @throws CreazioneDomandaException
+	 * @throws TestoRispostaAssenteException
+	 * @throws NumeroMassimoRisposteSuperatoException
+	 * @throws DifficoltaNonInRangeException
 	 */
-	public void inserisci(InserisciQuesitoCommand quesitoCommand) throws CreazioneQuesitoException {
+	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand)
+			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
+			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
 		QuesitoBuilder builder = Quesito.builder();
 		/*
-		 * devo fare tutti i set e creare tutti gli oggetti poi chiamo il build();
+		 * devo creare tutti gli oggetti fare tutti i set e poi chiamo il build()
+		 * oviamente tutti metodi del builder;
 		 */
+		InserisciDomandaCommand domandaCommand = inserisciQuesitoCommand.getDomandaCommand();
+		InformazioniDomanda informazioni = new InformazioniDomanda(domandaCommand.getUrlImmagne(),
+				domandaCommand.getUrlDocumentazione());
+		Domanda domanda = new Domanda(domandaCommand.getTestoDomanda(), domandaCommand.getCategoria(), informazioni);
+		builder.setDomanda(domanda);
+		for (InserisciRispostaCommand rispostaCommand : inserisciQuesitoCommand.getRispostaCommands()) {
 
+			Risposta risposta = Risposta.crea(rispostaCommand.getTestoRisposta(), rispostaCommand.isRispostaGiusta());
+
+			builder.aggiungiRisposta(risposta);
+		}
+		Difficolta difficolta = new Difficolta(inserisciQuesitoCommand.getLivelloDifficolta());
+		builder.setDifficolta(difficolta);
 		Quesito quesito = builder.build();
 		quesitoRepository.add(quesito);
 	}
@@ -81,9 +110,19 @@ public class CvemService {
 
 	public List<QuesitoView> cercaPerLivelloDifficolta(RicercaQuesitoPerDifficoltaQuery query)
 			throws DifficoltaNonInRangeException {
+		Collection<Quesito> quesitiTrovati = quesitoRepository
+				.findByLivelloDifficolta(new Difficolta(query.getLivelloDifficolta()));
+		List<QuesitoView> quesitiView = new ArrayList<>();
+		for (Quesito quesito : quesitiTrovati) {
+			try {
+				quesitiView.add(generaQuesitoView(quesito.getCodice()));
+			} catch (QuesitoNonTrovatoException ignored) {
 
-		quesitoRepository.findByLivelloDifficolta(new Difficolta(query.getLivelloDifficolta()));
-		return null;
+			}
+		}
+
+		return quesitiView;
+
 	}
 
 	/**
@@ -92,11 +131,21 @@ public class CvemService {
 
 	public List<QuesitoView> cercaPerCategoria(RicercaQuesitoPerCategoriaQuery query) {
 
-		quesitoRepository.findByCategoria(query.getCategoriaRicercata());
-		return null;
+		Collection<Quesito> quesitiTrovati = quesitoRepository.findByCategoria(query.getCategoriaRicercata());
+		List<QuesitoView> quesitiView = new ArrayList<>();
+		for (Quesito quesito : quesitiTrovati) {
+			try {
+				quesitiView.add(generaQuesitoView(quesito.getCodice()));
+			} catch (QuesitoNonTrovatoException ignored) {
+
+			}
+		}
+
+		return quesitiView;
 	}
 
-	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoQuery query) throws QuesitoNonTrovatoException, CodiceInvalidoException {
+	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoQuery query)
+			throws QuesitoNonTrovatoException, CodiceInvalidoException {
 		return generaQuesitoView(CodiceQuesito.parse(query.getCodiceQuesitoRicercato()));
 	}
 
@@ -109,9 +158,9 @@ public class CvemService {
 		return generaQuesitoView(CodiceQuesito.parse(command.getCodiceQuesito()));
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteCommand command)
-			throws QuesitoNonTrovatoException, TestoRipostaAssenteException, RisposteInvalideException, CodiceInvalidoException {
-		Quesito quesito = verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
+	public QuesitoView modificaRisposte(ModificaRisposteCommand command) throws QuesitoNonTrovatoException,
+			TestoRispostaAssenteException, RisposteInvalideException, CodiceInvalidoException {
+		verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
 		/*
 		 * creo 4 risposte a partire dal commnad
 		 */
@@ -143,17 +192,21 @@ public class CvemService {
 	private QuesitoView generaQuesitoView(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
 		Quesito quesito = verificaEsistenzaQuesito(codiceQuesito);
 
-		/*
-		 * private DomandaView domandaView; private List<RispostaView> risposteView;
-		 * private DifficoltaView difficoltaView; private String codice;
-		 */
-
-		DomandaView domandaView = new DomandaView(null, null, null);
-
+		InformazioniView informazioniView = new InformazioniView(
+				quesito.getDomanda().getInformazione().getUrlImmagine(),
+				quesito.getDomanda().getInformazione().getUrlDocumentazione());
+		DomandaView domandaView = new DomandaView(quesito.getDomanda().getTesto(), quesito.getDomanda().getCategoria(),
+				informazioniView);
+		List<RispostaView> risposteView = new ArrayList<>();
+		for (Risposta risposta : quesito.getRisposte()) {
+			risposteView.add(new RispostaView(risposta.getTesto(), risposta.isCorretta()));
+		}
+		DifficoltaView difficoltaView = new DifficoltaView(quesito.getDifficolta().getDifficolta());
+		String codice = quesito.getCodice().getCodice();
 		/*
 		 * implementazione
 		 */
-		return null;
+		return new QuesitoView(domandaView, risposteView, difficoltaView, codice);
 	}
 
 	private Quesito verificaEsistenzaQuesito(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
