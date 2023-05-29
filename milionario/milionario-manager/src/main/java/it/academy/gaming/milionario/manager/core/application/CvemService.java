@@ -7,6 +7,7 @@ import java.util.Optional;
 import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
+import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
 import it.academy.gaming.milionario.core.domain.Risposta;
@@ -16,7 +17,10 @@ import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoExcep
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
+import it.academy.gaming.milionario.core.views.DifficoltaView;
+import it.academy.gaming.milionario.core.views.DomandaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
@@ -120,23 +124,31 @@ public class CvemService {
 		 */
 
 		Quesito.checkRisposteValide(nuoveRisposte);
-		
-		quesitoRepository.setRisposte(command.getCodiceQuesito(),  nuoveRisposte);
+
+		quesitoRepository.setRisposte(command.getCodiceQuesito(), nuoveRisposte);
 
 		return generaQuesitoView(command.getCodiceQuesito());
 	}
 
-	public QuesitoView modificaDomanda(ModificaDomandaCommand command) throws QuesitoNonTrovatoException, CreazioneDomandaException {
+	public QuesitoView modificaDomanda(ModificaDomandaCommand command)
+			throws QuesitoNonTrovatoException, CreazioneDomandaException {
 		verificaEsistenzaQuesito(command.getCodiceQuesito());
-		Domanda domanda=new Domanda(null, null, null);
-		
-		quesitoRepository.setDomanda(command.getCodiceQuesito(),domanda);		
-		// TODO Auto-generated method stub
+		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(), command.getUrlImmagine());
+		Domanda domanda = new Domanda(command.getTestoDomanda(), command.getCategoria(), informazioni);
+
+		quesitoRepository.setDomanda(command.getCodiceQuesito(), domanda);
 		return generaQuesitoView(command.getCodiceQuesito());
 	}
 
 	private QuesitoView generaQuesitoView(String codiceQuesito) throws QuesitoNonTrovatoException {
 		Quesito quesito = verificaEsistenzaQuesito(codiceQuesito);
+
+		/*
+		 * private DomandaView domandaView; private List<RispostaView> risposteView;
+		 * private DifficoltaView difficoltaView; private String codice;
+		 */
+
+		DomandaView domandaView = new DomandaView(codiceQuesito, null, null);
 
 		/*
 		 * implementazione
