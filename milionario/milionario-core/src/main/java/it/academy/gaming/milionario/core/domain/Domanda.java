@@ -36,7 +36,7 @@ public class Domanda {
 		return categoria;
 	}
 
-	public InformazioniDomanda getInformazione() {
+	public InformazioniDomanda getInformazioni() {
 		return informazione;
 	}
 

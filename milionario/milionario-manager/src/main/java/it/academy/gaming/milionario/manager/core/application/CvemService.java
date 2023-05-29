@@ -193,8 +193,8 @@ public class CvemService {
 		Quesito quesito = verificaEsistenzaQuesito(codiceQuesito);
 
 		InformazioniView informazioniView = new InformazioniView(
-				quesito.getDomanda().getInformazione().getUrlImmagine(),
-				quesito.getDomanda().getInformazione().getUrlDocumentazione());
+				quesito.getDomanda().getInformazioni().getUrlImmagine(),
+				quesito.getDomanda().getInformazioni().getUrlDocumentazione());
 		DomandaView domandaView = new DomandaView(quesito.getDomanda().getTesto(), quesito.getDomanda().getCategoria(),
 				informazioniView);
 		List<RispostaView> risposteView = new ArrayList<>();

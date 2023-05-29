@@ -2,8 +2,6 @@ package it.academy.gaming.milionario.core.domain;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
