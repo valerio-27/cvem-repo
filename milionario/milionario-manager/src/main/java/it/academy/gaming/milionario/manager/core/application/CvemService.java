@@ -89,16 +89,16 @@ public class CvemService {
 		return generaQuesitoView(query.getCodiceQuesitoRicercato());
 	}
 
-	public QuesitoView modificaDifficolta(ModificaDifficoltaCommand command) throws QuesitoNonTrovatoException {
+	public QuesitoView modificaDifficolta(ModificaDifficoltaCommand command) throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
 
 		verificaEsistenzaQuesito(command.getCodiceQuesito());
-		quesitoRepository.setDifficolta(command.getCodiceQuesito(), command.getLivelloDifficolta());
+		Difficolta difficolta=new Difficolta(command.getLivelloDifficolta());
+		quesitoRepository.setDifficolta(command.getCodiceQuesito(), difficolta);
 		return generaQuesitoView(command.getCodiceQuesito());
 	}
 
 	public QuesitoView modificaRisposte(ModificaRisposteCommand command) throws QuesitoNonTrovatoException {
 		verificaEsistenzaQuesito(command.getCodiceQuesito());
-		
 		// TODO Auto-generated method stub
 		return generaQuesitoView(command.getCodiceQuesito());
 	}

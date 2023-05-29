@@ -125,7 +125,7 @@ public class CvemController {
 		return service.getQuesitoPerRichiestaModifica(command);
 	}
 
-	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request) throws QuesitoNonTrovatoException {
+	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request) throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
 		ModificaDifficoltaCommand command = new ModificaDifficoltaCommand(request.getTestoQuesito(),
 				request.getLivelloDifficolta());
 		QuesitoView quesitoModificato = service.modificaDifficolta(command);

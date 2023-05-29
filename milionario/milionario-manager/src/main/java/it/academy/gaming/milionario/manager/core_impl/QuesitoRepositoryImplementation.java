@@ -297,7 +297,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 	}
 
 	@Override
-	public void setDifficolta(String codiceQuesito, int livelloDifficolta) {
+	public void setDifficolta(String codiceQuesito, Difficolta difficolta) {
 		// TODO Auto-generated method stub
 		
 	}

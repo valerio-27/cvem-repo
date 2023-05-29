@@ -20,7 +20,7 @@ public interface QuesitoRepository {
 
 	Optional<Quesito> findByCodice(String codiceQuesitoRicercato);
 
-	void setDifficolta(String codiceQuesito, int livelloDifficolta);
+	void setDifficolta(String codiceQuesito, Difficolta difficolta);
 		
 
 
