@@ -115,7 +115,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "REMOVE FROM Quesito WHERE codice= ? ";
+			String sqlScript = "DELETE FROM Quesito WHERE codice= ? ";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setString(1, codiceQuesito.getCodice());
@@ -149,7 +149,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "SELECT FROM Quesito WHERE livello_difficolta= ? ";
+			String sqlScript = "SELECT * FROM Quesito WHERE livello_difficolta= ? ";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setInt(1, difficolta.getDifficolta());
@@ -176,7 +176,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (CreazioneDomandaException ignored) {
 				}
 
-				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
+				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
 				preparedStatement = dbConnection.prepareStatement(sqlScript);
 				preparedStatement.setString(1, codiceQuesito.getCodice());
@@ -243,7 +243,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "SELECT FROM Quesito WHERE categoria= ? ";
+			String sqlScript = "SELECT * FROM Quesito WHERE categoria= ? ";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setString(1, categoria.toString());
@@ -275,7 +275,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (CreazioneDomandaException ignored) {
 				}
 
-				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
+				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
 				preparedStatement = dbConnection.prepareStatement(sqlScript);
 				preparedStatement.setString(1, codiceQuesito.getCodice());
@@ -341,7 +341,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "SELECT FROM Quesito WHERE codice= ? ";
+			String sqlScript = "SELECT * FROM Quesito WHERE codice= ? ";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setString(1, codiceQuesito.getCodice());
@@ -368,7 +368,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (CreazioneDomandaException ignored) {
 				}
 
-				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
+				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
 				preparedStatement.close();
 
@@ -471,7 +471,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "REMOVE FROM Risposta WHERE codice_quesito= ?";
+			String sqlScript = "DELETE FROM Risposta WHERE codice_quesito= ?";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setString(1, codiceQuesito.getCodice());
@@ -503,11 +503,12 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "UPDATE Quesito SET testo_domanda=? , categoria=? ,url_immagine=? ,url_documento=? WHERE codice= ? ";
+			String sqlScript = "UPDATE Quesito SET testo_domanda=? , categoria=? ,url_immagine=? ,url_documentazione=? WHERE codice= ? ";
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setString(1, domanda.getTesto());
 			preparedStatement.setString(2, domanda.getCategoria().toString());
+			
 
 			InformazioniDomanda informazioni = domanda.getInformazioni();
 

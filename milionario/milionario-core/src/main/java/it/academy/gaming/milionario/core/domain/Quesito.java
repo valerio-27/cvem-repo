@@ -16,14 +16,11 @@ public class Quesito {
 	private Valore valore;
 
 	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
-		try {
-			new Quesito(CodiceQuesito.crea(), domanda, risposte, difficolta);
-		} catch (CreazioneQuesitoException ignored) {
-		}
+			this(CodiceQuesito.crea(), domanda, risposte, difficolta);
 	}
 
 	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta)
-			throws CreazioneQuesitoException {
+			 {
 		this.codice = codiceQuesito;
 		this.domanda = domanda;
 		this.risposte = risposte;

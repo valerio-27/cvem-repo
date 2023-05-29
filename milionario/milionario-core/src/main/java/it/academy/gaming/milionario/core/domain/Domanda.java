@@ -1,5 +1,7 @@
 package it.academy.gaming.milionario.core.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 
 //Domanda domanda 
@@ -14,7 +16,7 @@ public class Domanda {
 
 	public Domanda(String testo, Categoria categoria, InformazioniDomanda informazione)
 			throws CreazioneDomandaException {
-		if (testo == null) {
+		if (StringUtils.isBlank(testo)) {
 			throw CreazioneDomandaException.testoAssente();
 		}
 		if (categoria == null) {
