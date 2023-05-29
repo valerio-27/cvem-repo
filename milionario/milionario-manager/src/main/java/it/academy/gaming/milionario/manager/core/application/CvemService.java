@@ -17,10 +17,8 @@ import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoExcep
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
-import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
