@@ -1,33 +1,30 @@
 package it.academy.gaming.milionario.test;
 
-import java.util.Collection;
-
-import it.academy.gaming.milionario.core.domain.Categoria;
-import it.academy.gaming.milionario.core.domain.Difficolta;
-import it.academy.gaming.milionario.core.domain.Domanda;
-import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
-import it.academy.gaming.milionario.core.domain.Quesito;
-import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
-import it.academy.gaming.milionario.core.domain.Risposta;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
+import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core_impl.QuesitoRepositoryImplementation;
+import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 
 public class Test {
 	public static void main(String[] args)
 			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
 			NumeroMassimoRisposteSuperatoException, CreazioneQuesitoException, CodiceInvalidoException {
-//		String url = "jdbc:mysql://localhost:3306/milionario";
-//		String user = "root";
-//		String password = "admin";
-//
-//		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
-//
+		String url = "jdbc:mysql://localhost:3306/milionario";
+		String user = "root";
+		String password = "admin";
+
+		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
+
+		CvemService service = new CvemService(repository);
+		CvemController controller = new CvemController(service);
+		controller.showMenuScreen();
+
 //		QuesitoBuilder builder = Quesito.builder();
 //
 //		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(
@@ -54,7 +51,7 @@ public class Test {
 //
 //		Quesito quesito = builder.build();
 //		repository.add(quesito);
-//
+
 //		Collection<Quesito> quesiti = repository.findByLivelloDifficolta(new Difficolta(10));
 //		System.out.println();
 
@@ -69,10 +66,6 @@ public class Test {
 //		repository.setDomanda(CodiceQuesito.parse("bWnUG3tl"), domanda);
 
 //		repository.remove(CodiceQuesito.parse("bpwhApo9"));
-
-//		CvemService service = new CvemService(repository);
-//		CvemController controller = new CvemController(service);
-//		controller.showMenuScreen();
 
 	}
 }

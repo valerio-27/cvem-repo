@@ -182,7 +182,7 @@ public class CvemService {
 	public QuesitoView modificaDomanda(ModificaDomandaCommand command)
 			throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
 		verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
-		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(), command.getUrlImmagine());
+		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(), command.getUrlDocumentazione());
 		Domanda domanda = new Domanda(command.getTestoDomanda(), command.getCategoria(), informazioni);
 
 		quesitoRepository.setDomanda(CodiceQuesito.parse(command.getCodiceQuesito()), domanda);

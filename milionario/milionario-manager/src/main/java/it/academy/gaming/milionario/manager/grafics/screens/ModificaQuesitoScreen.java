@@ -61,7 +61,7 @@ public class ModificaQuesitoScreen extends Screen {
 		mostraInfo("M)enu");
 		String scelta = scanner.next();
 		try {
-			switch (scelta) {
+			switch (scelta.toUpperCase()) {
 			case OPZIONE_MODIFICA_DOMANDA:
 				modificaDomanda();
 				break;
@@ -92,10 +92,10 @@ public class ModificaQuesitoScreen extends Screen {
 
 		String scelta = scanner.next();
 		try {
-			switch (scelta) {
+			switch (scelta.toUpperCase()) {
 
-			case OPZIONE_MODIFICA_RISPOSTE:
-				acquisisciDato(controller.getMinimoDiDifficolta(), controller.getMassimoDiDifficlta());
+			case "M":
+				acquisisciDato(controller.getMinimoDiDifficolta(), controller.getMassimoDiDifficolta());
 				break;
 			case OPZIONE_INDIETRO:
 				/*
@@ -105,7 +105,7 @@ public class ModificaQuesitoScreen extends Screen {
 				break;
 
 			default:
-				throw new IllegalArgumentException("Opzione insistete");
+				throw new IllegalArgumentException("Opzione inesistente");
 			}
 		} catch (Exception e) {
 			mostraInfo(e.getMessage());
@@ -132,11 +132,11 @@ public class ModificaQuesitoScreen extends Screen {
 
 		String sceltaFinale = scanner.next();
 		try {
-			switch (sceltaFinale) {
+			switch (sceltaFinale.toUpperCase()) {
 
 			case OPZIONE_CONFERMA:
 				ModificaDifficoltaRequest request = new ModificaDifficoltaRequest(
-						quesitoRichiestoView.getDomandaView().getTesto(), scelta);
+						quesitoRichiestoView.getCodice(), scelta);
 				/*
 				 * vorrei che dopo ogni modifica rimanessi comunque in questa pagina fino a
 				 * quando non vuoi uscire tu ma aggiorno costantemente i quesito ch le modifiche
@@ -179,7 +179,7 @@ public class ModificaQuesitoScreen extends Screen {
 		 */
 
 		for (RispostaView rispostaView : risposteAttuali) {
-			String rispostaGiusta = rispostaView.isGiusta() ? "Sì" : "No";
+			String rispostaGiusta = rispostaView.isGiusta() ? "SI" : "NO";
 			mostraInfo(rispostaView.getTesto() + ", risposta giusta = " + rispostaGiusta);
 		}
 
@@ -280,11 +280,12 @@ public class ModificaQuesitoScreen extends Screen {
 
 	private void modificaRispostaIndicata(int indiceRisposta, List<String> testiRisposteAttuali) {
 
-		while (true) {
+		
 			mostraInfo("Inserisci il testo sostitutivo");
+			scanner.nextLine();
 			String scelta = scanner.nextLine();
 			try {
-				if (!StringUtils.isAlphanumericSpace(scelta)) {
+				if (StringUtils.isBlank(scelta)) {
 					throw new IllegalArgumentException("Il testo dellla risposta deve essere un alpha numerico ");
 				}
 
@@ -297,7 +298,7 @@ public class ModificaQuesitoScreen extends Screen {
 			}
 		}
 
-	}
+	
 
 	private void modificaDomanda() {
 
@@ -354,7 +355,7 @@ public class ModificaQuesitoScreen extends Screen {
 					urlImmagine = modificaImmagine();
 					break;
 				case "D":
-					urlDocumentazione = modificaImmagine();
+					urlDocumentazione = modificaDocumentazione();
 					break;
 
 				case "S":
@@ -385,9 +386,10 @@ public class ModificaQuesitoScreen extends Screen {
 
 	private String modificaTestoDomanda() {
 		mostraInfo("Inserisci il testo della domanda");
+		scanner.nextLine();
 		String nuovoTesto = scanner.nextLine();
 		try {
-			if (StringUtils.isAlphanumericSpace(nuovoTesto)) {
+			if (StringUtils.isAllBlank(nuovoTesto)) {
 				throw new FormatoFraseNonCorrettoException(
 						"Il testo della domanda che hai inserito non e' nel formato corretto");
 			}

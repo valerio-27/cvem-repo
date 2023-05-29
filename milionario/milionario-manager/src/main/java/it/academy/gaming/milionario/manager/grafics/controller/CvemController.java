@@ -83,7 +83,7 @@ public class CvemController {
 		return service.getMinDiDifficolta();
 	}
 
-	public int getMassimoDiDifficlta() {
+	public int getMassimoDiDifficolta() {
 		return service.getMaxDiDifficolta();
 	}
 
@@ -99,8 +99,9 @@ public class CvemController {
 		}
 		InserisciRispostaCommand[] arrayRispostaRequests = rispostaCommands.toArray(new InserisciRispostaCommand[0]);
 		InserisciQuesitoCommand quesitoCommand = new InserisciQuesitoCommand(domandaCommand, arrayRispostaRequests,
-				getMassimoDiDifficlta());
+				request.getLivelloDifficolta());
 		service.inserisci(quesitoCommand);
+		showMenuScreen();
 	}
 
 	public void cancellaQuesito(CancellaQuesitoRequest request) throws CodiceInvalidoException {

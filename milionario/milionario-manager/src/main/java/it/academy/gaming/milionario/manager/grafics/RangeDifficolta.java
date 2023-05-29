@@ -8,7 +8,7 @@ public class RangeDifficolta {
 	public static void verificaLimitiDifficolta(CvemController controller, int numeroInserito)
 			throws DifficoltaFuoriLimitiException {
 		int minimo = controller.getMinimoDiDifficolta();
-		int massimo = controller.getMinimoDiDifficolta();
+		int massimo = controller.getMassimoDiDifficolta();
 		if (numeroInserito < minimo || numeroInserito > massimo) {
 			throw new DifficoltaFuoriLimitiException("La difficolta deve rientrare nei limite comunicati");
 		}

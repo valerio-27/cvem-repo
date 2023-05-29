@@ -36,7 +36,7 @@ public class RicercaQuesitoScreen extends Screen {
 
 			case OPZIONE_RICERCA_DIFFICOLTA:
 				int difficoltaScelta = acquisisciDifficolta(controller.getMinimoDiDifficolta(),
-						controller.getMassimoDiDifficlta());
+						controller.getMassimoDiDifficolta());
 				RicercaQuesitoPerDifficoltaRequest requestPerDifficolta = new RicercaQuesitoPerDifficoltaRequest(
 						difficoltaScelta);
 				controller.cercaPerDifficolta(requestPerDifficolta);

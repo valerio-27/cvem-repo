@@ -40,7 +40,8 @@ public class InserimentoQuesitoScreen extends Screen {
 		}
 
 		int livelloDiDifficolta = acquisisciDato(controller.getMinimoDiDifficolta(),
-				controller.getMassimoDiDifficlta());
+				controller.getMassimoDiDifficolta());
+		
 		List<InserisciRispostaRequest> rispostaRequests = new ArrayList<>();
 		for (InputRisposta risposta : risposte) {
 			InserisciRispostaRequest rispostaRequest = new InserisciRispostaRequest(risposta.getTesto(),
