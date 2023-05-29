@@ -6,6 +6,7 @@ import java.util.List;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -18,7 +19,6 @@ import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoExc
 import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
 import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerCategoriaQuery;
 import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerDifficoltaQuery;
-import it.academy.gaming.milionario.manager.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.grafics.requests.CancellaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;

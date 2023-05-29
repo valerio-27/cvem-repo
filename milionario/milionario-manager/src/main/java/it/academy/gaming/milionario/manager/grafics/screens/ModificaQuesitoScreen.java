@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
-import it.academy.gaming.milionario.manager.core.views.QuesitoView;
-import it.academy.gaming.milionario.manager.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
@@ -41,10 +41,10 @@ public class ModificaQuesitoScreen extends Screen {
 		RecuperaQuesitoRequest recuperaQuesitoRequest = new RecuperaQuesitoRequest(codiceQuesito);
 		try {
 			this.quesitoRichiestoView = controller.getQuesitoPerRichiestaModifica(recuperaQuesitoRequest);
-
+			proponiModifiche();
 		} catch (Exception e) {
 			mostraInfo(e.getMessage());
-			proponiModifiche();
+			show();
 		}
 
 	}

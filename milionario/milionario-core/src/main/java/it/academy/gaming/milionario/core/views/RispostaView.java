@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.manager.core.views;
+package it.academy.gaming.milionario.core.views;
 
 public class RispostaView {
 
