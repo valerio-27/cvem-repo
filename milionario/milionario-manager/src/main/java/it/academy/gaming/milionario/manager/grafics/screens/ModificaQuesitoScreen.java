@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
 import it.academy.gaming.milionario.core.views.QuesitoView;
@@ -220,7 +221,7 @@ public class ModificaQuesitoScreen extends Screen {
 
 				try {
 					this.quesitoRichiestoView = controller.modificaRisposte(request);
-				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRipostaAssenteException e) {
+				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRipostaAssenteException | CodiceInvalidoException e) {
 					mostraInfo(e.getMessage());
 					proponiModifiche();
 

@@ -21,13 +21,13 @@ public interface QuesitoRepository {
 
 	Collection<Quesito> findByCategoria(Categoria categoriaRicercata);
 
-	Optional<Quesito> findByCodice(String codiceQuesitoRicercato);
+	Optional<Quesito> findByCodice(CodiceQuesito codiceQuesito);
 
-	void setDifficolta(String codiceQuesito, Difficolta difficolta);
+	void setDifficolta(CodiceQuesito codiceQuesito, Difficolta difficolta);
 
-	void setRisposte(String codiceQuesito, List<Risposta> nuoveRisposte);
+	void setRisposte(CodiceQuesito codiceQuesito, List<Risposta> nuoveRisposte);
 
-	void setDomanda(String codiceQuesito, Domanda domanda);
+	void setDomanda(CodiceQuesito codiceQuesito, Domanda domanda);
 		
 
 

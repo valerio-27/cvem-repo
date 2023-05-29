@@ -69,7 +69,7 @@ public class CvemService {
 	 */
 	public void cancellaQuesito(CancellaQuesitoCommand command) throws CodiceInvalidoException {
 
-		CodiceQuesito codiceQuesito = CodiceQuesito.parse(null);
+		CodiceQuesito codiceQuesito = CodiceQuesito.parse(command.getCodiceQuesito());
 		quesitoRepository.remove(codiceQuesito);
 	}
 
@@ -96,22 +96,22 @@ public class CvemService {
 		return null;
 	}
 
-	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoQuery query) throws QuesitoNonTrovatoException {
-		return generaQuesitoView(query.getCodiceQuesitoRicercato());
+	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoQuery query) throws QuesitoNonTrovatoException, CodiceInvalidoException {
+		return generaQuesitoView(CodiceQuesito.parse(query.getCodiceQuesitoRicercato()));
 	}
 
 	public QuesitoView modificaDifficolta(ModificaDifficoltaCommand command)
-			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
+			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException, CodiceInvalidoException {
 
-		verificaEsistenzaQuesito(command.getCodiceQuesito());
+		verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
 		Difficolta difficolta = new Difficolta(command.getLivelloDifficolta());
-		quesitoRepository.setDifficolta(command.getCodiceQuesito(), difficolta);
-		return generaQuesitoView(command.getCodiceQuesito());
+		quesitoRepository.setDifficolta(CodiceQuesito.parse(command.getCodiceQuesito()), difficolta);
+		return generaQuesitoView(CodiceQuesito.parse(command.getCodiceQuesito()));
 	}
 
 	public QuesitoView modificaRisposte(ModificaRisposteCommand command)
-			throws QuesitoNonTrovatoException, TestoRipostaAssenteException, RisposteInvalideException {
-		Quesito quesito = verificaEsistenzaQuesito(command.getCodiceQuesito());
+			throws QuesitoNonTrovatoException, TestoRipostaAssenteException, RisposteInvalideException, CodiceInvalidoException {
+		Quesito quesito = verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
 		/*
 		 * creo 4 risposte a partire dal commnad
 		 */
@@ -125,22 +125,22 @@ public class CvemService {
 
 		Quesito.checkRisposteValide(nuoveRisposte);
 
-		quesitoRepository.setRisposte(command.getCodiceQuesito(), nuoveRisposte);
+		quesitoRepository.setRisposte(CodiceQuesito.parse(command.getCodiceQuesito()), nuoveRisposte);
 
-		return generaQuesitoView(command.getCodiceQuesito());
+		return generaQuesitoView(CodiceQuesito.parse(command.getCodiceQuesito()));
 	}
 
 	public QuesitoView modificaDomanda(ModificaDomandaCommand command)
-			throws QuesitoNonTrovatoException, CreazioneDomandaException {
-		verificaEsistenzaQuesito(command.getCodiceQuesito());
+			throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
+		verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
 		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(), command.getUrlImmagine());
 		Domanda domanda = new Domanda(command.getTestoDomanda(), command.getCategoria(), informazioni);
 
-		quesitoRepository.setDomanda(command.getCodiceQuesito(), domanda);
-		return generaQuesitoView(command.getCodiceQuesito());
+		quesitoRepository.setDomanda(CodiceQuesito.parse(command.getCodiceQuesito()), domanda);
+		return generaQuesitoView(CodiceQuesito.parse(command.getCodiceQuesito()));
 	}
 
-	private QuesitoView generaQuesitoView(String codiceQuesito) throws QuesitoNonTrovatoException {
+	private QuesitoView generaQuesitoView(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
 		Quesito quesito = verificaEsistenzaQuesito(codiceQuesito);
 
 		/*
@@ -148,7 +148,7 @@ public class CvemService {
 		 * private DifficoltaView difficoltaView; private String codice;
 		 */
 
-		DomandaView domandaView = new DomandaView(codiceQuesito, null, null);
+		DomandaView domandaView = new DomandaView(null, null, null);
 
 		/*
 		 * implementazione
@@ -156,7 +156,7 @@ public class CvemService {
 		return null;
 	}
 
-	private Quesito verificaEsistenzaQuesito(String codiceQuesito) throws QuesitoNonTrovatoException {
+	private Quesito verificaEsistenzaQuesito(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
 		Optional<Quesito> quesitoOptional = quesitoRepository.findByCodice(codiceQuesito);
 		if (quesitoOptional.isPresent()) {
 			return quesitoOptional.get();

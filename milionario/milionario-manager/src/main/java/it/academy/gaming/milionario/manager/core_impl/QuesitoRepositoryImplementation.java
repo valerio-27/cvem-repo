@@ -292,27 +292,27 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 	}
 
 	@Override
-	public Optional<Quesito> findByCodice(String codiceQuesitoRicercato) {
+	public Optional<Quesito> findByCodice(CodiceQuesito codiceQuesito) {
 		// TODO Auto-generated method stub
-		return Optional.empty();
+		return null;
 	}
 
 	@Override
-	public void setDifficolta(String codiceQuesito, Difficolta difficolta) {
+	public void setDifficolta(CodiceQuesito codiceQuesito, Difficolta difficolta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void setRisposte(String codiceQuesito, List<Risposta> nuoveRisposte) {
+	public void setRisposte(CodiceQuesito codiceQuesito, List<Risposta> nuoveRisposte) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void setDomanda(String codiceQuesito, Domanda domanda) {
+	public void setDomanda(CodiceQuesito codiceQuesito, Domanda domanda) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

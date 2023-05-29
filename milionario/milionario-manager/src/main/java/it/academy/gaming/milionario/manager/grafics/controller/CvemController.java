@@ -127,20 +127,20 @@ public class CvemController {
 	}
 
 	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoRequest recuperaQuesitoRequest)
-			throws QuesitoNonTrovatoException {
+			throws QuesitoNonTrovatoException, CodiceInvalidoException {
 		RecuperaQuesitoQuery command = new RecuperaQuesitoQuery(recuperaQuesitoRequest.getCodiceQuesitoRicercato());
 		return service.getQuesitoPerRichiestaModifica(command);
 	}
 
 	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request)
-			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
+			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException, CodiceInvalidoException {
 		ModificaDifficoltaCommand command = new ModificaDifficoltaCommand(request.getTestoQuesito(),
 				request.getLivelloDifficolta());
 		QuesitoView quesitoModificato = service.modificaDifficolta(command);
 		return quesitoModificato;
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRipostaAssenteException {
+	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRipostaAssenteException, CodiceInvalidoException {
 		List<ModificaRispostaCommand> risposteCommand = new ArrayList<>();
 		for (ModificaRispostaRequest rispostaRequest : request.getNuoveRisposte()) {
 			risposteCommand.add(new ModificaRispostaCommand(rispostaRequest.getTesto(), rispostaRequest.isCorretta()));
@@ -151,7 +151,7 @@ public class CvemController {
 		return service.modificaRisposte(command);
 	}
 
-	public QuesitoView modificaDomanda(ModificaDomandaRequest request) throws QuesitoNonTrovatoException, CreazioneDomandaException {
+	public QuesitoView modificaDomanda(ModificaDomandaRequest request) throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
 
 		ModificaDomandaCommand command = new ModificaDomandaCommand(request.getCodiceQuesito(),
 				request.getTestoDomanda(), request.getCategoria(), request.getUrlImmagine(),
