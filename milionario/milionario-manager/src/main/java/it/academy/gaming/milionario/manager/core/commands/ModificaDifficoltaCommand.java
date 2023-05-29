@@ -1,12 +1,12 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
 public class ModificaDifficoltaCommand {
-	private String testoQuesito;
+	private String codiceQuesito;
 	private int livelloDifficolta;
 
-	public ModificaDifficoltaCommand(String testoQuesito, int livelloDifficolta) {
+	public ModificaDifficoltaCommand(String codiceQuesito, int livelloDifficolta) {
 		super();
-		this.testoQuesito = testoQuesito;
+		this.codiceQuesito = codiceQuesito;
 		this.livelloDifficolta = livelloDifficolta;
 	}
 
@@ -14,8 +14,8 @@ public class ModificaDifficoltaCommand {
 		return livelloDifficolta;
 	}
 
-	public String getTestoQuesito() {
-		return testoQuesito;
+	public String getCodiceQuesito() {
+		return codiceQuesito;
 	}
 
 }

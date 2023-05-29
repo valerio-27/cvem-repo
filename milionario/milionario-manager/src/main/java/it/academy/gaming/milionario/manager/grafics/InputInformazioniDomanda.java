@@ -1,10 +1,10 @@
 package it.academy.gaming.milionario.manager.grafics;
 
-public class InformazioniDomanda {
+public class InputInformazioniDomanda {
 	private String urlImmagine;
 	private String urlDocumentazione;
 
-	public InformazioniDomanda(String urlImmagine, String urlDocumentazione) {
+	public InputInformazioniDomanda(String urlImmagine, String urlDocumentazione) {
 		super();
 		this.urlImmagine = urlImmagine;
 		this.urlDocumentazione = urlDocumentazione;

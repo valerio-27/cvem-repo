@@ -47,7 +47,7 @@ public class InputRisposta {
 		/*
 		 * verifico che sia un alfanumerico
 		 */
-		boolean fraseAccettabile = StringUtils.isAlphanumeric(frase);
+		boolean fraseAccettabile = StringUtils.isAlphanumericSpace(frase);
 		if (!fraseAccettabile) {
 			throw new FormatoFraseNonCorrettoException("La risposta deve essere scritta in formato alfanumerico");
 		}

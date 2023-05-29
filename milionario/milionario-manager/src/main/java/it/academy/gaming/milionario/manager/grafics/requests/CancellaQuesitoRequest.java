@@ -1,15 +1,15 @@
 package it.academy.gaming.milionario.manager.grafics.requests;
 
 public class CancellaQuesitoRequest {
-	private String testoQuesito;
+	private String codiceQuesito;
 
-	public CancellaQuesitoRequest(String testoQuesito) {
+	public CancellaQuesitoRequest(String codiceQuesito) {
 		super();
-		this.testoQuesito = testoQuesito;
+		this.codiceQuesito = codiceQuesito;
 	}
 
-	public String getTestoQuesito() {
-		return testoQuesito;
+	public String getCodiceQuesito() {
+		return codiceQuesito;
 	}
 
 }

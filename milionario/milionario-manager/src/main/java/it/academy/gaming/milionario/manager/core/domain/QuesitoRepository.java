@@ -17,6 +17,10 @@ public interface QuesitoRepository {
 	Collection<Quesito> findByLivelloDifficolta(Difficolta difficolta);
 
 	Collection<Quesito> findByCategoria(Categoria categoriaRicercata);
+
+	Optional<Quesito> findByCodice(String codiceQuesitoRicercato);
+
+	void setDifficolta(String codiceQuesito, int livelloDifficolta);
 		
 
 

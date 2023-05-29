@@ -1,15 +1,15 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
 public class CancellaQuesitoCommand {
-	private String testoQuesito;
+	private String codiceQuesito;
 
-	public CancellaQuesitoCommand(String testoQuesito) {
+	public CancellaQuesitoCommand(String codiceQuesito) {
 		super();
-		this.testoQuesito = testoQuesito;
+		this.codiceQuesito = codiceQuesito;
 	}
 
-	public String getTestoQuesito() {
-		return testoQuesito;
+	public String getCodiceQuesito() {
+		return codiceQuesito;
 	}
 
 }

@@ -12,15 +12,15 @@ public class CancellazioneQuesitoScreen extends Screen {
 	}
 
 	public void show() {
-		mostraInfo("Inserisci il testo del quesito che vuoi cancellare");
-		String testoQuisito = scanner.nextLine();
+		mostraInfo("Inserisci il codice del quesito che vuoi cancellare");
+		String codiceQuisito = scanner.nextLine();
 		mostraInfo("C)ancella");
 		mostraInfo("M)enu");
 		String scelta = scanner.next();
 		try {
 			switch (scelta) {
 			case OPZIONE_CANCELLA_QUESITO:
-				CancellaQuesitoRequest request = new CancellaQuesitoRequest(testoQuisito);
+				CancellaQuesitoRequest request = new CancellaQuesitoRequest(codiceQuisito);
 				controller.cancellaQuesito(request);
 				break;
 			case OPZIONE_MENU:

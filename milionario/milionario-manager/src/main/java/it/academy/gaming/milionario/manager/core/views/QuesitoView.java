@@ -19,4 +19,9 @@ public class QuesitoView {
 		return null;
 	}
 
+	public String getCodice() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

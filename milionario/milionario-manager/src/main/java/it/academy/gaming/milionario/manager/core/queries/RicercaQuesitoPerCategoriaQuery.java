@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.manager.core.commands;
+package it.academy.gaming.milionario.manager.core.queries;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
 

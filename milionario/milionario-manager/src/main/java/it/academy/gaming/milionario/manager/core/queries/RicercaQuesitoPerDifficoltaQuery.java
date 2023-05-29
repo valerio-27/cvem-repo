@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.manager.core.commands;
+package it.academy.gaming.milionario.manager.core.queries;
 
 public class RicercaQuesitoPerDifficoltaQuery {
 

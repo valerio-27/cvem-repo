@@ -1,14 +1,21 @@
 package it.academy.gaming.milionario.manager.grafics.screens;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.core.views.RispostaView;
-import it.academy.gaming.milionario.manager.grafics.InputRisposta;
 import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDifficoltaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaDomandaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaRisposteRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
 
 public class ModificaQuesitoScreen extends Screen {
@@ -29,11 +36,16 @@ public class ModificaQuesitoScreen extends Screen {
 		 * prima di tutto chiedo quale quesito vuole modificare e mi faccio tornare un
 		 * QuesitoView
 		 */
-		mostraInfo("Inserisci il testo del quesito che vuoi modificare");
-		String testoQuesito = scanner.nextLine();
-		RecuperaQuesitoRequest recuperaQuesitoRequest = new RecuperaQuesitoRequest(testoQuesito);
-		this.quesitoRichiestoView = controller.getQuesitoPerRichiestaModifica(recuperaQuesitoRequest);
-		proponiModifiche();
+		mostraInfo("Inserisci il codice del quesito che vuoi modificare");
+		String codiceQuesito = scanner.nextLine();
+		RecuperaQuesitoRequest recuperaQuesitoRequest = new RecuperaQuesitoRequest(codiceQuesito);
+		try {
+			this.quesitoRichiestoView = controller.getQuesitoPerRichiestaModifica(recuperaQuesitoRequest);
+
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			proponiModifiche();
+		}
 
 	}
 
@@ -149,10 +161,24 @@ public class ModificaQuesitoScreen extends Screen {
 	private void modificaRisposte() {
 		mostraInfo("Queste sono le risposte attuali:");
 		List<RispostaView> risposteAttuali = quesitoRichiestoView.getRisposteView();
+
+		/*
+		 * mi prendo tutti i testi e li metto in una list di stringhe nello stesso
+		 * ordine
+		 */
+		List<String> testiRisposteAttuali = new ArrayList<>();
+		for (RispostaView rispostaView : risposteAttuali) {
+			testiRisposteAttuali.add(rispostaView.getTesto());
+		}
+		/*
+		 * mostro le info iniziali
+		 */
+
 		for (RispostaView rispostaView : risposteAttuali) {
 			String rispostaGiusta = rispostaView.isGiusta() ? "Sì" : "No";
 			mostraInfo(rispostaView.getTesto() + ", risposta giusta = " + rispostaGiusta);
 		}
+
 		while (true) {
 			mostraInfo("Quale risposta vuoi modificare?");
 			mostraInfo("1");
@@ -169,89 +195,89 @@ public class ModificaQuesitoScreen extends Screen {
 				 */
 				proponiModifiche();
 			}
-			if(scelta.equalsIgnoreCase(OPZIONE_CONFERMA)) {
-				 
-//				ModificaRisposteRequest request = new ModificaRisposteRequest(
-//						quesitoRichiestoView.getDomandaView().getTesto(), scelta);
+			if (scelta.equalsIgnoreCase(OPZIONE_CONFERMA)) {
 				/*
-				 * vorrei che dopo ogni modifica rimanessi comunque in questa pagina fino a
-				 * quando non vuoi uscire tu ma aggiorno costantemente i quesito ch le modifiche
-				 * fatte
+				 * devo far vedere tutte le risposte e poi chiedere quale sia quella giusta
 				 */
-//				this.quesitoRichiestoView = controller.modificaDifficolta(request);
-				proponiModifiche();
-				
+				int indiceRispostaGiusta = acquisisciIndiceRispostaGiusta(testiRisposteAttuali);
+
+				ModificaRisposteRequest request = new ModificaRisposteRequest(testiRisposteAttuali,
+						indiceRispostaGiusta, quesitoRichiestoView.getCodice());
+
+				try {
+					this.quesitoRichiestoView = controller.modificaRisposte(request);
+				} catch (QuesitoNonTrovatoException e) {
+					mostraInfo(e.getMessage());
+					proponiModifiche();
+
+				}
+
 			}
 			try {
 				switch (Integer.parseInt(scelta)) {
 
 				case 1:
-					List<RispostaView> risposteInModifica1 = modificaRispostaIndicata(0);
-					risposteAttuali.removeAll(risposteInModifica1);
+					modificaRispostaIndicata(0, testiRisposteAttuali);
 					break;
 				case 2:
-					List<RispostaView> risposteInModifica2 = modificaRispostaIndicata(1);
-					risposteAttuali.removeAll(risposteInModifica2);
+					modificaRispostaIndicata(1, testiRisposteAttuali);
 					break;
 				case 3:
-					List<RispostaView> risposteInModifica3 = modificaRispostaIndicata(2);
-					risposteAttuali.removeAll(risposteInModifica3);
+					modificaRispostaIndicata(2, testiRisposteAttuali);
 					break;
 				case 4:
-					List<RispostaView> risposteInModifica4 = modificaRispostaIndicata(3);
-					risposteAttuali.removeAll(risposteInModifica4);
+					modificaRispostaIndicata(3, testiRisposteAttuali);
 					break;
 
 				default:
-					throw new IllegalArgumentException("Opzione insistete");
+					throw new IllegalArgumentException("Opzione inesistete");
 				}
 			} catch (Exception e) {
 				mostraInfo(e.getMessage());
-				modificaDifficolta();
+				modificaRisposte();
 			}
 
-			modificaRispostaIndicata(Integer.parseInt(scelta));
 		}
-		// TODO Auto-generated method stub
 
 	}
 
-	private List<RispostaView> modificaRispostaIndicata(int indiceRisposta) {
-		List<RispostaView> risposteAttuali = quesitoRichiestoView.getRisposteView();
-		RispostaView rispostaDaModificare = risposteAttuali.get(indiceRisposta);
+	private int acquisisciIndiceRispostaGiusta(List<String> testiRisposteAttuali) {
 
-		String testoRisposta = rispostaDaModificare.getTesto();
-		String rispostaGiusta = rispostaDaModificare.isGiusta() ? "Sì" : "No";
+		int indiceRisposta = 0;
+		mostraInfo("Queste sono le risposte:");
+		for (String string : testiRisposteAttuali) {
+			mostraInfo(++indiceRisposta + ")" + string);
+		}
+		mostraInfo("Inserisci l'indice della risposta corretta");
+		int indiceRispostaCorretta = scanner.nextInt();
+		try {
+			if (indiceRispostaCorretta < 1 || indiceRispostaCorretta > 4) {
+				throw new IllegalArgumentException("L'indice deve essere compreso tra 1 e 4 ");
+			}
+
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			acquisisciIndiceRispostaGiusta(testiRisposteAttuali);
+		}
+
+		return indiceRispostaCorretta;
+	}
+
+	private void modificaRispostaIndicata(int indiceRisposta, List<String> testiRisposteAttuali) {
+
 		while (true) {
-			mostraInfo("Cosa vuoi modificare?");
-			mostraInfo("T)esto");
-			mostraInfo("G)iusta/Sbagliata");
-			mostraInfo("C)onferma fine modifiche");
-			String scelta = scanner.next();
+			mostraInfo("Inserisci il testo sostitutivo");
+			String scelta = scanner.nextLine();
 			try {
-				switch (scelta.toUpperCase()) {
-
-				case "T":
-					mostraInfo("Inserisci testo");
-					testoRisposta = scanner.nextLine();
-
-					break;
-				case "G":
-					mostraInfo("Risposta giusta (Si/NO)");
-					rispostaGiusta = scanner.next();
-					break;
-				case "C":
-					InputRisposta inputNuovaRisposta = InputRisposta.crea(testoRisposta, rispostaGiusta);
-					boolean isGiusta = rispostaGiusta.toUpperCase() == "SI" ? true : false;
-					RispostaView rispostaInSostituzione = new RispostaView(testoRisposta, isGiusta);
-					risposteAttuali.set(indiceRisposta, rispostaInSostituzione);
-
-					return risposteAttuali;
-				default:
-					throw new IllegalArgumentException("Opzione insistete");
+				if (!StringUtils.isAlphanumericSpace(scelta)) {
+					throw new IllegalArgumentException("Il testo dellla risposta deve essere un alpha numerico ");
 				}
+
+				testiRisposteAttuali.set(indiceRisposta, scelta);
+
 			} catch (Exception e) {
 				mostraInfo(e.getMessage());
+				modificaRispostaIndicata(indiceRisposta, testiRisposteAttuali);
 
 			}
 		}
@@ -260,8 +286,149 @@ public class ModificaQuesitoScreen extends Screen {
 
 	private void modificaDomanda() {
 
+		/*
+		 * .String testo .Enum Categoria categoria .InformazioniDomanda informazioni NON
+		 * obbligatorio
+		 */
+
+		String testoDomanda = quesitoRichiestoView.getDomandaView().getTesto();
+		Categoria categoria = quesitoRichiestoView.getDomandaView().getCategoria();
+		String urlImmagine = quesitoRichiestoView.getDomandaView().getInformazioniView().getUrlImmagine();
+		String urlDocumentazione = quesitoRichiestoView.getDomandaView().getInformazioniView().getUrlDocumentazione();
+
+		mostraInfo("Questa e' la domanda attuale:");
+		mostraInfo("Testo: " + testoDomanda);
+		mostraInfo("Categoria: " + categoria.toString());
+		mostraInfo("Informazioni: ");
+
+		if (urlDocumentazione != null) {
+			mostraInfo("url documentazione: " + urlDocumentazione);
+		} else {
+			mostraInfo("Al momento non c'e' un url documentazione");
+		}
+		if (urlImmagine != null) {
+			mostraInfo("url immagine: " + urlImmagine);
+
+		} else {
+			mostraInfo("Al momento non c'e' un url immagine");
+
+		}
+
+		while (true) {
+			mostraInfo("Cosa vuoi modificare?");
+			mostraInfo("T)esto");
+			mostraInfo("Im)magine");
+			mostraInfo("D)ocumentazione");
+			mostraInfo("C)ategoria");
+			mostraInfo("S)alva");
+			mostraInfo("I)ndietro");
+
+			String scelta = scanner.next();
+
+			try {
+				switch (scelta.toUpperCase()) {
+
+				case "T":
+					testoDomanda = modificaTestoDomanda();
+					break;
+
+				case "C":
+					categoria = modificaCategoria();
+					break;
+				case "IM":
+					urlImmagine = modificaImmagine();
+					break;
+				case "D":
+					urlDocumentazione = modificaImmagine();
+					break;
+
+				case "S":
+
+					ModificaDomandaRequest request = new ModificaDomandaRequest(quesitoRichiestoView.getCodice(),
+							testoDomanda, categoria, urlImmagine, urlDocumentazione);
+
+					this.quesitoRichiestoView = controller.modificaDomanda(request);
+					proponiModifiche();
+					break;
+				case OPZIONE_INDIETRO:
+					proponiModifiche();
+					break;
+
+				default:
+					throw new IllegalArgumentException("Opzione inesistete");
+				}
+			} catch (Exception e) {
+				mostraInfo(e.getMessage());
+				modificaRisposte();
+			}
+
+		}
+
 		// TODO Auto-generated method stub
 
+	}
+
+	private String modificaTestoDomanda() {
+		mostraInfo("Inserisci il testo della domanda");
+		String nuovoTesto = scanner.nextLine();
+		try {
+			if (StringUtils.isAlphanumericSpace(nuovoTesto)) {
+				throw new FormatoFraseNonCorrettoException(
+						"Il testo della domanda che hai inserito non e' nel formato corretto");
+			}
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			return modificaTestoDomanda();
+		}
+
+		return nuovoTesto;
+
+	}
+
+	private String modificaImmagine() {
+
+		mostraInfo("Inserisci url immagine");
+		String urlImmagine = scanner.next();
+		try {
+			if (StringUtils.isAlphanumeric(urlImmagine)) {
+				throw new IllegalArgumentException("L'url che hai inserito non e' nel formato corretto");
+			}
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			return modificaImmagine();
+		}
+		return urlImmagine;
+
+	}
+
+	private String modificaDocumentazione() {
+
+		mostraInfo("Inserisci url documentazione");
+		String urlDocumentazione = scanner.next();
+		try {
+			if (StringUtils.isAlphanumeric(urlDocumentazione)) {
+				throw new IllegalArgumentException("L'url che hai inserito non e' nel formato corretto");
+			}
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			return modificaDocumentazione();
+		}
+		return urlDocumentazione;
+
+	}
+
+	private Categoria modificaCategoria() {
+		mostraInfo("Inserisci la categoria della domanda");
+		String categoria = scanner.next();
+		Categoria nuovaCategoria = null;
+		try {
+			nuovaCategoria = Categoria.valueOf(categoria.toUpperCase());
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			return modificaCategoria();
+		}
+
+		return nuovaCategoria;
 	}
 
 }

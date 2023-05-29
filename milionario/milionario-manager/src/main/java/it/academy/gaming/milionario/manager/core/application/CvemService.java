@@ -1,6 +1,7 @@
 package it.academy.gaming.milionario.manager.core.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.Difficolta;
@@ -12,10 +13,13 @@ import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeE
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
-import it.academy.gaming.milionario.manager.core.commands.RecuperaQuesitoCommand;
-import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerCategoriaQuery;
-import it.academy.gaming.milionario.manager.core.commands.RicercaQuesitoPerDifficoltaQuery;
+import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
+import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
+import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
+import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerCategoriaQuery;
+import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerDifficoltaQuery;
 import it.academy.gaming.milionario.manager.core.views.QuesitoView;
 
 public class CvemService {
@@ -49,7 +53,8 @@ public class CvemService {
 
 	/**
 	 * richiesta che va alla QuesitoRepository direttamente
-	 * @throws CodiceInvalidoException 
+	 * 
+	 * @throws CodiceInvalidoException
 	 */
 	public void cancellaQuesito(CancellaQuesitoCommand command) throws CodiceInvalidoException {
 
@@ -80,13 +85,49 @@ public class CvemService {
 		return null;
 	}
 
-	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoCommand command) {
+	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoQuery query) throws QuesitoNonTrovatoException {
+		return generaQuesitoView(query.getCodiceQuesitoRicercato());
+	}
+
+	public QuesitoView modificaDifficolta(ModificaDifficoltaCommand command) throws QuesitoNonTrovatoException {
+
+		verificaEsistenzaQuesito(command.getCodiceQuesito());
+		quesitoRepository.setDifficolta(command.getCodiceQuesito(), command.getLivelloDifficolta());
+		return generaQuesitoView(command.getCodiceQuesito());
+	}
+
+	public QuesitoView modificaRisposte(ModificaRisposteCommand command) throws QuesitoNonTrovatoException {
+		verificaEsistenzaQuesito(command.getCodiceQuesito());
+		
+		// TODO Auto-generated method stub
+		return generaQuesitoView(command.getCodiceQuesito());
+	}
+
+	public QuesitoView modificaDomanda(ModificaDomandaCommand command) throws QuesitoNonTrovatoException {
+		verificaEsistenzaQuesito(command.getCodiceQuesito());
+		
+		
+		// TODO Auto-generated method stub
+		return generaQuesitoView(command.getCodiceQuesito());
+	}
+
+	private QuesitoView generaQuesitoView(String codiceQuesito) throws QuesitoNonTrovatoException {
+		Quesito quesito = verificaEsistenzaQuesito(codiceQuesito);
+
+		/*
+		 * implementazione
+		 */
 		return null;
 	}
 
-	public QuesitoView modificaDifficolta(ModificaDifficoltaCommand command) {
-		// TODO Auto-generated method stub
-		return null;
+	private Quesito verificaEsistenzaQuesito(String codiceQuesito) throws QuesitoNonTrovatoException {
+		Optional<Quesito> quesitoOptional = quesitoRepository.findByCodice(codiceQuesito);
+		if (quesitoOptional.isPresent()) {
+			return quesitoOptional.get();
+		}
+		throw new QuesitoNonTrovatoException(
+				"Il codice che hai fornito non identifica nessun quesito " + codiceQuesito);
+
 	}
 
 }

@@ -12,9 +12,9 @@ public class InputDomanda {
 	 */
 	private String testo;
 	private Categoria categoria;
-	private InformazioniDomanda informazioni;
+	private InputInformazioniDomanda informazioni;
 
-	private InputDomanda(String testo, Categoria categoria, InformazioniDomanda informazioni) {
+	private InputDomanda(String testo, Categoria categoria, InputInformazioniDomanda informazioni) {
 		super();
 		this.testo = testo;
 		this.categoria = categoria;
@@ -29,7 +29,7 @@ public class InputDomanda {
 		return categoria;
 	}
 
-	public InformazioniDomanda getInformazioni() {
+	public InputInformazioniDomanda getInformazioni() {
 		return informazioni;
 	}
 
@@ -38,7 +38,7 @@ public class InputDomanda {
 
 		controllaFrase(frase);
 
-		InformazioniDomanda informazioni = new InformazioniDomanda(urlImmagine, urlDocumentazione);
+		InputInformazioniDomanda informazioni = new InputInformazioniDomanda(urlImmagine, urlDocumentazione);
 
 		return new InputDomanda(frase, Categoria.valueOf(categoria.toUpperCase()), informazioni);
 	}
@@ -47,7 +47,7 @@ public class InputDomanda {
 		/*
 		 * verifico che sia un alfanumerico
 		 */
-		boolean fraseAccettabile = StringUtils.isAlphanumeric(frase);
+		boolean fraseAccettabile = StringUtils.isAlphanumericSpace(frase);
 		if (!fraseAccettabile) {
 			throw new FormatoFraseNonCorrettoException("La domanda deve essere scritta in formato alfanumerico");
 		}

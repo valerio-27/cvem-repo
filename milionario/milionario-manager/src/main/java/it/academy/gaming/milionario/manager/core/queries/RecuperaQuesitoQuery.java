@@ -1,9 +1,9 @@
-package it.academy.gaming.milionario.manager.grafics.requests;
+package it.academy.gaming.milionario.manager.core.queries;
 
-public class RecuperaQuesitoRequest {
+public class RecuperaQuesitoQuery {
 	private String codiceQuesitoRicercato;
 
-	public RecuperaQuesitoRequest(String codiceQuesitoRicercato) {
+	public RecuperaQuesitoQuery(String codiceQuesitoRicercato) {
 		super();
 		this.codiceQuesitoRicercato = codiceQuesitoRicercato;
 	}
