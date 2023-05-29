@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
@@ -298,6 +299,18 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 	@Override
 	public void setDifficolta(String codiceQuesito, Difficolta difficolta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setRisposte(String codiceQuesito, List<Risposta> nuoveRisposte) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDomanda(String codiceQuesito, Domanda domanda) {
 		// TODO Auto-generated method stub
 		
 	}

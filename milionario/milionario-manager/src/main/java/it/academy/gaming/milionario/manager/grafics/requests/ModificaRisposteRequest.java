@@ -5,27 +5,21 @@ import java.util.List;
 
 public class ModificaRisposteRequest {
 	private String codiceQuesito;
-	private List<String> nuoviTestiRisposte = new ArrayList<>();
-	private int indiceRispostaGiusta;
+	private List<ModificaRispostaRequest> nuoveRisposte = new ArrayList<>();
 
-	public ModificaRisposteRequest(List<String> nuoviTestiRisposte, int indiceRispostaGiusta,String codiceQuesito) {
+	public ModificaRisposteRequest(String codiceQuesito, List<ModificaRispostaRequest> risposteInserite) {
 		super();
-		this.nuoviTestiRisposte.addAll(nuoviTestiRisposte);
-		this.indiceRispostaGiusta = indiceRispostaGiusta;
-		this.codiceQuesito=codiceQuesito;
+		this.nuoveRisposte.addAll(risposteInserite);
+
+		this.codiceQuesito = codiceQuesito;
 	}
 
-	public List<String> getNuoviTestiRisposte() {
-		return nuoviTestiRisposte;
-	}
-
-	public int getIndiceRispostaGiusta() {
-		return indiceRispostaGiusta;
+	public List<ModificaRispostaRequest> getNuoveRisposte() {
+		return nuoveRisposte;
 	}
 
 	public String getCodiceQuesito() {
 		return codiceQuesito;
 	}
-	
 
 }

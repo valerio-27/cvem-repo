@@ -6,22 +6,17 @@ import java.util.List;
 public class ModificaRisposteCommand {
 
 	private String codiceQuesito;
-	private List<String> nuoviTestiRisposte = new ArrayList<>();
-	private int indiceRispostaGiusta;
+	private List<ModificaRispostaCommand> nuoveRisposte = new ArrayList<>();
 
-	public ModificaRisposteCommand(List<String> nuoviTestiRisposte, int indiceRispostaGiusta, String codiceQuesito) {
+	public ModificaRisposteCommand(List<ModificaRispostaCommand> nuoveRisposte, 
+			String codiceQuesito) {
 		super();
-		this.nuoviTestiRisposte.addAll(nuoviTestiRisposte);
-		this.indiceRispostaGiusta = indiceRispostaGiusta;
+		this.nuoveRisposte.addAll(nuoveRisposte);
 		this.codiceQuesito = codiceQuesito;
 	}
 
-	public List<String> getNuoviTestiRisposte() {
-		return nuoviTestiRisposte;
-	}
-
-	public int getIndiceRispostaGiusta() {
-		return indiceRispostaGiusta;
+	public List<ModificaRispostaCommand> getNuoveRisposte() {
+		return nuoveRisposte;
 	}
 
 	public String getCodiceQuesito() {

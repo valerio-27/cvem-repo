@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
@@ -15,6 +17,7 @@ import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLi
 import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDifficoltaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDomandaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaRispostaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaRisposteRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
 
@@ -201,12 +204,23 @@ public class ModificaQuesitoScreen extends Screen {
 				 */
 				int indiceRispostaGiusta = acquisisciIndiceRispostaGiusta(testiRisposteAttuali);
 
-				ModificaRisposteRequest request = new ModificaRisposteRequest(testiRisposteAttuali,
-						indiceRispostaGiusta, quesitoRichiestoView.getCodice());
+				/*
+				 * creare 4 request modificaRisposta
+				 */
+
+				List<ModificaRispostaRequest> risposteRequest = new ArrayList<>();
+
+				for (int i = 0; i < 4; i++) {
+					boolean corretta = i == indiceRispostaGiusta;
+					risposteRequest.add(new ModificaRispostaRequest(testiRisposteAttuali.get(i), corretta));
+				}
+
+				ModificaRisposteRequest request = new ModificaRisposteRequest(quesitoRichiestoView.getCodice(),
+						risposteRequest);
 
 				try {
 					this.quesitoRichiestoView = controller.modificaRisposte(request);
-				} catch (QuesitoNonTrovatoException e) {
+				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRipostaAssenteException e) {
 					mostraInfo(e.getMessage());
 					proponiModifiche();
 

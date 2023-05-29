@@ -1,11 +1,15 @@
 package it.academy.gaming.milionario.manager.grafics.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
+import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
+import it.academy.gaming.milionario.core.domain.exceptions.TestoRipostaAssenteException;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
@@ -14,6 +18,7 @@ import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoComman
 import it.academy.gaming.milionario.manager.core.commands.InserisciRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
@@ -24,6 +29,7 @@ import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoReq
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDifficoltaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDomandaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaRispostaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaRisposteRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RicercaQuesitoPerCategoriaRequest;
@@ -120,26 +126,32 @@ public class CvemController {
 		risultatoRicercaScreen.show(quesitiView);
 	}
 
-	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoRequest recuperaQuesitoRequest) throws QuesitoNonTrovatoException {
+	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoRequest recuperaQuesitoRequest)
+			throws QuesitoNonTrovatoException {
 		RecuperaQuesitoQuery command = new RecuperaQuesitoQuery(recuperaQuesitoRequest.getCodiceQuesitoRicercato());
 		return service.getQuesitoPerRichiestaModifica(command);
 	}
 
-	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request) throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
+	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request)
+			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException {
 		ModificaDifficoltaCommand command = new ModificaDifficoltaCommand(request.getTestoQuesito(),
 				request.getLivelloDifficolta());
 		QuesitoView quesitoModificato = service.modificaDifficolta(command);
 		return quesitoModificato;
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException {
-		ModificaRisposteCommand command = new ModificaRisposteCommand(request.getNuoviTestiRisposte(),
-				request.getIndiceRispostaGiusta(), request.getCodiceQuesito());
+	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRipostaAssenteException {
+		List<ModificaRispostaCommand> risposteCommand = new ArrayList<>();
+		for (ModificaRispostaRequest rispostaRequest : request.getNuoveRisposte()) {
+			risposteCommand.add(new ModificaRispostaCommand(rispostaRequest.getTesto(), rispostaRequest.isCorretta()));
+		}
+
+		ModificaRisposteCommand command = new ModificaRisposteCommand(risposteCommand, request.getCodiceQuesito());
 
 		return service.modificaRisposte(command);
 	}
 
-	public QuesitoView modificaDomanda(ModificaDomandaRequest request) throws QuesitoNonTrovatoException {
+	public QuesitoView modificaDomanda(ModificaDomandaRequest request) throws QuesitoNonTrovatoException, CreazioneDomandaException {
 
 		ModificaDomandaCommand command = new ModificaDomandaCommand(request.getCodiceQuesito(),
 				request.getTestoDomanda(), request.getCategoria(), request.getUrlImmagine(),

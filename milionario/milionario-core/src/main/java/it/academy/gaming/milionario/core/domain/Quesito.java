@@ -1,5 +1,10 @@
 package it.academy.gaming.milionario.core.domain;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
@@ -86,25 +91,10 @@ public class Quesito {
 			if (difficolta == null) {
 				throw CreazioneQuesitoException.difficolaAssente();
 			}
-			checkRisposteValide();
+
+			checkRisposteValide(Arrays.asList(this.risposte));
 
 			return new Quesito(domanda, risposte, difficolta);
-		}
-
-		private void checkRisposteValide() throws RisposteInvalideException {
-			int risposteCorrettePresenti = 0;
-
-			for (Risposta risposta : risposte) {
-				if (risposta == null) {
-					throw RisposteInvalideException.presenteRispostaNulla();
-				}
-				if (risposta.isCorretta()) {
-					risposteCorrettePresenti++;
-				}
-			}
-			if (risposteCorrettePresenti != 1) {
-				throw RisposteInvalideException.rispostaEsattaUnivocaAssente();
-			}
 		}
 
 		public static int getNumeroMassimoRisposte() {
@@ -132,4 +122,21 @@ public class Quesito {
 	public Valore getValore() {
 		return valore;
 	}
+
+	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
+		int risposteCorrettePresenti = 0;
+
+		for (Risposta risposta : risposte) {
+			if (risposta == null) {
+				throw RisposteInvalideException.presenteRispostaNulla();
+			}
+			if (risposta.isCorretta()) {
+				risposteCorrettePresenti++;
+			}
+		}
+		if (risposteCorrettePresenti != 1) {
+			throw RisposteInvalideException.rispostaEsattaUnivocaAssente();
+		}
+	}
+
 }
