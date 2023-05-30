@@ -15,9 +15,16 @@ public class RisultatoRicercaScreen extends Screen {
 		super.showTitle();
 		mostraInfo("Questo e' il risultato della tua ricerca:");
 
-		for (QuesitoView quesitoView : quesitiView) {
-			mostraInfo(quesitiView.toString());
+		if (quesitiView.isEmpty()) {
+			mostraInfo("Non ci sono quesiti che soddisfino la tua ricerca");
+
+		} else {
+			for (QuesitoView quesitoView : quesitiView) {
+				mostraInfo(quesitoView.toString());
+			}
 		}
+		controller.showMenuScreen();
+
 	}
 
 }
