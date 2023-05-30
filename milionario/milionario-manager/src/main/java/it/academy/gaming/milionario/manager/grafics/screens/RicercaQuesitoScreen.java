@@ -75,7 +75,7 @@ public class RicercaQuesitoScreen extends Screen {
 		int difficoltaScelta = scanner.nextInt();
 		scanner.nextLine();
 
-		if (difficoltaScelta < massimoDiDifficlta || difficoltaScelta > massimoDiDifficlta) {
+		if (difficoltaScelta < minimoDiDifficolta || difficoltaScelta > massimoDiDifficlta) {
 			throw new DifficoltaFuoriLimitiException("La difficolta deve rientrare nei limite comunicati");
 		}
 		return difficoltaScelta;
