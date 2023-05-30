@@ -44,11 +44,11 @@ import it.academy.gaming.milionario.manager.grafics.screens.RisultatoRicercaScre
 public class CvemController {
 	private CvemService service;
 	private MenuScreen menuScreen = new MenuScreen(this);
-	private InserimentoQuesitoScreen inserimentoQuesitoScreen=new InserimentoQuesitoScreen(this);
-	private ModificaQuesitoScreen modificaQuesitoScreen=new ModificaQuesitoScreen(this);
-	private CancellazioneQuesitoScreen cancellazioneQuesitoScreen=new CancellazioneQuesitoScreen(this);
-	private RicercaQuesitoScreen ricercaQuesitoScreen=new RicercaQuesitoScreen(this);
-	private RisultatoRicercaScreen risultatoRicercaScreen=new RisultatoRicercaScreen(this);
+	private InserimentoQuesitoScreen inserimentoQuesitoScreen = new InserimentoQuesitoScreen(this);
+	private ModificaQuesitoScreen modificaQuesitoScreen = new ModificaQuesitoScreen(this);
+	private CancellazioneQuesitoScreen cancellazioneQuesitoScreen = new CancellazioneQuesitoScreen(this);
+	private RicercaQuesitoScreen ricercaQuesitoScreen = new RicercaQuesitoScreen(this);
+	private RisultatoRicercaScreen risultatoRicercaScreen = new RisultatoRicercaScreen(this);
 
 	public CvemController(CvemService service) {
 		super();
@@ -87,7 +87,8 @@ public class CvemController {
 		return service.getMaxDiDifficolta();
 	}
 
-	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
+	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException,
+			TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
 		InserisciDomandaCommand domandaCommand = new InserisciDomandaCommand(
 				request.getDomandaRequest().getTestoDomanda(), request.getDomandaRequest().getCategoria(),
 				request.getDomandaRequest().getUrlImmagne(), request.getDomandaRequest().getUrlDocumentazione());
@@ -107,6 +108,7 @@ public class CvemController {
 	public void cancellaQuesito(CancellaQuesitoRequest request) throws CodiceInvalidoException {
 		CancellaQuesitoCommand command = new CancellaQuesitoCommand(request.getCodiceQuesito());
 		service.cancellaQuesito(command);
+		showMenuScreen();
 	}
 
 	public void cercaPerDifficolta(RicercaQuesitoPerDifficoltaRequest requestPerDifficolta)
@@ -141,7 +143,8 @@ public class CvemController {
 		return quesitoModificato;
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException, RisposteInvalideException, TestoRispostaAssenteException, CodiceInvalidoException {
+	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException,
+			RisposteInvalideException, TestoRispostaAssenteException, CodiceInvalidoException {
 		List<ModificaRispostaCommand> risposteCommand = new ArrayList<>();
 		for (ModificaRispostaRequest rispostaRequest : request.getNuoveRisposte()) {
 			risposteCommand.add(new ModificaRispostaCommand(rispostaRequest.getTesto(), rispostaRequest.isCorretta()));
@@ -152,7 +155,8 @@ public class CvemController {
 		return service.modificaRisposte(command);
 	}
 
-	public QuesitoView modificaDomanda(ModificaDomandaRequest request) throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
+	public QuesitoView modificaDomanda(ModificaDomandaRequest request)
+			throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
 
 		ModificaDomandaCommand command = new ModificaDomandaCommand(request.getCodiceQuesito(),
 				request.getTestoDomanda(), request.getCategoria(), request.getUrlImmagine(),
