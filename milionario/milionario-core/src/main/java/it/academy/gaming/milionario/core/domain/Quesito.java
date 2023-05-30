@@ -2,6 +2,9 @@ package it.academy.gaming.milionario.core.domain;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
@@ -9,18 +12,20 @@ import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideExcep
 
 public class Quesito {
 
+	private static Random random = new Random();
+
 	private CodiceQuesito codice;
 	private Domanda domanda;
 	private Risposta[] risposte;
 	private Difficolta difficolta;
 	private Valore valore;
+	private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiDaCasaPerAccuratezza;
 
 	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
-			this(CodiceQuesito.crea(), domanda, risposte, difficolta);
+		this(CodiceQuesito.crea(), domanda, risposte, difficolta);
 	}
 
-	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta)
-			 {
+	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
 		this.codice = codiceQuesito;
 		this.domanda = domanda;
 		this.risposte = risposte;
@@ -31,6 +36,11 @@ public class Quesito {
 	public static Quesito parse(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte,
 			Difficolta difficolta) throws CreazioneQuesitoException {
 		return new Quesito(codiceQuesito, domanda, risposte, difficolta);
+	}
+
+	public SuggerimentoDaCasa getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
+		List<SuggerimentoDaCasa> suggerimentiDaCasa = suggerimentiDaCasaPerAccuratezza.get(accuratezza);
+		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
 	}
 
 	public static QuesitoBuilder builder() {
