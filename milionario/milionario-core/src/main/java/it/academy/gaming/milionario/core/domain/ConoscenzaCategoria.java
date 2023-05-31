@@ -1,10 +1,6 @@
 package it.academy.gaming.milionario.core.domain;
 
-import java.util.Random;
-
 public class ConoscenzaCategoria {
-
-	private static Random random = new Random();
 
 	private Categoria categoria;
 	private int conoscenza;
@@ -14,8 +10,8 @@ public class ConoscenzaCategoria {
 		this.conoscenza = conoscenza;
 	}
 
-	public static ConoscenzaCategoria genera(Categoria categoria) {
-		return new ConoscenzaCategoria(categoria, random.nextInt(100) + 1);
+	public static ConoscenzaCategoria genera(Categoria categoria, RangeCulturaGenerale rangeCulturaGenerale) {
+		return new ConoscenzaCategoria(categoria, rangeCulturaGenerale.getValore());
 	}
 
 	public Categoria getCategoria() {
