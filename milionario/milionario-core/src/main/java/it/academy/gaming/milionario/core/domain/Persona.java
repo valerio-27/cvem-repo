@@ -1,18 +1,20 @@
 package it.academy.gaming.milionario.core.domain;
 
-public class Persona {
+public abstract class Persona {
 
 	private CulturaGenerale culturaGenerale;
 
-	private Persona(CulturaGenerale culturaGenerale) {
+	protected Persona(CulturaGenerale culturaGenerale) {
 		this.culturaGenerale = culturaGenerale;
 	}
 
-	public static Persona genera() {
-		return new Persona(CulturaGenerale.genera());
-	}
+	
+//	//TODO range cultura generale
+//	public static Persona genera() {
+//		return new Persona(CulturaGenerale.genera());
+//	}
 
-	public CulturaGenerale getCulturaGenerale() {
+	protected CulturaGenerale getCulturaGenerale() {
 		return culturaGenerale;
 	}
 

@@ -6,7 +6,7 @@ public class AiutoPubblico extends Aiuto {
 		super(quesito);
 	}
 
-	public void usa() {
+	public Votazione votazione vota(Quesito quesito) {
 		Pubblico pubblico = Pubblico.crea();
 
 	}

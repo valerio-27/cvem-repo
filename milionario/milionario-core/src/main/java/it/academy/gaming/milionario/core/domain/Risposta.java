@@ -7,6 +7,7 @@ public class Risposta {
 	private CodiceRisposta codiceRisposta;
 	private String testo;
 	private boolean corretta;
+	private LetteraRisposta lettera;
 
 	private Risposta(CodiceRisposta codiceRisposta, String testo, boolean corretta) {
 		this.codiceRisposta = codiceRisposta;
