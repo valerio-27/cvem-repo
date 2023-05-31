@@ -3,18 +3,13 @@ package it.academy.gaming.milionario.core.domain;
 public class PercentualeRisposta {
 
 	private LetteraRisposta letteraRisposta;
-	private int percentuale;
+	private int percentuale = 0;
 
-	public PercentualeRisposta(LetteraRisposta letteraRisposta, int percentuale)
-			throws PercentualeRispostaInvalidaExcpetion {
+	public PercentualeRisposta(LetteraRisposta letteraRisposta) throws PercentualeRispostaInvalidaExcpetion {
 		if (letteraRisposta == null) {
 			throw PercentualeRispostaInvalidaExcpetion.letteraRispostaAssente();
 		}
-		if (percentuale < 0 || percentuale > 100) {
-			throw PercentualeRispostaInvalidaExcpetion.percentualeNonInRange();
-		}
 		this.letteraRisposta = letteraRisposta;
-		this.percentuale = percentuale;
 	}
 
 	public LetteraRisposta getLetteraRisposta() {
@@ -23,6 +18,13 @@ public class PercentualeRisposta {
 
 	public int getPercentuale() {
 		return percentuale;
+	}
+
+	public void incrementaPercentuale() throws PercentualeRispostaInvalidaExcpetion {
+		if (percentuale == 100) {
+			throw PercentualeRispostaInvalidaExcpetion.percentualeFuoriLimite();
+		}
+		this.percentuale++;
 	}
 
 }

@@ -6,10 +6,11 @@ public class Aiuti {
 	private AiutoCasa aiutoCasa;
 	private AiutoPubblico aiutoPubblico;
 
-	public Aiuti(Quesito quesito) {
-		this.aiutoComputer = new AiutoComputer(quesito);
-		this.aiutoCasa = new AiutoCasa(quesito);
-//		this.aiutoPubblico = new AiutoPubblico(quesito);
+	public Aiuti( RangeCulturaGenerale rangeCulturaGenerale, PercentualeFortuna percentualeFortuna) {
+
+		this.aiutoPubblico = new AiutoPubblico(rangeCulturaGenerale, percentualeFortuna);
+//		this.aiutoComputer = new AiutoComputer(quesito);
+//		this.aiutoCasa = new AiutoCasa(quesito);
 	}
 
 	/**
@@ -18,9 +19,13 @@ public class Aiuti {
 	 * @param quesito
 	 */
 	public void aggiornaQuesito(Quesito quesito) {
-		aiutoCasa.aggiornaQuesito(quesito);
-		aiutoComputer.aggiornaQuesito(quesito);
-		aiutoPubblico.aggiornaQuesito(quesito);
+//		aiutoCasa.aggiornaQuesito(quesito);
+//		aiutoComputer.aggiornaQuesito(quesito);
+//		aiutoPubblico.aggiornaQuesito(quesito);
 	}
+	
+	
+	
+	
 
 }

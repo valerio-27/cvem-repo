@@ -1,5 +1,6 @@
 package it.academy.gaming.milionario.core.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -78,9 +79,9 @@ public class Quesito {
 			if (indiceRisposte == NUMERO_RISPOSTE) {
 				throw new NumeroMassimoRisposteSuperatoException();
 			}
-			LetteraRisposta letteraRisposta= LetteraRisposta.values()[indiceRisposte];
+			LetteraRisposta letteraRisposta = LetteraRisposta.values()[indiceRisposte];
 			risposta.setLettera(letteraRisposta);
-			
+
 			risposte[indiceRisposte++] = risposta;
 		}
 
@@ -147,4 +148,14 @@ public class Quesito {
 		}
 	}
 
+	public Collection<Risposta> getRisposteDisponibili() {
+		Collection<Risposta> risposteDisponibili = new ArrayList<Risposta>();
+
+		for (Risposta risposta : this.risposte) {
+			if (risposta != null) {
+				risposteDisponibili.add(risposta);
+			}
+		}
+		return risposteDisponibili;
+	}
 }

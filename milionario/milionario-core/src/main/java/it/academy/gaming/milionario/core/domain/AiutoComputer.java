@@ -1,10 +1,10 @@
 package it.academy.gaming.milionario.core.domain;
 
-public class AiutoComputer extends Aiuto{
+public class AiutoComputer {
 
-	protected AiutoComputer(Quesito quesito) {
-		super(quesito);
-	}
+//	protected AiutoComputer(Quesito quesito) {
+//		super(quesito);
+//	}
 
 	
 

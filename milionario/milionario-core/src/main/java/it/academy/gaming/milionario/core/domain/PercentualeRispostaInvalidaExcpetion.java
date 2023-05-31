@@ -10,8 +10,8 @@ public class PercentualeRispostaInvalidaExcpetion extends Exception {
 		return new PercentualeRispostaInvalidaExcpetion("Lettera risposta assente");
 	}
 
-	public static PercentualeRispostaInvalidaExcpetion percentualeNonInRange() {
-		return new PercentualeRispostaInvalidaExcpetion("La percentuale deve essere compresa tra 0 e 100 inclusivi");
+	public static PercentualeRispostaInvalidaExcpetion percentualeFuoriLimite() {
+		return new PercentualeRispostaInvalidaExcpetion("La percentuale non può superare 100");
 	}
 
 }

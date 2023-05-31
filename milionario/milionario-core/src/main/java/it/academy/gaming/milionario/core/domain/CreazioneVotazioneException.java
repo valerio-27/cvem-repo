@@ -19,4 +19,8 @@ public class CreazioneVotazioneException extends Exception {
 		return new CreazioneVotazioneException("lettere risposte incongruenti");
 	}
 
+	public static CreazioneVotazioneException sommaPercentualiRisposteIncongruenti() {
+		return new CreazioneVotazioneException("somma percentuali risposte incongruenti");
+	}
+
 }

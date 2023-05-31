@@ -1,17 +1,25 @@
 package it.academy.gaming.milionario.core.domain;
 
-public class AiutoPubblico extends Aiuto {
+import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
+
+public class AiutoPubblico {
 
 	private RangeCulturaGenerale range;
+	private PercentualeFortuna percentualeFortuna;
+	private boolean disponibile = true;
 
-	protected AiutoPubblico(Quesito quesito, RangeCulturaGenerale range) {
-		super(quesito);
+	public AiutoPubblico(RangeCulturaGenerale range, PercentualeFortuna percentualeFortuna) {
 		this.range = range;
+		this.percentualeFortuna = percentualeFortuna;
 	}
 
-	public Votazione vota(Quesito quesito) {
-		Pubblico pubblico = Pubblico.crea(range);
-		return null;
+	public Votazione vota(Quesito quesito) throws AiutoNonDisponibileException {
+
+		if(!disponibile) {
+			throw AiutoNonDisponibileException.aiutoPubblico();
+		}
+		disponibile = false;
+		return Pubblico.vota(quesito,range,percentualeFortuna);
 	}
 
 }

@@ -38,10 +38,12 @@ public class Risposta {
 		return codiceRisposta;
 	}
 
-	
 	void setLettera(LetteraRisposta letteraRisposta) {
-		this.lettera=letteraRisposta;
+		this.lettera = letteraRisposta;
 	}
-	
+
+	public LetteraRisposta getLettera() {
+		return lettera;
+	}
 
 }
