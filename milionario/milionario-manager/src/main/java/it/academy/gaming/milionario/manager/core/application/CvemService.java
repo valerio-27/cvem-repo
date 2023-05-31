@@ -32,6 +32,7 @@ import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaComm
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
+import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
@@ -41,10 +42,12 @@ import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerDiffic
 public class CvemService {
 
 	private QuesitoRepository quesitoRepository;
+	private OpzioniPersonaRepository opzioniPersonaRepository;
 
-	public CvemService(QuesitoRepository quesitoRepository) {
+	public CvemService(QuesitoRepository quesitoRepository, OpzioniPersonaRepository opzioniPersonaRepository) {
 		super();
 		this.quesitoRepository = quesitoRepository;
+		this.opzioniPersonaRepository = opzioniPersonaRepository;
 	}
 
 	public int getMinDiDifficolta() {
@@ -182,7 +185,8 @@ public class CvemService {
 	public QuesitoView modificaDomanda(ModificaDomandaCommand command)
 			throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
 		verificaEsistenzaQuesito(CodiceQuesito.parse(command.getCodiceQuesito()));
-		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(), command.getUrlDocumentazione());
+		InformazioniDomanda informazioni = new InformazioniDomanda(command.getUrlImmagine(),
+				command.getUrlDocumentazione());
 		Domanda domanda = new Domanda(command.getTestoDomanda(), command.getCategoria(), informazioni);
 
 		quesitoRepository.setDomanda(CodiceQuesito.parse(command.getCodiceQuesito()), domanda);

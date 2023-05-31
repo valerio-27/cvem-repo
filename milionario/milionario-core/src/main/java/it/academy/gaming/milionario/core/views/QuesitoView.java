@@ -33,4 +33,12 @@ public class QuesitoView {
 		return this.codice;
 	}
 
+	@Override
+	public String toString() {
+		return "Quesito: " + domandaView.toString() + ";\n" + "Risposte: " + "\n"
+				+ risposteView.get(0).toString() + "\n" + risposteView.get(1).toString() + "\n"
+				+ risposteView.get(2).toString() + "\n" + risposteView.get(3).toString() + "\n" + "Difficolta= "
+				+ difficoltaView.toString() + ";\n" + "Codice=" + codice + ".";
+	}
+
 }

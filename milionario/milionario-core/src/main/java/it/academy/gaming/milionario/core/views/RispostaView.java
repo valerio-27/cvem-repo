@@ -19,4 +19,11 @@ public class RispostaView {
 		return giusta;
 	}
 
+	@Override
+	public String toString() {
+		String rispostaGiusta = this.giusta ? "giusta" : "non giusta";
+		return "\"" +testo +"\", "  + rispostaGiusta + ";";
+	}
+	
+
 }

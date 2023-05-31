@@ -26,4 +26,10 @@ public class DomandaView {
 		return this.informazioniView;
 	}
 
+	@Override
+	public String toString() {
+		return "\""  + testo+ "\""  + ", categoria= " + categoria + "\n"+informazioniView.toString();
+	}
+	
+
 }

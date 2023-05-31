@@ -164,4 +164,9 @@ public class CvemController {
 		return service.modificaDomanda(command);
 	}
 
+	public int getTempoMaxPerSuggerimento() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

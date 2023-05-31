@@ -18,4 +18,15 @@ public class InformazioniView {
 		return this.urlDocumentazione;
 	}
 
+	@Override
+	public String toString() {
+
+		this.urlImmagine = ((urlImmagine == null) ? "Non ci sono informazioni relative all'immagine"
+				: "url immagine: " + urlImmagine);
+		this.urlDocumentazione = ((urlDocumentazione == null) ? "Non ci sono informazioni relative alla documentazione"
+				: "url documentazione: " + urlDocumentazione);
+
+		return "Informazioni:\n"  + urlImmagine + "\n" + urlDocumentazione;
+	}
+
 }

@@ -3,6 +3,7 @@ package it.academy.gaming.milionario.manager.grafics.screens;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.academy.gaming.milionario.AccuratezzaProva;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
@@ -10,6 +11,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposte
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.manager.grafics.InputDomanda;
 import it.academy.gaming.milionario.manager.grafics.InputRisposta;
+import it.academy.gaming.milionario.manager.grafics.InputSuggerimento;
 import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
@@ -39,15 +41,16 @@ public class InserimentoQuesitoScreen extends Screen {
 
 		}
 
-		int livelloDiDifficolta = acquisisciDato(controller.getMinimoDiDifficolta(),
+		int livelloDiDifficolta = acquisisciDatoRelativoLaDifficolta(controller.getMinimoDiDifficolta(),
 				controller.getMassimoDiDifficolta());
-		
+
 		List<InserisciRispostaRequest> rispostaRequests = new ArrayList<>();
 		for (InputRisposta risposta : risposte) {
 			InserisciRispostaRequest rispostaRequest = new InserisciRispostaRequest(risposta.getTesto(),
 					risposta.isCorretta());
 			rispostaRequests.add(rispostaRequest);
 		}
+		List<InputSuggerimento> suggerimenti = acquisisciInputSuggerimento();
 
 		InserisciDomandaRequest domandaRequest = new InserisciDomandaRequest(domanda.getTesto(), domanda.getCategoria(),
 				domanda.getInformazioni().getUrlImmagine(), domanda.getInformazioni().getUrlDocumentazione());
@@ -58,14 +61,79 @@ public class InserimentoQuesitoScreen extends Screen {
 
 		try {
 			controller.inserisci(request);
-		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException | NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException e) {
+		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException
+				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException e) {
 			mostraInfo(e.getMessage());
 			show();
 		}
 
 	}
 
-	private int acquisisciDato(int minimoDiDifficolta, int massimoDiDifficlta) {
+	private List<InputSuggerimento> acquisisciInputSuggerimento() {
+		
+		//TODO
+		
+		
+		List<InputSuggerimento> suggerimenti = new ArrayList<>();
+		mostraInfo("Inserisci il testo del suggerimento corretto");
+		String testoSuggerimento = scanner.nextLine();
+
+		int tempoMin = acquisisciTempoMinSuggerimento();
+		InputSuggerimento suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.CORRETTA);
+		suggerimenti.add(suggerimento);
+		mostraInfo("Inserisci il testo del suggerimento impreciso");
+		testoSuggerimento = scanner.nextLine();
+
+		tempoMin = acquisisciTempoMinSuggerimento();
+		suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.IMPRECISA);
+		suggerimenti.add(suggerimento);
+
+		mostraInfo("Inserisci il testo del suggerimento sbagliato");
+		testoSuggerimento = scanner.nextLine();
+		tempoMin = acquisisciTempoMinSuggerimento();
+
+		suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.SBGLIATA);
+		suggerimenti.add(suggerimento);
+		while (true) {
+			mostraInfo("I)nserisci altri suggerimenti");
+			mostraInfo("T)ermina");
+			String scelta = scanner.next();
+			scanner.nextLine();
+			switch (scelta.toUpperCase()) {
+			case "I":
+
+				break;
+			case "T":
+
+				break;
+			default:
+				break;
+			}
+
+		}
+
+	}
+
+	private int acquisisciTempoMinSuggerimento() {
+		int tempoMax = controller.getTempoMaxPerSuggerimento();
+		mostraInfo("Inserisci il minimo di tempo di esposizione compreso tra 0 e " + tempoMax);
+
+		int tempoMinimo = scanner.nextInt();
+		scanner.nextLine();
+		try {
+			if (tempoMinimo < 0 || tempoMinimo > tempoMax) {
+				throw new IllegalArgumentException("Il tempo che hai inserito non rientra nei limiti dati");
+
+			}
+		} catch (Exception e) {
+			mostraInfo(e.getMessage());
+			return acquisisciTempoMinSuggerimento();
+		}
+
+		return tempoMinimo;
+	}
+
+	private int acquisisciDatoRelativoLaDifficolta(int minimoDiDifficolta, int massimoDiDifficlta) {
 		mostraInfo("Inserisci il livello di difficolta' del quesito compreso tra " + minimoDiDifficolta + " e "
 				+ massimoDiDifficlta);
 
@@ -76,7 +144,7 @@ public class InserimentoQuesitoScreen extends Screen {
 
 		} catch (DifficoltaFuoriLimitiException e) {
 			mostraInfo(e.getMessage());
-			return acquisisciDato(minimoDiDifficolta, massimoDiDifficlta);
+			return acquisisciDatoRelativoLaDifficolta(minimoDiDifficolta, massimoDiDifficlta);
 		}
 
 		return scelta;
@@ -84,7 +152,7 @@ public class InserimentoQuesitoScreen extends Screen {
 
 	private InputRisposta acquisisciDatiRelativiAllaRisposta(int indiceDellaRisposta) {
 		mostraInfo("Inserisci la risposta numero: " + indiceDellaRisposta);
-		
+
 		String testo = scanner.nextLine();
 		mostraInfo("E' la risposta giusta? (SI/NO)");
 		String rispostaGiusta = scanner.next();

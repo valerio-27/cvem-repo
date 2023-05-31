@@ -1,5 +1,7 @@
 package it.academy.gaming.milionario.test;
 
+import java.io.FileNotFoundException;
+
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
@@ -7,21 +9,24 @@ import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeE
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
+import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
+import it.academy.gaming.milionario.manager.core_impl.OpzioniPersonaRepositoryImpl;
 import it.academy.gaming.milionario.manager.core_impl.QuesitoRepositoryImplementation;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 
 public class Test {
 	public static void main(String[] args)
 			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
-			NumeroMassimoRisposteSuperatoException, CreazioneQuesitoException, CodiceInvalidoException {
+			NumeroMassimoRisposteSuperatoException, CreazioneQuesitoException, CodiceInvalidoException, FileNotFoundException {
 		String url = "jdbc:mysql://localhost:3306/milionario";
 		String user = "root";
 		String password = "admin";
 
 		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
-
-		CvemService service = new CvemService(repository);
+		String pathDir="C:/Users/aniso/milionario_opzioni_persona.properties";
+		OpzioniPersonaRepository opzioniPersonaRepository=new OpzioniPersonaRepositoryImpl(pathDir);
+		CvemService service = new CvemService(repository,opzioniPersonaRepository);
 		CvemController controller = new CvemController(service);
 		controller.showMenuScreen();
 
