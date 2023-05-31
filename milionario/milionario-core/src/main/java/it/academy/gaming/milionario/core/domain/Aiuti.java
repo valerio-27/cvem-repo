@@ -9,7 +9,7 @@ public class Aiuti {
 	public Aiuti(Quesito quesito) {
 		this.aiutoComputer = new AiutoComputer(quesito);
 		this.aiutoCasa = new AiutoCasa(quesito);
-		this.aiutoPubblico = new AiutoPubblico(quesito);
+//		this.aiutoPubblico = new AiutoPubblico(quesito);
 	}
 
 	/**

@@ -1,8 +1,12 @@
 package it.academy.gaming.milionario.core.domain;
 
+import java.util.Random;
+
 import it.academy.gaming.milionario.core.domain.exceptions.CulturaGeneraleNonInRangeException;
 
 public class RangeCulturaGenerale {
+
+	private static Random random = new Random();
 
 	private int min;
 	private int max;
@@ -25,6 +29,10 @@ public class RangeCulturaGenerale {
 
 	public int getMax() {
 		return max;
+	}
+
+	public int getValore() {
+		return random.nextInt(max + 1 - min) + min;
 	}
 
 }

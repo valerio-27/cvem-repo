@@ -11,10 +11,10 @@ public class CulturaGenerale {
 		this.conoscenze = conoscenze;
 	}
 
-	public static CulturaGenerale genera() {
+	public static CulturaGenerale genera(RangeCulturaGenerale rangeCulturaGenerale) {
 		Map<Categoria, ConoscenzaCategoria> conoscenze = new HashMap<Categoria, ConoscenzaCategoria>();
 		for (Categoria categoria : Categoria.values()) {
-			conoscenze.put(categoria, ConoscenzaCategoria.genera(categoria));
+			conoscenze.put(categoria, ConoscenzaCategoria.genera(categoria,rangeCulturaGenerale));
 		}
 		return new CulturaGenerale(conoscenze);
 	}

@@ -13,11 +13,15 @@ public class Pubblico {
 		this.persone = persone;
 	}
 
-	public static Pubblico crea() {
+	public static Pubblico crea(RangeCulturaGenerale range) {
 		Collection<PersonaPubblico> persone = new ArrayList<>();
 		for (int i = 0; i < 100; i++) {
-			persone.add(PersonaPubblico.genera());
+			persone.add(PersonaPubblico.genera(range));
 		}
 		return new Pubblico(persone);
+	}
+
+	public void vota(Quesito quesito) {
+
 	}
 }

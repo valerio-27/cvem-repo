@@ -6,9 +6,8 @@ public class PersonaPubblico extends Persona {
 		super(culturaGenerale);
 	}
 
-	// TODO range cultura generale
-	public static PersonaPubblico genera() {
-		return new PersonaPubblico(null);
+	public static PersonaPubblico genera(RangeCulturaGenerale range) {
+		return new PersonaPubblico(CulturaGenerale.genera(range));
 	}
 
 }
