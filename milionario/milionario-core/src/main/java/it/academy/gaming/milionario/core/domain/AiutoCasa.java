@@ -9,7 +9,7 @@ public class AiutoCasa extends Aiuto {
 	public SuggerimentoDaCasa usa() {
 		super.disponibile = false;
 
-		Persona persona = Persona.genera();
+		PersonaDaCasa persona = PersonaDaCasa.genera();
 		Categoria categoria = getQuesito().getDomanda().getCategoria();
 		int conoscenzaPerCategoria = persona.getCulturaGenerale().getConoscenzaPerCategoria(categoria);
 

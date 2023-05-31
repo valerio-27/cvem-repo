@@ -78,6 +78,9 @@ public class Quesito {
 			if (indiceRisposte == NUMERO_RISPOSTE) {
 				throw new NumeroMassimoRisposteSuperatoException();
 			}
+			LetteraRisposta letteraRisposta= LetteraRisposta.values()[indiceRisposte];
+			risposta.setLettera(letteraRisposta);
+			
 			risposte[indiceRisposte++] = risposta;
 		}
 

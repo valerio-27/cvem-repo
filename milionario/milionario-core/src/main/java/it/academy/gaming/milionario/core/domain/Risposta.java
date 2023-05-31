@@ -38,4 +38,10 @@ public class Risposta {
 		return codiceRisposta;
 	}
 
+	
+	void setLettera(LetteraRisposta letteraRisposta) {
+		this.lettera=letteraRisposta;
+	}
+	
+
 }
