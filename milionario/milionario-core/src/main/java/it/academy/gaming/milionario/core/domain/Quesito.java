@@ -3,13 +3,16 @@ package it.academy.gaming.milionario.core.domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 
 public class Quesito {
 
@@ -20,27 +23,31 @@ public class Quesito {
 	private Risposta[] risposte;
 	private Difficolta difficolta;
 	private Valore valore;
-	private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiDaCasaPerAccuratezza;
+	private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza;
 
-	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
-		this(CodiceQuesito.crea(), domanda, risposte, difficolta);
+	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta,
+			Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza) {
+		this(CodiceQuesito.crea(), domanda, risposte, difficolta, suggerimentiPerAccuratezza);
 	}
 
-	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta) {
+	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta,
+			Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza) {
 		this.codice = codiceQuesito;
 		this.domanda = domanda;
 		this.risposte = risposte;
 		this.difficolta = difficolta;
+		this.suggerimentiPerAccuratezza = suggerimentiPerAccuratezza;
 		this.valore = Valore.calcola(difficolta);
 	}
 
 	public static Quesito parse(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte,
-			Difficolta difficolta) throws CreazioneQuesitoException {
-		return new Quesito(codiceQuesito, domanda, risposte, difficolta);
+			Difficolta difficolta, Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza)
+			throws CreazioneQuesitoException {
+		return new Quesito(codiceQuesito, domanda, risposte, difficolta, suggerimentiPerAccuratezza);
 	}
 
 	public SuggerimentoDaCasa getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
-		List<SuggerimentoDaCasa> suggerimentiDaCasa = suggerimentiDaCasaPerAccuratezza.get(accuratezza);
+		List<SuggerimentoDaCasa> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
 		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
 	}
 
@@ -54,6 +61,7 @@ public class Quesito {
 		private Domanda domanda;
 		private Risposta[] risposte = new Risposta[NUMERO_RISPOSTE];
 		private Difficolta difficolta;
+		private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza = new HashMap<>();
 
 		private int indiceRisposte = 0;
 
@@ -85,6 +93,17 @@ public class Quesito {
 			risposte[indiceRisposte++] = risposta;
 		}
 
+		public void aggiungiSuggerimento(SuggerimentoDaCasa suggerimentoDaCasa) {
+
+			Accuratezza accuratezza = suggerimentoDaCasa.getAccuratezza();
+			List<SuggerimentoDaCasa> suggerimentiPerAccuratezza = this.suggerimentiPerAccuratezza.get(accuratezza);
+			if (suggerimentiPerAccuratezza == null) {
+				suggerimentiPerAccuratezza = new ArrayList<>();
+				this.suggerimentiPerAccuratezza.put(accuratezza, suggerimentiPerAccuratezza);
+			}
+			suggerimentiPerAccuratezza.add(suggerimentoDaCasa);
+		}
+
 		/**
 		 * Crea un Quesito, la domanda e la difficolta devono essere entrambe
 		 * valorizzate, devono essere presenti tutte le risposte previste di cui una
@@ -92,8 +111,9 @@ public class Quesito {
 		 * 
 		 * @return
 		 * @throws CreazioneQuesitoException
+		 * @throws SuggerimentiInvalidiException
 		 */
-		public Quesito build() throws CreazioneQuesitoException {
+		public Quesito build() throws CreazioneQuesitoException, SuggerimentiInvalidiException {
 			if (domanda == null) {
 				throw CreazioneQuesitoException.testoAssente();
 			}
@@ -102,8 +122,17 @@ public class Quesito {
 			}
 
 			checkRisposteValide(Arrays.asList(this.risposte));
+			checkSuggerimentiValidi();
 
-			return new Quesito(domanda, risposte, difficolta);
+			return new Quesito(domanda, risposte, difficolta, suggerimentiPerAccuratezza);
+		}
+
+		private void checkSuggerimentiValidi() throws SuggerimentiInvalidiException {
+			Set<Accuratezza> keys = this.suggerimentiPerAccuratezza.keySet();
+			if (keys.size() != Accuratezza.values().length) {
+				throw new SuggerimentiInvalidiException();
+			}
+
 		}
 
 		public static int getNumeroMassimoRisposte() {
