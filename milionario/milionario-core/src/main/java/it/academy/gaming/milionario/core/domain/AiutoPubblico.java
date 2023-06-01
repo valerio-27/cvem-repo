@@ -4,22 +4,21 @@ import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileEx
 
 public class AiutoPubblico {
 
-	private RangeCulturaGenerale range;
-	private PercentualeFortuna percentualeFortuna;
+//	private RangeCulturaGenerale range;
+//	private PercentualeFortuna percentualeFortuna;
+	private Pubblico pubblico;
 	private boolean disponibile = true;
 
 	public AiutoPubblico(RangeCulturaGenerale range, PercentualeFortuna percentualeFortuna) {
-		this.range = range;
-		this.percentualeFortuna = percentualeFortuna;
+		this.pubblico = Pubblico.crea(range, percentualeFortuna);
 	}
 
 	public Votazione vota(Quesito quesito) throws AiutoNonDisponibileException {
-
-		if(!disponibile) {
+		if (!disponibile) {
 			throw AiutoNonDisponibileException.aiutoPubblico();
 		}
 		disponibile = false;
-		return Pubblico.vota(quesito,range,percentualeFortuna);
+		return pubblico.vota(quesito);
 	}
 
 }

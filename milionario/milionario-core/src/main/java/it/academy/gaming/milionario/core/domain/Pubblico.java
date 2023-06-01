@@ -15,8 +15,9 @@ public class Pubblico {
 	private Collection<PersonaPubblico> persone;
 	private PercentualeFortuna percentualeFortuna;
 
-	private Pubblico(Collection<PersonaPubblico> persone) {
+	private Pubblico(Collection<PersonaPubblico> persone, PercentualeFortuna percentualeFortuna) {
 		this.persone = persone;
+		this.percentualeFortuna = percentualeFortuna;
 	}
 
 	private static Collection<PersonaPubblico> creaPersonePubblico(RangeCulturaGenerale range) {
@@ -27,33 +28,31 @@ public class Pubblico {
 		return personePubblico;
 	}
 
-	public Votazione vota(Quesito quesito) {
-
-		return null;
+	public static Pubblico crea(RangeCulturaGenerale range, PercentualeFortuna percentualeFortuna) {
+		return new Pubblico(creaPersonePubblico(range), percentualeFortuna);
 	}
 
 	/**
 	 * La persona parte con un livello di conoscenza per la categoria del quesito,
 	 * ogni quesito in base alla propria difficolta aggiunge/diminuisce il livello
-	 * di conoscenza, ora solo se il quesito ha 2 sole risposte aggiungo un 30%. Ora
-	 * se la percentuale è negativa questa viene sostiuita dalla percentuale
-	 * fortuna, sennò rimane quella
+	 * di conoscenza, ora se il quesito ha 2 sole risposte aggiungo un 30%. se la
+	 * percentuale risultante è negativa questa viene sostiuita dalla percentuale
+	 * fortuna.
 	 * 
 	 * @param quesito
 	 * @param range
 	 * @param percentualeFortuna
 	 * @return
 	 */
-	public static Votazione vota(Quesito quesito, RangeCulturaGenerale range, PercentualeFortuna percentualeFortuna) {
 
+	public Votazione vota(Quesito quesito) {
 		VotazioneBuilder builder = Votazione.builder();
 
 		Collection<Risposta> risposteDisponibili = quesito.getRisposteDisponibili();
 
 		LetteraRisposta letteraRispostaCorretta = trovaLetteraRispostaCorretta(risposteDisponibili);
 
-		for (int i = 0; i < 100; i++) {
-			PersonaPubblico persona = PersonaPubblico.genera(range);
+		for (PersonaPubblico persona : this.persone) {
 
 			Categoria categoria = quesito.getDomanda().getCategoria();
 
@@ -71,38 +70,37 @@ public class Pubblico {
 				conoscenza = percentualeFortuna.getPercentualeFortuna();
 			}
 
-//va da 1 a 100
 			int numero = random.nextInt(100) + 1;
 
 			if (numero <= conoscenza) {
-				for (Risposta risposta : risposteDisponibili) {
-					if (risposta.isCorretta()) {
-						try {
-							builder.vota(risposta.getLettera());
-						} catch (PercentualeRispostaInvalidaExcpetion ignored) {
-						}
-					}
+				try {
+					builder.vota(letteraRispostaCorretta);
+				} catch (PercentualeRispostaInvalidaExcpetion ignored) {
 				}
 			} else {
-				Collection<Risposta> risposteErrate = new ArrayList<>();
-				for (Risposta risposta : risposteErrate) {
-					if (!risposta.isCorretta()) {
-						risposteErrate.add(risposta);
-					}
+				try {
+					builder.vota(daiLetteraRispostaSbagliata(risposteDisponibili));
+				} catch (PercentualeRispostaInvalidaExcpetion ignored) {
 				}
-
 			}
 		}
-		return null;
+		Votazione votazione = null;
+		try {
+			votazione = builder.build();
+		} catch (CreazioneVotazioneException ignored) {
+		}
+		return votazione;
 	}
 
 	private static LetteraRisposta daiLetteraRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
-		List<LetteraRisposta> lettereRisposta = new ArrayList<>();
-		CollectionUtils.addAll(lettereRisposta, LetteraRisposta.values());
+		List<LetteraRisposta> lettereRispostaErrate = new ArrayList<>();
 
-		lettereRisposta.remove(trovaLetteraRispostaCorretta(risposteDisponibili));
-
-		return lettereRisposta.get(random.nextInt(lettereRisposta.size()));
+		for (Risposta risposta : risposteDisponibili) {
+			if (!risposta.isCorretta()) {
+				lettereRispostaErrate.add(risposta.getLettera());
+			}
+		}
+		return lettereRispostaErrate.get(random.nextInt(lettereRispostaErrate.size()));
 	}
 
 	private static LetteraRisposta trovaLetteraRispostaCorretta(Collection<Risposta> risposteDisponibili) {

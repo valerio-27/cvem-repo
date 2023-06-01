@@ -27,4 +27,11 @@ public class PercentualeRisposta {
 		this.percentuale++;
 	}
 
+	@Override
+	public String toString() {
+		return   letteraRisposta.toString() + percentuale;
+	}
+	
+	
+
 }
