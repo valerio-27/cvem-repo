@@ -96,11 +96,14 @@ public class Quesito {
 		public void aggiungiSuggerimento(SuggerimentoDaCasa suggerimentoDaCasa) {
 
 			Accuratezza accuratezza = suggerimentoDaCasa.getAccuratezza();
+			
 			List<SuggerimentoDaCasa> suggerimentiPerAccuratezza = this.suggerimentiPerAccuratezza.get(accuratezza);
+			
 			if (suggerimentiPerAccuratezza == null) {
 				suggerimentiPerAccuratezza = new ArrayList<>();
 				this.suggerimentiPerAccuratezza.put(accuratezza, suggerimentiPerAccuratezza);
 			}
+			
 			suggerimentiPerAccuratezza.add(suggerimentoDaCasa);
 		}
 

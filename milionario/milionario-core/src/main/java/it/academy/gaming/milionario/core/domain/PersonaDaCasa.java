@@ -6,9 +6,8 @@ public class PersonaDaCasa extends Persona {
 		super(culturaGenerale);
 	}
 
-	public static PersonaDaCasa genera() {
-		// TODO Auto-generated method stub
-		return null;
+	public static PersonaDaCasa genera(RangeCulturaGenerale range) {
+		return new PersonaDaCasa(CulturaGenerale.genera(range));
 	}
 
 //	// TODO range cultura generale
