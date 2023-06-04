@@ -1,13 +1,33 @@
 package it.academy.gaming.milionario.core.domain;
 
 import java.util.Collection;
+import java.util.Random;
+
+import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 
 public class AiutoCasa {
+
+	private static Random random = new Random();
+
+	private RangeCulturaGenerale range;
+	private Giocatore giocatore;
 
 	private boolean disponibile = true;
 	private int percentualeAggiuntaCasa = 20;
 
-	public void vota(RangeCulturaGenerale range, Quesito quesito, Giocatore giocatore) {
+	public AiutoCasa(RangeCulturaGenerale range, Giocatore giocatore) {
+		this.range = range;
+		this.giocatore = giocatore;
+	}
+
+	public Suggerimento vota(Quesito quesito) throws AiutoNonDisponibileException {
+
+		if (!disponibile) {
+			throw AiutoNonDisponibileException.aiutoCasa();
+		}
+
+		disponibile = false;
+
 		Persona persona = PersonaDaCasa.genera(range);
 		Collection<Risposta> risposteDisponibili = quesito.getRisposteDisponibili();
 
@@ -21,65 +41,28 @@ public class AiutoCasa {
 		}
 
 		conoscenza += percentualeAggiuntaCasa;
-		// se la conoscenza è negativa ritorno il suggerimento accuratezza astenuta
-		SuggerimentoDaCasa suggerimento = null;
 
+		Suggerimento suggerimento = null;
+
+		// se la conoscenza è negativa ritorno il suggerimento accuratezza astenuta
 		if (conoscenza < 0) {
 			suggerimento = quesito.getSuggerimentoDaCasaRandom(Accuratezza.ASTENUTA);
 			suggerimento.valorizzaBookmarks(giocatore, risposteDisponibili);
+			return suggerimento;
 		}
 
-		// altrimenti eseguo il calcolo delle probabilita
-
-		// stabiliamo la probabilità di scegliere un determinato tipo di suggerimento
-
-		// se la percentuale è negativa questa viene sostiuita dalla percentuale
-		// fortuna, sennò rimane quella
-		if (conoscenza < 0) {
-			conoscenza = percentualeFortuna.getPercentualeFortuna();
-		}
-
-		int numero = random.nextInt(100) + 1;
-
-		if (numero <= conoscenza) {
-			try {
-				builder.vota(letteraRispostaCorretta);
-			} catch (PercentualeRispostaInvalidaExcpetion ignored) {
-			}
-		} else {
-			try {
-				builder.vota(daiLetteraRispostaSbagliata(risposteDisponibili));
-			} catch (PercentualeRispostaInvalidaExcpetion ignored) {
-			}
-		}
-	}
-
-	}
-
-//	protected AiutoCasa(Quesito quesito) {
-//		super(quesito);
-//	}
-//
-	public SuggerimentoDaCasa usa() {
-		super.disponibile = false;
-
-		PersonaDaCasa persona = PersonaDaCasa.genera();
-		Categoria categoria = getQuesito().getDomanda().getCategoria();
-		int conoscenzaPerCategoria = persona.getCulturaGenerale().getConoscenzaPerCategoria(categoria);
-
-		int conoscenzaFinale = calcolaConoscenzaPerDifficolta(conoscenzaPerCategoria);
-
-		ProbabilitaSuggerimenti probabilitaSuggerimneti = generaProbabilita(conoscenzaFinale);
+		ProbabilitaSuggerimenti probabilitaSuggerimenti = generaProbabilita(conoscenza);
 
 		int numeroRandom = random.nextInt(100) + 1;
 
-		if (numeroRandom < probabilitaSuggerimneti.getProbabilitaSbagliata()) {
-			return getQuesito().getSuggerimentoDaCasaRandom(Accuratezza.SBAGLIATA);
+		if (numeroRandom < probabilitaSuggerimenti.getProbabilitaSbagliata()) {
+			return quesito.getSuggerimentoDaCasaRandom(Accuratezza.SBAGLIATA);
 		}
-		if (numeroRandom < probabilitaSuggerimneti.getProbabilitaImprecisa()) {
-			return getQuesito().getSuggerimentoDaCasaRandom(Accuratezza.IMPRECISA);
+		if (numeroRandom < probabilitaSuggerimenti.getProbabilitaImprecisa()) {
+			return quesito.getSuggerimentoDaCasaRandom(Accuratezza.IMPRECISA);
 		}
-		return getQuesito().getSuggerimentoDaCasaRandom(Accuratezza.CORRETTA);
+		return quesito.getSuggerimentoDaCasaRandom(Accuratezza.CORRETTA);
+
 	}
 
 	private ProbabilitaSuggerimenti generaProbabilita(int conoscenzaFinale) {
@@ -98,43 +81,42 @@ public class AiutoCasa {
 		return new ProbabilitaSuggerimenti(probabilitaCorretta, probabilitaImprecisa, probabilitaSbagliata);
 
 	}
-//
-//	private int calcolaConoscenzaPerDifficolta(int conoscenzaPerCategoria) {
-//		int difficolta = getQuesito().getDifficolta().getDifficolta();
-//
-//		return conoscenzaPerCategoria - difficolta * 3;
-//	}
-//
-//	public static class ProbabilitaSuggerimenti {
-//		private double probabilitaCorretta;
-//		private double probabilitaImprecisa;
-//		private double probabilitaSbagliata;
-//
-//		private ProbabilitaSuggerimenti(double probabilitaCorretta, double probabilitaImprecisa,
-//				double probabilitaSbagliata) {
-//			super();
-//			this.probabilitaCorretta = probabilitaCorretta;
-//			this.probabilitaImprecisa = probabilitaImprecisa;
-//			this.probabilitaSbagliata = probabilitaSbagliata;
-//		}
-//
-//		public double getProbabilitaCorretta() {
-//			return probabilitaCorretta;
-//		}
-//
-//		public double getProbabilitaImprecisa() {
-//			return probabilitaImprecisa;
-//		}
-//
-//		public double getProbabilitaSbagliata() {
-//			return probabilitaSbagliata;
-//		}
-//
-//		@Override
-//		public String toString() {
-//			return "probabilitaCorretta=" + probabilitaCorretta + ", probabilitaImprecisa=" + probabilitaImprecisa
-//					+ ", probabilitaSbagliata=" + probabilitaSbagliata + "]";
-//		}
-//
-//	}
+
+	public static class ProbabilitaSuggerimenti {
+		private double probabilitaCorretta;
+		private double probabilitaImprecisa;
+		private double probabilitaSbagliata;
+
+		private ProbabilitaSuggerimenti(double probabilitaCorretta, double probabilitaImprecisa,
+				double probabilitaSbagliata) {
+			super();
+			this.probabilitaCorretta = probabilitaCorretta;
+			this.probabilitaImprecisa = probabilitaImprecisa;
+			this.probabilitaSbagliata = probabilitaSbagliata;
+		}
+
+		public double getProbabilitaCorretta() {
+			return probabilitaCorretta;
+		}
+
+		public double getProbabilitaImprecisa() {
+			return probabilitaImprecisa;
+		}
+
+		public double getProbabilitaSbagliata() {
+			return probabilitaSbagliata;
+		}
+
+		@Override
+		public String toString() {
+			return "probabilitaCorretta=" + probabilitaCorretta + ", probabilitaImprecisa=" + probabilitaImprecisa
+					+ ", probabilitaSbagliata=" + probabilitaSbagliata + "]";
+		}
+
+	}
+
+	public void ripristina(Giocatore giocatore) {
+		this.giocatore = giocatore;
+		this.disponibile = true;
+	}
 }

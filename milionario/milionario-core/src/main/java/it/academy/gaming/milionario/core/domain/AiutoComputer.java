@@ -32,4 +32,9 @@ public class AiutoComputer {
 		disponibile = false;
 	}
 
+	static void ripristina() {
+		AiutoComputer.disponibile = true;
+	}
+	
+
 }

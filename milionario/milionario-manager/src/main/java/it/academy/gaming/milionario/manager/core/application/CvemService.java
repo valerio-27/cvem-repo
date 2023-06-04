@@ -12,13 +12,13 @@ import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
 import it.academy.gaming.milionario.core.domain.Risposta;
-import it.academy.gaming.milionario.core.domain.SuggerimentoDaCasa;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
@@ -70,10 +70,11 @@ public class CvemService {
 	 * @throws TestoRispostaAssenteException
 	 * @throws NumeroMassimoRisposteSuperatoException
 	 * @throws DifficoltaNonInRangeException
+	 * @throws SuggerimentiInvalidiException 
 	 */
 	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand)
 			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
-			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
+			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
 		QuesitoBuilder builder = Quesito.builder();
 		/*
 		 * devo creare tutti gli oggetti fare tutti i set e poi chiamo il build()

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.manager.grafics.InputDomanda;
 import it.academy.gaming.milionario.manager.grafics.InputRisposta;
@@ -74,7 +74,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		try {
 			controller.inserisci(request);
 		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException
-				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException e) {
+				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException | SuggerimentiInvalidiException e) {
 			mostraInfo(e.getMessage());
 			show();
 		}

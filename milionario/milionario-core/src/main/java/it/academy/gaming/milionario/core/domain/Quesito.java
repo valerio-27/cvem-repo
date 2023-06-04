@@ -23,15 +23,15 @@ public class Quesito {
 	private Risposta[] risposte;
 	private Difficolta difficolta;
 	private Valore valore;
-	private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza;
+	private Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza;
 
 	private Quesito(Domanda domanda, Risposta[] risposte, Difficolta difficolta,
-			Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza) {
+			Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza) {
 		this(CodiceQuesito.crea(), domanda, risposte, difficolta, suggerimentiPerAccuratezza);
 	}
 
 	private Quesito(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte, Difficolta difficolta,
-			Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza) {
+			Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza) {
 		this.codice = codiceQuesito;
 		this.domanda = domanda;
 		this.risposte = risposte;
@@ -41,13 +41,13 @@ public class Quesito {
 	}
 
 	public static Quesito parse(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte,
-			Difficolta difficolta, Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza)
+			Difficolta difficolta, Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza)
 			throws CreazioneQuesitoException {
 		return new Quesito(codiceQuesito, domanda, risposte, difficolta, suggerimentiPerAccuratezza);
 	}
 
-	public SuggerimentoDaCasa getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
-		List<SuggerimentoDaCasa> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
+	public Suggerimento getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
+		List<Suggerimento> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
 		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
 	}
 
@@ -61,7 +61,7 @@ public class Quesito {
 		private Domanda domanda;
 		private Risposta[] risposte = new Risposta[NUMERO_RISPOSTE];
 		private Difficolta difficolta;
-		private Map<Accuratezza, List<SuggerimentoDaCasa>> suggerimentiPerAccuratezza = new HashMap<>();
+		private Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza = new HashMap<>();
 
 		private int indiceRisposte = 0;
 
@@ -93,11 +93,11 @@ public class Quesito {
 			risposte[indiceRisposte++] = risposta;
 		}
 
-		public void aggiungiSuggerimento(SuggerimentoDaCasa suggerimentoDaCasa) {
+		public void aggiungiSuggerimento(Suggerimento suggerimentoDaCasa) {
 
 			Accuratezza accuratezza = suggerimentoDaCasa.getAccuratezza();
 			
-			List<SuggerimentoDaCasa> suggerimentiPerAccuratezza = this.suggerimentiPerAccuratezza.get(accuratezza);
+			List<Suggerimento> suggerimentiPerAccuratezza = this.suggerimentiPerAccuratezza.get(accuratezza);
 			
 			if (suggerimentiPerAccuratezza == null) {
 				suggerimentiPerAccuratezza = new ArrayList<>();

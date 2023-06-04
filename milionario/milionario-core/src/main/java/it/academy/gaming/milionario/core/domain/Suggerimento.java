@@ -5,9 +5,9 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
-import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoDaCasaInvalidoException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 
-public class SuggerimentoDaCasa {
+public class Suggerimento {
 
 	private static Random random = new Random();
 	private String testo;
@@ -20,49 +20,49 @@ public class SuggerimentoDaCasa {
 	private static String bookmarkRispostaCorretta = "${Y}";
 	private static String bookmarkRispostaSbagliata = "${X}";
 
-	private SuggerimentoDaCasa(String testo, int tempoMinimo, Accuratezza accuratezza) {
+	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza) {
 		this.testo = testo;
 		this.tempoMinimo = tempoMinimo;
 		this.accuratezza = accuratezza;
 	}
 
-	public static SuggerimentoDaCasa crea(String testo, int tempoMinimo, Accuratezza accuratezza)
-			throws SuggerimentoDaCasaInvalidoException {
+	public static Suggerimento crea(String testo, int tempoMinimo, Accuratezza accuratezza)
+			throws SuggerimentoInvalidoException {
 
 		if (StringUtils.isBlank(testo) || tempoMinimo < 1 || tempoMinimo > 30 || accuratezza == null) {
-			throw SuggerimentoDaCasaInvalidoException.parametriInvalidi();
+			throw SuggerimentoInvalidoException.parametriInvalidi();
 		}
 
 		if (accuratezza != Accuratezza.ASTENUTA) {
 			int ricorrenzeBookmarkRispostaSbagliata = StringUtils.countMatches(testo, bookmarkRispostaSbagliata);
 			if (ricorrenzeBookmarkRispostaSbagliata > 1) {
-				throw SuggerimentoDaCasaInvalidoException.numeroBookmarksRispostaSbagliataInvalidi();
+				throw SuggerimentoInvalidoException.numeroBookmarksRispostaSbagliataInvalidi();
 			}
 		}
 		switch (accuratezza) {
 		case ASTENUTA:
 			if (testo.contains(bookmarkRispostaCorretta) || testo.contains(bookmarkRispostaSbagliata))
-				throw SuggerimentoDaCasaInvalidoException.astenuta();
+				throw SuggerimentoInvalidoException.astenuta();
 			break;
 		case CORRETTA:
 			if (!testo.contains(bookmarkRispostaCorretta)) {
-				throw SuggerimentoDaCasaInvalidoException.corretta();
+				throw SuggerimentoInvalidoException.corretta();
 			}
 			break;
 		case IMPRECISA:
 			if (!(testo.contains(bookmarkRispostaCorretta) && testo.contains(bookmarkRispostaSbagliata))) {
-				throw SuggerimentoDaCasaInvalidoException.imprecisa();
+				throw SuggerimentoInvalidoException.imprecisa();
 			}
 			break;
 		case SBAGLIATA:
 			// deve contenere almeno una risposta sbagliata e non deve contenere la risposta
 			// corretta"
 			if (testo.contains(bookmarkRispostaCorretta) || !testo.contains(bookmarkRispostaSbagliata)) {
-				throw SuggerimentoDaCasaInvalidoException.sbagliata();
+				throw SuggerimentoInvalidoException.sbagliata();
 			}
 			break;
 		}
-		return new SuggerimentoDaCasa(testo, tempoMinimo, accuratezza);
+		return new Suggerimento(testo, tempoMinimo, accuratezza);
 	}
 
 //	public SuggerimentoDaCasa(String testo, int tempoMinimo, Accuratezza accuratezza)

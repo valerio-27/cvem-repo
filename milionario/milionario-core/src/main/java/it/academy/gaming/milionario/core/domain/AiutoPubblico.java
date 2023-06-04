@@ -19,4 +19,8 @@ public class AiutoPubblico {
 		return pubblico.vota(quesito);
 	}
 
+	public void ripristina() {
+		this.disponibile=true;
+	}
+
 }

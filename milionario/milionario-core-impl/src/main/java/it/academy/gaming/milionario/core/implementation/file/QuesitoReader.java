@@ -20,6 +20,12 @@ import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeE
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 
+
+/**
+ * finisce Matteo
+ * @author Valerio.Crispini
+ *
+ */
 public class QuesitoReader {
 
 	private List<Quesito> quesiti = new ArrayList();

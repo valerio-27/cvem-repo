@@ -24,6 +24,13 @@ import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeE
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core_impl.exceptions.DbQuesitoException;
 
+
+
+/**
+ * finisce Valerio
+ * @author Valerio.Crispini
+ *
+ */
 public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 	private ConnectionManager connectionManager;
