@@ -1,9 +1,10 @@
 package it.academy.gaming.milionario.manager.grafics.screens;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import it.academy.gaming.milionario.AccuratezzaProva;
+import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
@@ -16,9 +17,11 @@ import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
 import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggeriMemtoErratoException;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciDomandaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.InserisciSuggerimentoRequest;
 
 public class InserimentoQuesitoScreen extends Screen {
 
@@ -50,14 +53,23 @@ public class InserimentoQuesitoScreen extends Screen {
 					risposta.isCorretta());
 			rispostaRequests.add(rispostaRequest);
 		}
-		List<InputSuggerimento> suggerimenti = acquisisciInputSuggerimento();
-
+		/*
+		 * acquisisco i suggerimenti pper il quesito
+		 */
+		List<InputSuggerimento> suggerimenti = acquisisciInputSuggerimenti();
+		Collection<InserisciSuggerimentoRequest> requestsSuggerimenti = new ArrayList<InserisciSuggerimentoRequest>();
+		for (InputSuggerimento inputSuggerimento : suggerimenti) {
+			requestsSuggerimenti.add(new InserisciSuggerimentoRequest(inputSuggerimento));
+		}
+		/*
+		 * creo le request
+		 */
 		InserisciDomandaRequest domandaRequest = new InserisciDomandaRequest(domanda.getTesto(), domanda.getCategoria(),
 				domanda.getInformazioni().getUrlImmagine(), domanda.getInformazioni().getUrlDocumentazione());
 		InserisciRispostaRequest[] arrayRispostaRequests = rispostaRequests.toArray(new InserisciRispostaRequest[0]);
 
 		InserisciQuesitoRequest request = new InserisciQuesitoRequest(domandaRequest, arrayRispostaRequests,
-				livelloDiDifficolta);
+				requestsSuggerimenti, livelloDiDifficolta);
 
 		try {
 			controller.inserisci(request);
@@ -69,49 +81,95 @@ public class InserimentoQuesitoScreen extends Screen {
 
 	}
 
-	private List<InputSuggerimento> acquisisciInputSuggerimento() {
-		
-		//TODO
-		
-		
+	private List<InputSuggerimento> acquisisciInputSuggerimenti() {
+		mostraInfo("Inserisci 4 suggerimenti seguendo le istruzioni");
 		List<InputSuggerimento> suggerimenti = new ArrayList<>();
-		mostraInfo("Inserisci il testo del suggerimento corretto");
+		/*
+		 * ho acquisito quello corretto
+		 */
+		suggerimenti.add(acquisisciSuggerimentoCorretto());
+		/*
+		 * ho acquisito quello impreciso
+		 */
+		suggerimenti.add(acquisisciSuggerimentoImpreciso());
+		/*
+		 * ho acquisito quello sbagliato
+		 */
+		suggerimenti.add(acquisisciSuggerimentoSbagliato());
+		/*
+		 * ho acquisito quello astenuto
+		 */
+		suggerimenti.add(acquisisciSuggerimentoAstenuto());
+
+		return suggerimenti;
+	}
+
+	private InputSuggerimento acquisisciSuggerimentoAstenuto() {
+		mostraInfo("Inserisci il testo del suggerimento astenuto seguendo le seguenti regole:");
+		mostraInfo("Indica nel testo con \"${N}\" la posizione del riferimento al nome del giocatore(opzionale)");
 		String testoSuggerimento = scanner.nextLine();
 
 		int tempoMin = acquisisciTempoMinSuggerimento();
-		InputSuggerimento suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.CORRETTA);
-		suggerimenti.add(suggerimento);
-		mostraInfo("Inserisci il testo del suggerimento impreciso");
-		testoSuggerimento = scanner.nextLine();
-
-		tempoMin = acquisisciTempoMinSuggerimento();
-		suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.IMPRECISA);
-		suggerimenti.add(suggerimento);
-
-		mostraInfo("Inserisci il testo del suggerimento sbagliato");
-		testoSuggerimento = scanner.nextLine();
-		tempoMin = acquisisciTempoMinSuggerimento();
-
-		suggerimento = new InputSuggerimento(testoSuggerimento, tempoMin, AccuratezzaProva.SBGLIATA);
-		suggerimenti.add(suggerimento);
-		while (true) {
-			mostraInfo("I)nserisci altri suggerimenti");
-			mostraInfo("T)ermina");
-			String scelta = scanner.next();
-			scanner.nextLine();
-			switch (scelta.toUpperCase()) {
-			case "I":
-
-				break;
-			case "T":
-
-				break;
-			default:
-				break;
-			}
-
+		InputSuggerimento suggerimento = null;
+		try {
+			suggerimento = InputSuggerimento.creaInputSuggerimentoAstenuto(testoSuggerimento, tempoMin);
+		} catch (TestoSuggeriMemtoErratoException e) {
+			mostraInfo(e.getMessage());
+			return acquisisciSuggerimentoAstenuto();
 		}
+		return suggerimento;
+	}
 
+	private InputSuggerimento acquisisciSuggerimentoSbagliato() {
+		mostraInfo("Inserisci il testo del suggerimento sbagliato seguendo le seguenti regole:");
+		mostraInfo("Indica nel testo con \"${N}\" la posizione del riferimento al nome del giocatore(opzionale)");
+		mostraInfo("Indica nel testo con \"${X}\" la posizione del riferimento alla risposta sbagliata(obbligatoria)");
+		String testoSuggerimento = scanner.nextLine();
+
+		int tempoMin = acquisisciTempoMinSuggerimento();
+		InputSuggerimento suggerimento = null;
+		try {
+			suggerimento = InputSuggerimento.creaInputSuggerimentoSbagliato(testoSuggerimento, tempoMin);
+		} catch (TestoSuggeriMemtoErratoException e) {
+			mostraInfo(e.getMessage());
+			return acquisisciSuggerimentoSbagliato();
+		}
+		return suggerimento;
+	}
+
+	private InputSuggerimento acquisisciSuggerimentoCorretto() {
+		mostraInfo("Inserisci il testo del suggerimento corretto seguendo le seguenti regole:");
+		mostraInfo("Indica nel testo con \"${N}\" la posizione del riferimento al nome del giocatore (opzionale)");
+		mostraInfo("Indica nel testo con \"${y}\" la posizione del riferimento alla risposta corretta (obbligatorio)");
+		String testoSuggerimento = scanner.nextLine();
+
+		int tempoMin = acquisisciTempoMinSuggerimento();
+		InputSuggerimento suggerimento = null;
+		try {
+			suggerimento = InputSuggerimento.creaInputSuggerimentoCorretto(testoSuggerimento, tempoMin);
+		} catch (TestoSuggeriMemtoErratoException e) {
+			mostraInfo(e.getMessage());
+			return acquisisciSuggerimentoCorretto();
+		}
+		return suggerimento;
+	}
+
+	private InputSuggerimento acquisisciSuggerimentoImpreciso() {
+		mostraInfo("Inserisci il testo del suggerimento impreciso seguendo le seguenti regole:");
+		mostraInfo("Indica nel testo con \"${N}\" la posizione del riferimento al nome del giocatore (opzionale)");
+		mostraInfo("Indica nel testo con \"${y}\" la posizione del riferimento alla risposta corretta (obbligatorio)");
+		mostraInfo("Indica nel testo con \"${x}\" la posizione del riferimento alla risposta sbagliata (obbligatorio)");
+		String testoSuggerimento = scanner.nextLine();
+
+		int tempoMin = acquisisciTempoMinSuggerimento();
+		InputSuggerimento suggerimento = null;
+		try {
+			suggerimento = InputSuggerimento.creaInputSuggerimentoImpreciso(testoSuggerimento, tempoMin);
+		} catch (TestoSuggeriMemtoErratoException e) {
+			mostraInfo(e.getMessage());
+			return acquisisciSuggerimentoImpreciso();
+		}
+		return suggerimento;
 	}
 
 	private int acquisisciTempoMinSuggerimento() {

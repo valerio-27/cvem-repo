@@ -1,6 +1,7 @@
 package it.academy.gaming.milionario.manager.grafics.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
@@ -16,6 +17,7 @@ import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciRispostaCommand;
+import it.academy.gaming.milionario.manager.core.commands.InserisciSuggerimentoCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
@@ -27,6 +29,7 @@ import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerDiffic
 import it.academy.gaming.milionario.manager.grafics.requests.CancellaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.InserisciSuggerimentoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDifficoltaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDomandaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaRispostaRequest;
@@ -89,18 +92,33 @@ public class CvemController {
 
 	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException,
 			TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException {
+		/*
+		 * request domanda to command
+		 */
 		InserisciDomandaCommand domandaCommand = new InserisciDomandaCommand(
 				request.getDomandaRequest().getTestoDomanda(), request.getDomandaRequest().getCategoria(),
 				request.getDomandaRequest().getUrlImmagne(), request.getDomandaRequest().getUrlDocumentazione());
-		List<InserisciRispostaCommand> rispostaCommands = new ArrayList<>();
+		/*
+		 * requests risposta to commands
+		 */
+		InserisciRispostaCommand[] arrayRispostaCommands = new InserisciRispostaCommand[4];
+		int i = 0;
 		for (InserisciRispostaRequest requestRisposta : request.getRispostaRequests()) {
-			rispostaCommands.add(new InserisciRispostaCommand(requestRisposta.getTestoRisposta(),
-					requestRisposta.isRispostaGiusta()));
+			arrayRispostaCommands[i++] = new InserisciRispostaCommand(requestRisposta.getTestoRisposta(),
+					requestRisposta.isRispostaGiusta());
 
 		}
-		InserisciRispostaCommand[] arrayRispostaRequests = rispostaCommands.toArray(new InserisciRispostaCommand[0]);
-		InserisciQuesitoCommand quesitoCommand = new InserisciQuesitoCommand(domandaCommand, arrayRispostaRequests,
-				request.getLivelloDifficolta());
+		/*
+		 * requests suggerimenti to commands
+		 */
+		Collection<InserisciSuggerimentoCommand> suggerimentoCommands = new ArrayList<InserisciSuggerimentoCommand>();
+		for (InserisciSuggerimentoRequest suggerimentoRequest : request.getSuggerimenti()) {
+			suggerimentoCommands.add(new InserisciSuggerimentoCommand(suggerimentoRequest.getTestoSuggerimento(),
+					suggerimentoRequest.getAccuratezza(), suggerimentoRequest.getTempoMinimo()));
+
+		}
+		InserisciQuesitoCommand quesitoCommand = new InserisciQuesitoCommand(domandaCommand, arrayRispostaCommands,
+				suggerimentoCommands, request.getLivelloDifficolta());
 		service.inserisci(quesitoCommand);
 		showMenuScreen();
 	}

@@ -1,25 +1,33 @@
 package it.academy.gaming.milionario.manager.core.commands;
 
+import java.util.Collection;
+
 public class InserisciQuesitoCommand {
 
-	private InserisciDomandaCommand domandaRequest;
-	private InserisciRispostaCommand[] rispostaRequests;
+	private InserisciDomandaCommand domandaCommand;
+	private InserisciRispostaCommand[] rispostaCommands;
+	private Collection<InserisciSuggerimentoCommand> suggerimentoCommands;
 	private int livelloDifficolta;
 
-	public InserisciQuesitoCommand(InserisciDomandaCommand domandaRequest, InserisciRispostaCommand[] rispostaRequests,
-			int livelloDifficolta) {
+	public InserisciQuesitoCommand(InserisciDomandaCommand domandaCommand, InserisciRispostaCommand[] rispostaCommands,
+			Collection<InserisciSuggerimentoCommand> suggerimentoCommands, int livelloDifficolta) {
 		super();
-		this.domandaRequest = domandaRequest;
-		this.rispostaRequests = rispostaRequests;
+		this.domandaCommand = domandaCommand;
+		this.rispostaCommands = rispostaCommands;
+		this.suggerimentoCommands = suggerimentoCommands;
 		this.livelloDifficolta = livelloDifficolta;
 	}
 
 	public InserisciDomandaCommand getDomandaCommand() {
-		return domandaRequest;
+		return domandaCommand;
 	}
 
 	public InserisciRispostaCommand[] getRispostaCommands() {
-		return rispostaRequests;
+		return rispostaCommands;
+	}
+
+	public Collection<InserisciSuggerimentoCommand> getSuggerimentoCommands() {
+		return suggerimentoCommands;
 	}
 
 	public int getLivelloDifficolta() {

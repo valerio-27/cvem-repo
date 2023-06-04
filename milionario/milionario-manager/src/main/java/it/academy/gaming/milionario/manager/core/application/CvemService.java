@@ -12,6 +12,7 @@ import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.SuggerimentoDaCasa;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
@@ -28,6 +29,7 @@ import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciRispostaCommand;
+import it.academy.gaming.milionario.manager.core.commands.InserisciSuggerimentoCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
@@ -88,6 +90,17 @@ public class CvemService {
 
 			builder.aggiungiRisposta(risposta);
 		}
+		
+		/*
+		 * creo e aggiungo i suggerimenti
+		 */
+		for (InserisciSuggerimentoCommand suggerimentoCommand : inserisciQuesitoCommand.getSuggerimentoCommands()) {
+
+			//SuggerimentoDaCasa suggerimento = SuggerimentoDaCasa.crea(suggerimentoCommand.getTestoSuggerimento(),suggerimentoCommand.getTempoMinimo(), suggerimentoCommand.getAccuratezza());
+
+		}
+		
+		
 		Difficolta difficolta = new Difficolta(inserisciQuesitoCommand.getLivelloDifficolta());
 		builder.setDifficolta(difficolta);
 		Quesito quesito = builder.build();
