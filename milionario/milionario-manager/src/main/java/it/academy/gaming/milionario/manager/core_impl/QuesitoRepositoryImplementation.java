@@ -14,16 +14,20 @@ import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.Categoria;
 import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.CodiceRisposta;
+import it.academy.gaming.milionario.core.domain.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
+import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
 import it.academy.gaming.milionario.core.domain.Risposta;
 import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
+import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core_impl.exceptions.DbQuesitoException;
 
@@ -88,15 +92,15 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 			for (List<Suggerimento> suggerimentiSelezionati : suggerimentiPerAccuratezza.values()) {
 				suggerimenti.addAll(suggerimentiSelezionati);
 			}
-			
+
 			String sqlScript = "INSERT INTO Suggerimento (codice,codice_quesito,accuratezza,testo,tempo_minimo) VALUES (?,?,?,?,?)";
-			for (Suggerimento suggerimento: suggerimenti) {
+			for (Suggerimento suggerimento : suggerimenti) {
 				preparedStatement = dbConnection.prepareStatement(sqlScript);
 
-				preparedStatement.setString(1, suggerimento.get);
+				preparedStatement.setString(1, suggerimento.getCodice().getCodice());
 				preparedStatement.setString(2, codice.getCodice());
-				preparedStatement.setString(3, risposta.getTesto());
-				preparedStatement.setBoolean(4, risposta.isCorretta());
+				preparedStatement.setString(3, suggerimento.getAccuratezza().toString());
+				preparedStatement.setInt(4, suggerimento.getTempoMinimo());
 
 				preparedStatement.executeUpdate();
 
@@ -193,6 +197,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		DbConnection dbConnection = null;
 		ResultSet quesitiResultSet = null;
 		ResultSet risposteResultSet = null;
+		ResultSet suggerimentiResultSet = null;
 
 		try {
 			dbConnection = connectionManager.creaConnection();
@@ -203,6 +208,9 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 			preparedStatement.setInt(1, difficolta.getDifficolta());
 
 			quesitiResultSet = preparedStatement.executeQuery();
+
+			QuesitoBuilder builder = Quesito.builder();
+			builder.setDifficolta(difficolta);
 
 			while (quesitiResultSet.next()) {
 
@@ -224,6 +232,8 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (CreazioneDomandaException ignored) {
 				}
 
+				builder.setDomanda(domanda);
+
 				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
 				preparedStatement = dbConnection.prepareStatement(sqlScript);
@@ -231,9 +241,6 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 				risposteResultSet = preparedStatement.executeQuery();
 
-				Risposta[] risposte = new Risposta[4];
-
-				int indice = 0;
 				while (risposteResultSet.next()) {
 					CodiceRisposta codiceRisposta = null;
 					try {
@@ -242,11 +249,37 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 					}
 					String testo = risposteResultSet.getString(2);
 					boolean corretta = risposteResultSet.getBoolean(3);
-					risposte[indice++] = Risposta.parse(codiceRisposta, testo, corretta);
+					try {
+						builder.aggiungiRisposta(Risposta.parse(codiceRisposta, testo, corretta));
+					} catch (NumeroMassimoRisposteSuperatoException ingored) {
+					}
 				}
+
+				sqlScript = "SELECT s.codice ,s.testo ,s.accuratezza,s.tempo_minimo FROM Quesito q JOIN Suggerimento s ON q.codice =s.codice_quesito WHERE q.codice= ?";
+
+				preparedStatement.close();
+
+				preparedStatement = dbConnection.prepareStatement(sqlScript);
+				preparedStatement.setString(1, codiceQuesito.getCodice());
+
+				suggerimentiResultSet = preparedStatement.executeQuery();
+
+				while (suggerimentiResultSet.next()) {
+					CodiceSuggerimento codiceSuggerimento = null;
+					try {
+						codiceSuggerimento = CodiceSuggerimento.parse(suggerimentiResultSet.getString(1));
+					} catch (CodiceInvalidoException ignored) {
+					}
+					String testo = risposteResultSet.getString(2);
+					Accuratezza accuratezza = Accuratezza.valueOf(suggerimentiResultSet.getString(3).toUpperCase());
+					int tempoMinimo = suggerimentiResultSet.getInt(4);
+					builder.aggiungiSuggerimento(
+							Suggerimento.parse(codiceSuggerimento, testo, tempoMinimo, accuratezza));
+				}
+
 				try {
-					quesiti.add(Quesito.parse(codiceQuesito, domanda, risposte, difficolta));
-				} catch (CreazioneQuesitoException ignored) {
+					quesiti.add(builder.build());
+				} catch (CreazioneQuesitoException | SuggerimentiInvalidiException ignored) {
 				}
 
 			}
@@ -287,6 +320,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		DbConnection dbConnection = null;
 		ResultSet quesitiResultSet = null;
 		ResultSet risposteResultSet = null;
+		ResultSet suggerimentiResultSet = null;
 
 		try {
 			dbConnection = connectionManager.creaConnection();
@@ -298,6 +332,8 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 			quesitiResultSet = preparedStatement.executeQuery();
 
+			QuesitoBuilder builder = Quesito.builder();
+
 			while (quesitiResultSet.next()) {
 
 				CodiceQuesito codiceQuesito = null;
@@ -306,22 +342,22 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (CodiceInvalidoException ignored) {
 				}
 
-				Difficolta difficolta = null;
+				String testoDomanda = quesitiResultSet.getString(2);
+				String urlImmagine = quesitiResultSet.getString(4);
+				String urlDocumentazione = quesitiResultSet.getString(5);
+				Difficolta difficolta=null;
 				try {
 					difficolta = new Difficolta(quesitiResultSet.getInt(6));
 				} catch (DifficoltaNonInRangeException ignored) {
 				}
-
-				String testoDomanda = quesitiResultSet.getString(2);
-
-				String urlImmagine = quesitiResultSet.getString(4);
-				String urlDocumentazione = quesitiResultSet.getString(5);
 				InformazioniDomanda informazionDomanda = new InformazioniDomanda(urlImmagine, urlDocumentazione);
 				Domanda domanda = null;
 				try {
 					domanda = new Domanda(testoDomanda, categoria, informazionDomanda);
 				} catch (CreazioneDomandaException ignored) {
 				}
+				builder.setDifficolta(difficolta);
+				builder.setDomanda(domanda);
 
 				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
@@ -330,9 +366,6 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 				risposteResultSet = preparedStatement.executeQuery();
 
-				Risposta[] risposte = new Risposta[4];
-
-				int indice = 0;
 				while (risposteResultSet.next()) {
 					CodiceRisposta codiceRisposta = null;
 					try {
@@ -341,11 +374,37 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 					}
 					String testo = risposteResultSet.getString(2);
 					boolean corretta = risposteResultSet.getBoolean(3);
-					risposte[indice++] = Risposta.parse(codiceRisposta, testo, corretta);
+					try {
+						builder.aggiungiRisposta(Risposta.parse(codiceRisposta, testo, corretta));
+					} catch (NumeroMassimoRisposteSuperatoException ingored) {
+					}
 				}
+
+				sqlScript = "SELECT s.codice ,s.testo ,s.accuratezza,s.tempo_minimo FROM Quesito q JOIN Suggerimento s ON q.codice =s.codice_quesito WHERE q.codice= ?";
+
+				preparedStatement.close();
+
+				preparedStatement = dbConnection.prepareStatement(sqlScript);
+				preparedStatement.setString(1, codiceQuesito.getCodice());
+
+				suggerimentiResultSet = preparedStatement.executeQuery();
+
+				while (suggerimentiResultSet.next()) {
+					CodiceSuggerimento codiceSuggerimento = null;
+					try {
+						codiceSuggerimento = CodiceSuggerimento.parse(suggerimentiResultSet.getString(1));
+					} catch (CodiceInvalidoException ignored) {
+					}
+					String testo = risposteResultSet.getString(2);
+					Accuratezza accuratezza = Accuratezza.valueOf(suggerimentiResultSet.getString(3).toUpperCase());
+					int tempoMinimo = suggerimentiResultSet.getInt(4);
+					builder.aggiungiSuggerimento(
+							Suggerimento.parse(codiceSuggerimento, testo, tempoMinimo, accuratezza));
+				}
+
 				try {
-					quesiti.add(Quesito.parse(codiceQuesito, domanda, risposte, difficolta));
-				} catch (CreazioneQuesitoException ignored) {
+					quesiti.add(builder.build());
+				} catch (CreazioneQuesitoException | SuggerimentiInvalidiException ignored) {
 				}
 
 			}
@@ -385,7 +444,8 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		DbConnection dbConnection = null;
 		ResultSet quesitoResultSet = null;
 		ResultSet risposteResultSet = null;
-
+		ResultSet suggerimentiResultSet = null;
+		
 		try {
 			dbConnection = connectionManager.creaConnection();
 
@@ -396,6 +456,8 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 			quesitoResultSet = preparedStatement.executeQuery();
 
+			QuesitoBuilder builder = Quesito.builder();
+			
 			if (quesitoResultSet.next()) {
 
 				Difficolta difficolta = null;
@@ -404,6 +466,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				} catch (DifficoltaNonInRangeException ignored) {
 				}
 
+				builder.setDifficolta(difficolta);
 				String testoDomanda = quesitoResultSet.getString(2);
 
 				String urlImmagine = quesitoResultSet.getString(4);
@@ -415,6 +478,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 					domanda = new Domanda(testoDomanda, categoria, informazionDomanda);
 				} catch (CreazioneDomandaException ignored) {
 				}
+				builder.setDomanda(domanda);
 
 				sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
 
@@ -425,9 +489,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 				risposteResultSet = preparedStatement.executeQuery();
 
-				Risposta[] risposte = new Risposta[4];
 
-				int indice = 0;
 				while (risposteResultSet.next()) {
 					CodiceRisposta codiceRisposta = null;
 					try {
@@ -436,15 +498,41 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 					}
 					String testo = risposteResultSet.getString(2);
 					boolean corretta = risposteResultSet.getBoolean(3);
-					risposte[indice++] = Risposta.parse(codiceRisposta, testo, corretta);
+					try {
+						builder.aggiungiRisposta( Risposta.parse(codiceRisposta, testo, corretta));
+					} catch (NumeroMassimoRisposteSuperatoException ignored) {
+					}
 				}
+				
+				
+				sqlScript = "SELECT s.codice ,s.testo ,s.accuratezza,s.tempo_minimo FROM Quesito q JOIN Suggerimento s ON q.codice =s.codice_quesito WHERE q.codice= ?";
 
-				Quesito quesito = null;
-				try {
-					quesito = Quesito.parse(codiceQuesito, domanda, risposte, difficolta);
-				} catch (CreazioneQuesitoException ignored) {
+				preparedStatement.close();
+
+				preparedStatement = dbConnection.prepareStatement(sqlScript);
+				preparedStatement.setString(1, codiceQuesito.getCodice());
+
+				suggerimentiResultSet = preparedStatement.executeQuery();
+
+				while (suggerimentiResultSet.next()) {
+					CodiceSuggerimento codiceSuggerimento = null;
+					try {
+						codiceSuggerimento = CodiceSuggerimento.parse(suggerimentiResultSet.getString(1));
+					} catch (CodiceInvalidoException ignored) {
+					}
+					String testo = risposteResultSet.getString(2);
+					Accuratezza accuratezza = Accuratezza.valueOf(suggerimentiResultSet.getString(3).toUpperCase());
+					int tempoMinimo = suggerimentiResultSet.getInt(4);
+					builder.aggiungiSuggerimento(
+							Suggerimento.parse(codiceSuggerimento, testo, tempoMinimo, accuratezza));
 				}
-				return Optional.of(quesito);
+				
+
+				
+				try {
+					return Optional.of(builder.build());
+				} catch (CreazioneQuesitoException | SuggerimentiInvalidiException ignored) {
+				}
 
 			}
 		} catch (SQLException e) {
