@@ -8,5 +8,6 @@ public class Partita {
 	private Quesito quesitoAttuale;
 	private OpzioniPersonaRepository opzioniPersonaRepository;
 	private Aiuti aiuti;
-
+	
+	
 }

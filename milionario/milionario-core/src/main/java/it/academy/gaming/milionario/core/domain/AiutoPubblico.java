@@ -4,8 +4,6 @@ import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileEx
 
 public class AiutoPubblico {
 
-//	private RangeCulturaGenerale range;
-//	private PercentualeFortuna percentualeFortuna;
 	private Pubblico pubblico;
 	private boolean disponibile = true;
 

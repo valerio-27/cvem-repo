@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import it.academy.gaming.milionario.core.domain.Votazione.VotazioneBuilder;
 
 public class Pubblico {
