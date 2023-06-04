@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.Categoria;
 import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.CodiceRisposta;
@@ -17,6 +19,7 @@ import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
@@ -24,13 +27,6 @@ import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeE
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core_impl.exceptions.DbQuesitoException;
 
-
-
-/**
- * finisce Valerio
- * @author Valerio.Crispini
- *
- */
 public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 	private ConnectionManager connectionManager;
@@ -61,6 +57,7 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 			preparedStatement.executeUpdate();
 
 			aggiungiRisposte(quesito.getCodice(), Arrays.asList(quesito.getRisposte()));
+			aggiungiSuggerimenti(quesito.getCodice(), quesito.getSuggerimentiPerAccuratezza());
 
 		} catch (SQLException e) {
 			throw new DbQuesitoException();
@@ -75,6 +72,50 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				dbConnection.close();
 			}
 		}
+	}
+
+	private void aggiungiSuggerimenti(CodiceQuesito codice,
+			Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza) {
+		PreparedStatement preparedStatement = null;
+
+		DbConnection dbConnection = null;
+
+		try {
+			dbConnection = connectionManager.creaConnection();
+
+			List<Suggerimento> suggerimenti = new ArrayList<>();
+
+			for (List<Suggerimento> suggerimentiSelezionati : suggerimentiPerAccuratezza.values()) {
+				suggerimenti.addAll(suggerimentiSelezionati);
+			}
+			
+			String sqlScript = "INSERT INTO Suggerimento (codice,codice_quesito,accuratezza,testo,tempo_minimo) VALUES (?,?,?,?,?)";
+			for (Suggerimento suggerimento: suggerimenti) {
+				preparedStatement = dbConnection.prepareStatement(sqlScript);
+
+				preparedStatement.setString(1, suggerimento.get);
+				preparedStatement.setString(2, codice.getCodice());
+				preparedStatement.setString(3, risposta.getTesto());
+				preparedStatement.setBoolean(4, risposta.isCorretta());
+
+				preparedStatement.executeUpdate();
+
+			}
+
+		} catch (SQLException e) {
+			throw new DbQuesitoException();
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException ignored) {
+				}
+			}
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
+
 	}
 
 	private void aggiungiRisposte(CodiceQuesito codice, Collection<Risposta> risposte) {
@@ -515,7 +556,6 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 			preparedStatement.setString(1, domanda.getTesto());
 			preparedStatement.setString(2, domanda.getCategoria().toString());
-			
 
 			InformazioniDomanda informazioni = domanda.getInformazioni();
 

@@ -55,6 +55,10 @@ public class Quesito {
 		return new QuesitoBuilder();
 	}
 
+	public Map<Accuratezza, List<Suggerimento>> getSuggerimentiPerAccuratezza() {
+		return suggerimentiPerAccuratezza;
+	}
+
 	public static class QuesitoBuilder {
 		private static final int NUMERO_RISPOSTE = 4;
 
@@ -96,14 +100,14 @@ public class Quesito {
 		public void aggiungiSuggerimento(Suggerimento suggerimentoDaCasa) {
 
 			Accuratezza accuratezza = suggerimentoDaCasa.getAccuratezza();
-			
+
 			List<Suggerimento> suggerimentiPerAccuratezza = this.suggerimentiPerAccuratezza.get(accuratezza);
-			
+
 			if (suggerimentiPerAccuratezza == null) {
 				suggerimentiPerAccuratezza = new ArrayList<>();
 				this.suggerimentiPerAccuratezza.put(accuratezza, suggerimentiPerAccuratezza);
 			}
-			
+
 			suggerimentiPerAccuratezza.add(suggerimentoDaCasa);
 		}
 

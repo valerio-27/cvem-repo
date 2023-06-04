@@ -10,6 +10,8 @@ import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoE
 public class Suggerimento {
 
 	private static Random random = new Random();
+	
+	private CodiceSuggerimento codice;
 	private String testo;
 	private int tempoMinimo;
 	private int tempoEsposizione;
@@ -20,10 +22,11 @@ public class Suggerimento {
 	private static String bookmarkRispostaCorretta = "${Y}";
 	private static String bookmarkRispostaSbagliata = "${X}";
 
-	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza) {
+	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza,CodiceSuggerimento codice) {
 		this.testo = testo;
 		this.tempoMinimo = tempoMinimo;
 		this.accuratezza = accuratezza;
+		this.codice=codice;
 	}
 
 	public static Suggerimento crea(String testo, int tempoMinimo, Accuratezza accuratezza)
@@ -62,7 +65,7 @@ public class Suggerimento {
 			}
 			break;
 		}
-		return new Suggerimento(testo, tempoMinimo, accuratezza);
+		return new Suggerimento(testo, tempoMinimo, accuratezza,CodiceSuggerimento.crea());
 	}
 
 //	public SuggerimentoDaCasa(String testo, int tempoMinimo, Accuratezza accuratezza)
