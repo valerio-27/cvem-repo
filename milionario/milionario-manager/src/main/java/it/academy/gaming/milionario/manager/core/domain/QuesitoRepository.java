@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
-import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.codici.CodiceQuesito;
 
 public interface QuesitoRepository {
 

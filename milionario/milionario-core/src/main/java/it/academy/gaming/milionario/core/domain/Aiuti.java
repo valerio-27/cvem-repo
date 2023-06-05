@@ -13,10 +13,9 @@ public class Aiuti {
 	private AiutoCasa aiutoCasa;
 	private AiutoPubblico aiutoPubblico;
 
-	public Aiuti(RangeCulturaGenerale rangeCulturaGenerale, PercentualeFortuna percentualeFortuna,
-			Giocatore giocatore) {
+	public Aiuti(RangeCulturaGenerale rangeCulturaGenerale, PercentualeFortuna percentualeFortuna) {
 		this.aiutoPubblico = new AiutoPubblico(rangeCulturaGenerale, percentualeFortuna);
-		this.aiutoCasa = new AiutoCasa(rangeCulturaGenerale, giocatore);
+		this.aiutoCasa = new AiutoCasa(rangeCulturaGenerale);
 		AiutoComputer.ripristina();
 	}
 
@@ -28,13 +27,13 @@ public class Aiuti {
 		return aiutoPubblico.vota(quesito);
 	}
 
-	public Suggerimento usaAiutoCasa(Quesito quesito) throws AiutoNonDisponibileException {
-		return aiutoCasa.vota(quesito);
+	public Suggerimento usaAiutoCasa(Quesito quesito,Giocatore giocatore) throws AiutoNonDisponibileException {
+		return aiutoCasa.vota(quesito,giocatore);
 	}
 
-	public void ripristinaAiuti(Giocatore giocatore) {
+	public void ripristinaAiuti() {
 		AiutoComputer.ripristina();
-		this.aiutoCasa.ripristina(giocatore);
+		this.aiutoCasa.ripristina();
 		this.aiutoPubblico.ripristina();
 	}
 }
