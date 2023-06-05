@@ -36,7 +36,7 @@ public class InputSuggerimento {
 		 * );
 		 * 
 		 */
-		if (testoSuggerimento.isBlank() || !testoSuggerimento.contains("\"${y}\"")) {
+		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${Y}")) {
 			throw TestoSuggeriMemtoErratoException.testoSuggerimentoCorrettoErrato(testoSuggerimento);
 		}
 
@@ -45,8 +45,8 @@ public class InputSuggerimento {
 
 	public static InputSuggerimento creaInputSuggerimentoImpreciso(String testoSuggerimento, int tempoMin)
 			throws TestoSuggeriMemtoErratoException {
-		if (testoSuggerimento.isBlank() || !testoSuggerimento.contains("\"${y}\"")
-				|| !testoSuggerimento.contains("\"${X}\"")) {
+		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${Y}")
+				|| !testoSuggerimento.contains("${X}")) {
 			throw TestoSuggeriMemtoErratoException.testoSuggerimentoImprecisoErrato(testoSuggerimento);
 		}
 
@@ -55,7 +55,7 @@ public class InputSuggerimento {
 
 	public static InputSuggerimento creaInputSuggerimentoSbagliato(String testoSuggerimento, int tempoMin)
 			throws TestoSuggeriMemtoErratoException {
-		if (testoSuggerimento.isBlank() || !testoSuggerimento.contains("\"${X}\"")) {
+		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${X}")) {
 			throw TestoSuggeriMemtoErratoException.testoSuggerimentoSbagliatoErrato(testoSuggerimento);
 		}
 

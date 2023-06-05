@@ -2,7 +2,7 @@ package it.academy.gaming.milionario.manager.grafics.screens;
 
 import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
 import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
-import it.academy.gaming.milionario.core.views.RangeConoscenzaView;
+import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.OpzioniNonValideException;
 import it.academy.gaming.milionario.manager.grafics.requests.SalvaOpzioniPersonaRequest;
@@ -23,8 +23,8 @@ public class GestioneOpzioniPersonaScreen extends Screen {
 		// TODO
 		OpzioniPersonaView opzioniPersona = controller.getOpzioniPersona();
 		/*
-		 * nel caso della prima chiamata di questo metodo i campi saranno tutti pari a 0
-		 * ossia non impostati
+		 * nel caso della prima chiamata di questo metodo avro le impostazioni di
+		 * default
 		 */
 		int maxConoscenza = opzioniPersona.getMaxConoscenza();
 		int minConoscenza = opzioniPersona.getMinConoscenza();
@@ -53,25 +53,19 @@ public class GestioneOpzioniPersonaScreen extends Screen {
 				percentualeFortuna = modificaPercentualeFortuna();
 				break;
 			case OPZIONE_SALVA:
-				verificaValiditaOpzioni(maxConoscenza, minConoscenza, percentualeFortuna);
 				SalvaOpzioniPersonaRequest request = new SalvaOpzioniPersonaRequest(maxConoscenza, minConoscenza,
 						percentualeFortuna);
 				controller.salvaOpzioniPersona(request);
 				break;
 			case OPZIONE_ESCI_DALLE_MODIFICHE:
-				/*
-				 * per quando chiamo questo metodo devo fare un controllo perche la prima volta
-				 * quando vengono inseriti i dati perche' non devo permettere che rimangano non
-				 * valorizzati
-				 */
-				verificaValiditaOpzioni(maxConoscenza, minConoscenza, percentualeFortuna);
+
 				controller.showMenuScreen();
 
 				break;
 			default:
 				throw new IllegalArgumentException("Opzione non valida");
 			}
-		} catch (OpzioniNonValideException e) {
+		} catch (Exception e) {
 			mostraInfo(e.getMessage());
 			show();
 		}
@@ -83,43 +77,60 @@ public class GestioneOpzioniPersonaScreen extends Screen {
 		mostraInfo("Limite di percentuale minima= " + percentualeFortunaView.getMinimoPercentuale());
 		mostraInfo("Limite di percentuale massima= " + percentualeFortunaView.getMassimoPercentuale());
 		mostraInfo("Inserisci il valore della percentuale di fortuna");
-		int minimoConoscenza = scanner.nextInt();
-		return minimoConoscenza;
+
+		int percentualeFortuna = scanner.nextInt();
+		scanner.nextLine();
+		try {
+			if (percentualeFortuna < percentualeFortunaView.getMinimoPercentuale()
+					|| percentualeFortuna > percentualeFortunaView.getMassimoPercentuale()) {
+				throw OpzioniNonValideException.percentualeFortunaNonValida();
+			}
+		} catch (OpzioniNonValideException e) {
+			mostraInfo(e.getMessage());
+			return modificaPercentualeFortuna();
+		}
+
+		return percentualeFortuna;
 	}
 
 	private int modificaMinimaConoscenza() {
-		RangeConoscenzaView rangeConoscenza = controller.getRangeConoscenza();
+		RangeCulturaGeneraleView rangeConoscenza = controller.getRangeCulturaGenerale();
 		mostraInfo("Limite di minima conoscenza= " + rangeConoscenza.getMinimoConoscenza());
 		mostraInfo("Inserisci il minimo della conoscenza");
-		int minimoConoscenza = scanner.nextInt();
+		int minimaConoscenza = scanner.nextInt();
+		scanner.nextLine();
 
-		return minimoConoscenza;
+		try {
+			if (minimaConoscenza < rangeConoscenza.getMinimoConoscenza()
+					|| minimaConoscenza >= rangeConoscenza.getMassimoConoscenza()) {
+				throw OpzioniNonValideException.conoscenzaMinimaNonValida();
+			}
+		} catch (OpzioniNonValideException e) {
+			mostraInfo(e.getMessage());
+			return modificaMinimaConoscenza();
+		}
+
+		return minimaConoscenza;
 	}
 
 	private int modificaMassimaConoscenza() {
-		RangeConoscenzaView rangeConoscenza = controller.getRangeConoscenza();
+		RangeCulturaGeneraleView rangeConoscenza = controller.getRangeCulturaGenerale();
 		mostraInfo("Limite di massima conoscenza= " + rangeConoscenza.getMassimoConoscenza());
 		mostraInfo("Inserisci il massimo della conoscenza");
 		int massimaConoscenza = scanner.nextInt();
+		scanner.nextLine();
+
+		try {
+			if (massimaConoscenza > rangeConoscenza.getMassimoConoscenza()
+					|| massimaConoscenza <= rangeConoscenza.getMinimoConoscenza()) {
+				throw OpzioniNonValideException.conoscenzaMassimaNonValida();
+			}
+
+		} catch (OpzioniNonValideException e) {
+			mostraInfo(e.getMessage());
+			return modificaMassimaConoscenza();
+		}
 		return massimaConoscenza;
-	}
-
-	private void verificaValiditaOpzioni(int massimaConoscenza, int minimaConoscenza, int percentualeFortuna)
-			throws OpzioniNonValideException {
-		RangeConoscenzaView rangeConoscenza = controller.getRangeConoscenza();
-		PercentualeFortunaView percentualeFortunaView = controller.getPercentualeFortuna();
-
-		if (minimaConoscenza < rangeConoscenza.getMinimoConoscenza() || minimaConoscenza >= massimaConoscenza) {
-			throw OpzioniNonValideException.conoscenzaMinimaNonValida();
-		}
-		if (massimaConoscenza > rangeConoscenza.getMassimoConoscenza() || massimaConoscenza <= minimaConoscenza) {
-			throw OpzioniNonValideException.conoscenzaMassimaNonValida();
-		}
-		if (percentualeFortuna < percentualeFortunaView.getMinimoPercentuale()
-				|| percentualeFortuna > percentualeFortunaView.getMassimoPercentuale()) {
-			throw OpzioniNonValideException.percentualeFortunaNonValida();
-		}
-
 	}
 
 }

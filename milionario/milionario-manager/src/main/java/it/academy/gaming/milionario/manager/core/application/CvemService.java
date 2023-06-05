@@ -9,16 +9,22 @@ import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
+import it.academy.gaming.milionario.core.domain.PercentualeFortuna;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
+import it.academy.gaming.milionario.core.domain.RangeCulturaGenerale;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
+import it.academy.gaming.milionario.core.domain.exceptions.CulturaGeneraleNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
@@ -26,7 +32,7 @@ import it.academy.gaming.milionario.core.views.InformazioniView;
 import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
 import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.RangeConoscenzaView;
+import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -74,11 +80,12 @@ public class CvemService {
 	 * @throws TestoRispostaAssenteException
 	 * @throws NumeroMassimoRisposteSuperatoException
 	 * @throws DifficoltaNonInRangeException
-	 * @throws SuggerimentiInvalidiException 
+	 * @throws SuggerimentiInvalidiException
+	 * @throws SuggerimentoInvalidoException
 	 */
-	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand)
-			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
-			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
+	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand) throws CreazioneQuesitoException,
+			CreazioneDomandaException, TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException,
+			DifficoltaNonInRangeException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
 		QuesitoBuilder builder = Quesito.builder();
 		/*
 		 * devo creare tutti gli oggetti fare tutti i set e poi chiamo il build()
@@ -95,17 +102,17 @@ public class CvemService {
 
 			builder.aggiungiRisposta(risposta);
 		}
-		
+
 		/*
 		 * creo e aggiungo i suggerimenti
 		 */
 		for (InserisciSuggerimentoCommand suggerimentoCommand : inserisciQuesitoCommand.getSuggerimentoCommands()) {
 
-			//SuggerimentoDaCasa suggerimento = SuggerimentoDaCasa.crea(suggerimentoCommand.getTestoSuggerimento(),suggerimentoCommand.getTempoMinimo(), suggerimentoCommand.getAccuratezza());
-
+			Suggerimento suggerimento = Suggerimento.crea(suggerimentoCommand.getTestoSuggerimento(),
+					suggerimentoCommand.getTempoMinimo(), suggerimentoCommand.getAccuratezza());
+			builder.aggiungiSuggerimento(suggerimento);
 		}
-		
-		
+
 		Difficolta difficolta = new Difficolta(inserisciQuesitoCommand.getLivelloDifficolta());
 		builder.setDifficolta(difficolta);
 		Quesito quesito = builder.build();
@@ -242,28 +249,39 @@ public class CvemService {
 	}
 
 	public int getTempoMassimoPerSuggerimento() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Suggerimento.getTempoMax();
 	}
 
 	public OpzioniPersonaView getOpzioniPersona() {
-		// TODO Auto-generated method stub
-		return null;
+		/*
+		 * dal file properties
+		 */
+		RangeCulturaGenerale culturaGenerale = opzioniPersonaRepository.getRangeCulturaGenerale();
+		PercentualeFortuna percentuale = opzioniPersonaRepository.getPercentualeFortuna();
+
+		return new OpzioniPersonaView(culturaGenerale.getMax(), culturaGenerale.getMin(),
+				percentuale.getPercentualeFortuna());
 	}
 
-	public RangeConoscenzaView getRangeConoscenza() {
-		// TODO Auto-generated method stub
-		return null;
+	public RangeCulturaGeneraleView getRangeCulturaGenerale() {
+		RangeCulturaGeneraleView rangeCulturaGenerale = new RangeCulturaGeneraleView(
+				RangeCulturaGenerale.getLIMITE_MINIMA_CONOSCENZA(),
+				RangeCulturaGenerale.getLIMITE_MASSIMA_CONOSCENZA());
+		return rangeCulturaGenerale;
 	}
 
 	public PercentualeFortunaView getPercentualeFortuna() {
-		// TODO Auto-generated method stub
-		return null;
+		PercentualeFortunaView percentualeFortunaView = new PercentualeFortunaView(
+				PercentualeFortuna.getLIMITE_DI_FORTUNA_MINIMO(), PercentualeFortuna.getLIMITE_DI_FORTUNA_MASSIMO());
+		return percentualeFortunaView;
 	}
 
-	public void salvaOpzioniPersona(SalvaOpzioniPersonaCommand command) {
-		// TODO Auto-generated method stub
-		
+	public void salvaOpzioniPersona(SalvaOpzioniPersonaCommand command)
+			throws CulturaGeneraleNonInRangeException, PercentualeFortunaNonInRangeException {
+		RangeCulturaGenerale culturaGenerale = new RangeCulturaGenerale(command.getMinConoscenza(),
+				command.getMaxConoscenza());
+		PercentualeFortuna percentuale = new PercentualeFortuna(command.getPercentualeFortuna());
+		opzioniPersonaRepository.setOpzioni(culturaGenerale, percentuale);
 	}
 
 }

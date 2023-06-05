@@ -40,7 +40,6 @@ public class Quesito {
 		this.valore = Valore.calcola(difficolta);
 	}
 
-
 	public Suggerimento getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
 		List<Suggerimento> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
 		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
@@ -115,6 +114,12 @@ public class Quesito {
 		 * @throws CreazioneQuesitoException
 		 * @throws SuggerimentiInvalidiException
 		 */
+		public Quesito build(CodiceQuesito codice) throws CreazioneQuesitoException, SuggerimentiInvalidiException {
+			Quesito quesito = build();
+			quesito.codice = codice;
+			return quesito;
+		}
+
 		public Quesito build() throws CreazioneQuesitoException, SuggerimentiInvalidiException {
 			if (domanda == null) {
 				throw CreazioneQuesitoException.testoAssente();

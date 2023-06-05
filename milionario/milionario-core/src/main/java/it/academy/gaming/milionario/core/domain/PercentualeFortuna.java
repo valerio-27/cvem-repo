@@ -3,13 +3,14 @@ package it.academy.gaming.milionario.core.domain;
 import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNonInRangeException;
 
 public class PercentualeFortuna {
-
+	private static int LIMITE_DI_FORTUNA_MINIMO = 20;
+	private static int LIMITE_DI_FORTUNA_MASSIMO = 50;
 	private int percentualeFortuna;
 
 	public PercentualeFortuna(int percentualeFortuna) throws PercentualeFortunaNonInRangeException {
 		super();
 
-		if (percentualeFortuna < 20 || percentualeFortuna > 50) {
+		if (percentualeFortuna < LIMITE_DI_FORTUNA_MINIMO || percentualeFortuna > LIMITE_DI_FORTUNA_MASSIMO) {
 
 			throw new PercentualeFortunaNonInRangeException();
 
@@ -20,6 +21,14 @@ public class PercentualeFortuna {
 
 	public int getPercentualeFortuna() {
 		return percentualeFortuna;
+	}
+
+	public static int getLIMITE_DI_FORTUNA_MINIMO() {
+		return LIMITE_DI_FORTUNA_MINIMO;
+	}
+
+	public static int getLIMITE_DI_FORTUNA_MASSIMO() {
+		return LIMITE_DI_FORTUNA_MASSIMO;
 	}
 
 }

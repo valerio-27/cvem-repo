@@ -1,9 +1,11 @@
 package it.academy.gaming.milionario.manager.core_impl.exceptions;
 
+import java.sql.SQLException;
+
 public class DbQuesitoException extends RuntimeException {
 
-	public DbQuesitoException() {
-		super("Errore nel DB");
+	public DbQuesitoException(SQLException e) {
+		super("Errore nel DB " + e.getMessage());
 	}
 
 }
