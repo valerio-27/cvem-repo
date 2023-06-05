@@ -15,13 +15,14 @@ import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNon
 import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 
 public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
-	private OutputStream output;
 	private Properties properties;
+	private String pathDir;
 
 	public OpzioniPersonaRepositoryImpl(String pathDir) throws FileNotFoundException {
 		super();
-		this.output = new FileOutputStream(new File(pathDir));
 		this.properties = new Properties();
+		this.pathDir = pathDir;
+		loadProperties(pathDir);
 	}
 
 	private void loadProperties(String pathDir) {
@@ -68,7 +69,9 @@ public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 		properties.setProperty("percentuale_fortuna", String.valueOf(percentualeFortuna.getPercentualeFortuna()));
 
 		try {
+			FileOutputStream output = new FileOutputStream(new File(pathDir), true); // Aggiunge i dati al file
 			properties.store(output, "Opzioni Persona");
+			output.close(); // Chiude lo stream dopo l'utilizzo
 		} catch (IOException e) {
 		}
 
@@ -78,8 +81,11 @@ public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 //		try {
 //			OpzioniPersonaRepository opzioniPersonaRepository = new OpzioniPersonaRepositoryImpl(
 //					"C:/Users/aniso/milionario_opzioni_persona.properties");
-//			opzioniPersonaRepository.setOpzioni(new RangeCulturaGenerale(30, 70), new PercentualeFortuna(25));
-//		} catch (FileNotFoundException | CulturaGeneraleNonInRangeException | PercentualeFortunaNonInRangeException e) {
+////			 opzioniPersonaRepository.setOpzioni(new RangeCulturaGenerale(30, 70), new
+////			 PercentualeFortuna(25));
+//			System.out.println(opzioniPersonaRepository.getRangeCulturaGenerale().toString());
+//			System.out.println(opzioniPersonaRepository.getPercentualeFortuna().toString());
+//		} catch (FileNotFoundException  e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
