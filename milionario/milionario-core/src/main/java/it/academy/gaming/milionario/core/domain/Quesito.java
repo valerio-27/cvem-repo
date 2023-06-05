@@ -167,6 +167,7 @@ public class Quesito {
 	public Valore getValore() {
 		return valore;
 	}
+	
 
 	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
 		int risposteCorrettePresenti = 0;

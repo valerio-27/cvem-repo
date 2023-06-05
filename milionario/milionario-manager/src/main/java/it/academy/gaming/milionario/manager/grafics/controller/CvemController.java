@@ -12,7 +12,10 @@ import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposte
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
+import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
+import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.core.views.RangeConoscenzaView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -23,6 +26,7 @@ import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaComm
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
+import it.academy.gaming.milionario.manager.core.commands.SalvaOpzioniPersonaCommand;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
 import it.academy.gaming.milionario.manager.core.queries.RicercaQuesitoPerCategoriaQuery;
@@ -38,10 +42,16 @@ import it.academy.gaming.milionario.manager.grafics.requests.ModificaRisposteReq
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RicercaQuesitoPerCategoriaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RicercaQuesitoPerDifficoltaRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.SalvaOpzioniPersonaRequest;
 import it.academy.gaming.milionario.manager.grafics.screens.CancellazioneQuesitoScreen;
+import it.academy.gaming.milionario.manager.grafics.screens.GestioneOpzioniPersonaScreen;
 import it.academy.gaming.milionario.manager.grafics.screens.InserimentoQuesitoScreen;
 import it.academy.gaming.milionario.manager.grafics.screens.MenuScreen;
+import it.academy.gaming.milionario.manager.grafics.screens.ModificaDifficoltaScreen;
+import it.academy.gaming.milionario.manager.grafics.screens.ModificaDomandaScreen;
 import it.academy.gaming.milionario.manager.grafics.screens.ModificaQuesitoScreen;
+import it.academy.gaming.milionario.manager.grafics.screens.ModificaRisposteScreen;
+import it.academy.gaming.milionario.manager.grafics.screens.ModificaSuggerimentiScreen;
 import it.academy.gaming.milionario.manager.grafics.screens.RicercaQuesitoScreen;
 import it.academy.gaming.milionario.manager.grafics.screens.RisultatoRicercaScreen;
 
@@ -53,6 +63,11 @@ public class CvemController {
 	private CancellazioneQuesitoScreen cancellazioneQuesitoScreen = new CancellazioneQuesitoScreen(this);
 	private RicercaQuesitoScreen ricercaQuesitoScreen = new RicercaQuesitoScreen(this);
 	private RisultatoRicercaScreen risultatoRicercaScreen = new RisultatoRicercaScreen(this);
+	private ModificaDomandaScreen modificaDomandaScreen = new ModificaDomandaScreen(this);
+	private ModificaSuggerimentiScreen modificaSuggerimentiScreen=new ModificaSuggerimentiScreen(this);
+	private ModificaDifficoltaScreen modificaDifficoltaScreen=new ModificaDifficoltaScreen(this);
+	private ModificaRisposteScreen modificaRisposteScreen=new ModificaRisposteScreen(this);
+	private GestioneOpzioniPersonaScreen gestioneOpzioniPersonaScreen=new GestioneOpzioniPersonaScreen(this);
 
 	public CvemController(CvemService service) {
 		super();
@@ -91,8 +106,9 @@ public class CvemController {
 		return service.getMaxDiDifficolta();
 	}
 
-	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException,
-			TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
+	public void inserisci(InserisciQuesitoRequest request)
+			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
+			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
 		/*
 		 * request domanda to command
 		 */
@@ -132,37 +148,36 @@ public class CvemController {
 
 	public void cercaPerDifficolta(RicercaQuesitoPerDifficoltaRequest requestPerDifficolta)
 			throws DifficoltaNonInRangeException {
-		RicercaQuesitoPerDifficoltaQuery command = new RicercaQuesitoPerDifficoltaQuery(
+		RicercaQuesitoPerDifficoltaQuery query = new RicercaQuesitoPerDifficoltaQuery(
 				requestPerDifficolta.getLivelloDifficolta());
 
-		List<QuesitoView> quesitiView = service.cercaPerLivelloDifficolta(command);
+		List<QuesitoView> quesitiView = service.cercaPerLivelloDifficolta(query);
 		risultatoRicercaScreen.show(quesitiView);
 
 	}
 
 	public void cercaPerCategoria(RicercaQuesitoPerCategoriaRequest requestPerCategoria) {
-		RicercaQuesitoPerCategoriaQuery command = new RicercaQuesitoPerCategoriaQuery(
+		RicercaQuesitoPerCategoriaQuery query = new RicercaQuesitoPerCategoriaQuery(
 				requestPerCategoria.getCategoriaRicercata());
 
-		List<QuesitoView> quesitiView = service.cercaPerCategoria(command);
+		List<QuesitoView> quesitiView = service.cercaPerCategoria(query);
 		risultatoRicercaScreen.show(quesitiView);
 	}
 
 	public QuesitoView getQuesitoPerRichiestaModifica(RecuperaQuesitoRequest recuperaQuesitoRequest)
 			throws QuesitoNonTrovatoException, CodiceInvalidoException {
-		RecuperaQuesitoQuery command = new RecuperaQuesitoQuery(recuperaQuesitoRequest.getCodiceQuesitoRicercato());
-		return service.getQuesitoPerRichiestaModifica(command);
+		RecuperaQuesitoQuery query = new RecuperaQuesitoQuery(recuperaQuesitoRequest.getCodiceQuesitoRicercato());
+		return service.getQuesitoPerRichiestaModifica(query);
 	}
 
-	public QuesitoView modificaDifficolta(ModificaDifficoltaRequest request)
+	public void modificaDifficolta(ModificaDifficoltaRequest request)
 			throws QuesitoNonTrovatoException, DifficoltaNonInRangeException, CodiceInvalidoException {
 		ModificaDifficoltaCommand command = new ModificaDifficoltaCommand(request.getTestoQuesito(),
 				request.getLivelloDifficolta());
-		QuesitoView quesitoModificato = service.modificaDifficolta(command);
-		return quesitoModificato;
+		service.modificaDifficolta(command);
 	}
 
-	public QuesitoView modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException,
+	public void modificaRisposte(ModificaRisposteRequest request) throws QuesitoNonTrovatoException,
 			RisposteInvalideException, TestoRispostaAssenteException, CodiceInvalidoException {
 		List<ModificaRispostaCommand> risposteCommand = new ArrayList<>();
 		for (ModificaRispostaRequest rispostaRequest : request.getNuoveRisposte()) {
@@ -171,21 +186,66 @@ public class CvemController {
 
 		ModificaRisposteCommand command = new ModificaRisposteCommand(risposteCommand, request.getCodiceQuesito());
 
-		return service.modificaRisposte(command);
+		service.modificaRisposte(command);
 	}
 
-	public QuesitoView modificaDomanda(ModificaDomandaRequest request)
+	public void modificaDomanda(ModificaDomandaRequest request)
 			throws QuesitoNonTrovatoException, CreazioneDomandaException, CodiceInvalidoException {
 
 		ModificaDomandaCommand command = new ModificaDomandaCommand(request.getCodiceQuesito(),
 				request.getTestoDomanda(), request.getCategoria(), request.getUrlImmagine(),
 				request.getUrlDocumentazione());
-		return service.modificaDomanda(command);
+		service.modificaDomanda(command);
 	}
 
 	public int getTempoMaxPerSuggerimento() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return service.getTempoMassimoPerSuggerimento();
+	}
+
+	public void modificaDomanda() {
+		modificaDomandaScreen.show();
+
+	}
+
+	public void modificaRisposte() {
+		modificaRisposteScreen.show();
+
+	}
+
+	public void modificaDifficolta() {
+		modificaDifficoltaScreen.show();
+
+	}
+
+	public void modificaSuggerimenti() {
+		modificaSuggerimentiScreen.show();
+
+	}
+
+	public void showInserisciOpzioniPersonaScreen() {
+		gestioneOpzioniPersonaScreen.show();
+
+	}
+
+	public OpzioniPersonaView getOpzioniPersona() {
+
+		return service.getOpzioniPersona();
+	}
+
+	public RangeConoscenzaView getRangeConoscenza() {
+		return service.getRangeConoscenza();
+	}
+
+	public PercentualeFortunaView getPercentualeFortuna() {
+		return service.getPercentualeFortuna();
+	}
+
+	public void salvaOpzioniPersona(SalvaOpzioniPersonaRequest request) {
+		SalvaOpzioniPersonaCommand command = new SalvaOpzioniPersonaCommand(request.getMaxConoscenza(),
+				request.getMinConoscenza(), request.getPercentualeFortuna());
+		service.salvaOpzioniPersona(command);
+
 	}
 
 }

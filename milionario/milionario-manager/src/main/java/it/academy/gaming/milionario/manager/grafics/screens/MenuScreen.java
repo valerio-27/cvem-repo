@@ -7,6 +7,7 @@ public class MenuScreen extends Screen {
 	private static final String OPZIONE_MODIFICA_QUESITO = "M";
 	private static final String OPZIONE_CANCELLA_QUESITO = "C";
 	private static final String OPZIONE_RICERCA_QUESITO = "R";
+	private static final String OPZIONE_INSERISCI_OPZIONI_PERSONA= "O";
 	private static final String OPZIONE_USCITA = "U";
 
 	public MenuScreen(CvemController controller) {
@@ -20,6 +21,7 @@ public class MenuScreen extends Screen {
 		mostraInfo("M)odifica quesito");
 		mostraInfo("C)ancella quesito");
 		mostraInfo("R)icerca");
+		mostraInfo("O)pzioni persona");
 		mostraInfo("U)scita");
 		String scelta = scanner.next();
 		try {
@@ -35,6 +37,9 @@ public class MenuScreen extends Screen {
 				break;
 			case OPZIONE_RICERCA_QUESITO:
 				controller.showRicercaQuesitoScreen();
+				break;
+			case OPZIONE_INSERISCI_OPZIONI_PERSONA:
+				controller.showInserisciOpzioniPersonaScreen();
 				break;
 			case OPZIONE_USCITA:
 				System.exit(0);

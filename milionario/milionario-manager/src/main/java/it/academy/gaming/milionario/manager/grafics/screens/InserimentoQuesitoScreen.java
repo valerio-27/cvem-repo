@@ -43,10 +43,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			risposte.add(acquisisciDatiRelativiAllaRisposta(i));
 
 		}
-
-		int livelloDiDifficolta = acquisisciDatoRelativoLaDifficolta(controller.getMinimoDiDifficolta(),
-				controller.getMassimoDiDifficolta());
-
 		List<InserisciRispostaRequest> rispostaRequests = new ArrayList<>();
 		for (InputRisposta risposta : risposte) {
 			InserisciRispostaRequest rispostaRequest = new InserisciRispostaRequest(risposta.getTesto(),
@@ -61,6 +57,10 @@ public class InserimentoQuesitoScreen extends Screen {
 		for (InputSuggerimento inputSuggerimento : suggerimenti) {
 			requestsSuggerimenti.add(new InserisciSuggerimentoRequest(inputSuggerimento));
 		}
+
+		int livelloDiDifficolta = acquisisciDatoRelativoLaDifficolta(controller.getMinimoDiDifficolta(),
+				controller.getMassimoDiDifficolta());
+
 		/*
 		 * creo le request
 		 */
@@ -74,7 +74,8 @@ public class InserimentoQuesitoScreen extends Screen {
 		try {
 			controller.inserisci(request);
 		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException
-				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException | SuggerimentiInvalidiException e) {
+				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException
+				| SuggerimentiInvalidiException e) {
 			mostraInfo(e.getMessage());
 			show();
 		}
