@@ -7,22 +7,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.core.domain.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.Suggerimento;
+import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
-
 
 /**
  * finisce Matteo
+ * 
  * @author Valerio.Crispini
  *
  */
@@ -33,7 +39,8 @@ public class QuesitoReader {
 	public void leggiQuesiti(File cartellaQuesiti)
 			throws it.academy.gaming.milionario.core.implementation.file.CartellaNonValidaException, IOException,
 			CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
-			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException {
+			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException, SuggerimentiInvalidiException,
+			SuggerimentoInvalidoException, CodiceInvalidoException {
 
 		if (!cartellaQuesiti.exists() || !cartellaQuesiti.isDirectory()) {
 
@@ -75,7 +82,8 @@ public class QuesitoReader {
 
 	private Quesito parseQuesito(String[] componentiQuesito)
 			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
-			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException {
+			CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException, SuggerimentiInvalidiException,
+			SuggerimentoInvalidoException, CodiceInvalidoException {
 
 		Domanda domanda = null;
 		List<Risposta> risposte = new ArrayList<Risposta>();
@@ -84,20 +92,15 @@ public class QuesitoReader {
 		String urlImmagine = null;
 		String urlDocumentazione = null;
 
-		if (componentiQuesito.length == 5) {
-
+		if (componentiQuesito.length == 6) {
 			String[] jsonInformazione = componentiQuesito[4].split("=");
-
 			if (jsonInformazione[0].contains("Immagine")) {
-
 				urlImmagine = jsonInformazione[1];
-
 			} else if (jsonInformazione[0].contains("Documentazione")) {
-
 				urlDocumentazione = jsonInformazione[1];
 			}
 
-		} else if (componentiQuesito.length == 6) {
+		} else if (componentiQuesito.length == 7) {
 			String[] jsonImmagineUrl = componentiQuesito[4].split("=");
 			String[] jsonDocumentazioneUrl = componentiQuesito[4].split("=");
 			urlImmagine = jsonImmagineUrl[1];
@@ -106,21 +109,13 @@ public class QuesitoReader {
 		}
 
 		String categoriaString = componentiQuesito[0].split("=")[1];
-
 		Categoria categoria = Categoria.valueOf(categoriaString.toUpperCase().trim());
-
 		String domandaString = componentiQuesito[1].split("=")[1];
-
 		String risposteString = componentiQuesito[2].split("=")[1];
-
-		int difficoltaInt = Integer.valueOf(componentiQuesito[3].split("=")[1].substring(1, 2));
-
+		int difficoltaInt = Integer.valueOf(componentiQuesito[3].split("=")[1].substring(0, 1));
 		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(urlImmagine, urlDocumentazione);
-
 		domanda = new Domanda(domandaString, categoria, informazioniDomanda);
-
 		builder.setDomanda(domanda);
-
 		risposte = parseRisposte(risposteString);
 
 		for (Risposta risposta : risposte) {
@@ -129,8 +124,16 @@ public class QuesitoReader {
 
 		}
 		difficolta = new Difficolta(difficoltaInt);
-
 		builder.setDifficolta(difficolta);
+
+		String suggerimentiString = componentiQuesito[componentiQuesito.length - 1];
+
+		String[] arraySuggerimenti = suggerimentiString.split(";");
+
+		for (String suggerimentoString : arraySuggerimenti) {
+			Suggerimento suggerimento = parseSuggerimento(suggerimentoString);
+			builder.aggiungiSuggerimento(suggerimento);
+		}
 
 		return builder.build();
 	}
@@ -165,8 +168,38 @@ public class QuesitoReader {
 
 	}
 
+	private Suggerimento parseSuggerimento(String suggerimentoString)
+			throws SuggerimentoInvalidoException, CodiceInvalidoException {
+
+		String[] arraySuggerimento = suggerimentoString.split(",");
+		String testo = arraySuggerimento[1];
+		int tempo = Integer.valueOf(arraySuggerimento[2].substring(0, 1));
+		Accuratezza accuratezza = Accuratezza.parse(arraySuggerimento[3].trim());
+
+		Suggerimento suggerimento = Suggerimento.crea(testo, tempo, accuratezza);
+		return suggerimento;
+
+	}
+
 	public List<Quesito> getQuesiti() {
 		return quesiti;
+	}
+
+	public static void main(String[] args)
+			throws CartellaNonValidaException, IOException, CreazioneDomandaException, TestoRispostaAssenteException,
+			DifficoltaNonInRangeException, CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException,
+			SuggerimentiInvalidiException, SuggerimentoInvalidoException, CodiceInvalidoException {
+
+		File file = new File("C:/ChiVuolEssereMilionarioQuesiti");
+
+		QuesitoReader reader = new QuesitoReader();
+
+		reader.leggiQuesiti(file);
+
+		reader.getQuesiti();
+
+		System.out.println();
+
 	}
 
 }

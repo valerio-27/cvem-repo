@@ -42,4 +42,22 @@ public class Domanda {
 		return informazione;
 	}
 
+	public boolean hasUrlImmagine() {
+
+		if (informazione.getUrlImmagine() != null) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean hasUrlDocumentazione() {
+
+		if (informazione.getUrlDocumentazione() != null) {
+
+			return true;
+		}
+		return false;
+	}
+
 }
