@@ -9,8 +9,10 @@ public interface OpzioniPersonaRepository {
 	 * int=min conoscenza int=max conoscenza int=percentuale fortuna
 	 */
 
-	public void setRangeCulturaGenerale(RangeCulturaGenerale range);
+	public void setOpzioni(RangeCulturaGenerale range,PercentualeFortuna percentualeFortuna);
 
-	public void setPercentualeFortuna(PercentualeFortuna percentualeFortuna);
+	public RangeCulturaGenerale getRangeCulturaGenerale();
+
+	public PercentualeFortuna getPercentualeFortuna();
 
 }

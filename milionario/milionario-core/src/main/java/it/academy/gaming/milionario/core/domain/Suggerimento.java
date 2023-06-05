@@ -10,7 +10,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoE
 public class Suggerimento {
 
 	private static Random random = new Random();
-	
+
 	private CodiceSuggerimento codice;
 	private String testo;
 	private int tempoMinimo;
@@ -22,15 +22,15 @@ public class Suggerimento {
 	private static String bookmarkRispostaCorretta = "${Y}";
 	private static String bookmarkRispostaSbagliata = "${X}";
 
-	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza,CodiceSuggerimento codice) {
+	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza, CodiceSuggerimento codice) {
 		this.testo = testo;
 		this.tempoMinimo = tempoMinimo;
 		this.accuratezza = accuratezza;
-		this.codice=codice;
+		this.codice = codice;
 	}
-	
-	
-	public static Suggerimento parse(CodiceSuggerimento codiceSuggerimento ,String testo, int tempoMinimo, Accuratezza accuratezza) {
+
+	public static Suggerimento parse(CodiceSuggerimento codiceSuggerimento, String testo, int tempoMinimo,
+			Accuratezza accuratezza) {
 		return new Suggerimento(testo, tempoMinimo, accuratezza, codiceSuggerimento);
 	}
 
@@ -70,7 +70,7 @@ public class Suggerimento {
 			}
 			break;
 		}
-		return new Suggerimento(testo, tempoMinimo, accuratezza,CodiceSuggerimento.crea());
+		return new Suggerimento(testo, tempoMinimo, accuratezza, CodiceSuggerimento.crea());
 	}
 
 //	public SuggerimentoDaCasa(String testo, int tempoMinimo, Accuratezza accuratezza)
@@ -103,8 +103,11 @@ public class Suggerimento {
 		return accuratezza;
 	}
 
-	public void valorizzaBookmarks(Giocatore giocatore, Collection<Risposta> risposteDisponibili) {
+	public static int getTempoMax() {
+		return TEMPO_MASSIMO;
+	}
 
+	public void valorizzaBookmarks(Giocatore giocatore, Collection<Risposta> risposteDisponibili) {
 
 		String testoRispostaCorretta = getTestoRispostaCorretta(risposteDisponibili);
 		String testoRispostaSbagliata = getTestoRispostaSbagliata(risposteDisponibili);
@@ -113,9 +116,9 @@ public class Suggerimento {
 		testo = testo.replaceAll(bookmarkRispostaCorretta, testoRispostaCorretta);
 
 		testo = testo.replace(bookmarkRispostaSbagliata, testoRispostaSbagliata);
-		
+
 		generaTempoEsposizione();
-		
+
 	}
 
 	private String getTestoRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
@@ -151,7 +154,5 @@ public class Suggerimento {
 	public CodiceSuggerimento getCodice() {
 		return codice;
 	}
-	
-	
 
 }

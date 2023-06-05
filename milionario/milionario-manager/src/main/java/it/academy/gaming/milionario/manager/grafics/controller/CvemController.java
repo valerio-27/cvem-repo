@@ -7,15 +7,17 @@ import java.util.List;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
+import it.academy.gaming.milionario.core.domain.exceptions.CulturaGeneraleNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
+import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
 import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.RangeConoscenzaView;
+import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -233,15 +235,15 @@ public class CvemController {
 		return service.getOpzioniPersona();
 	}
 
-	public RangeConoscenzaView getRangeConoscenza() {
-		return service.getRangeConoscenza();
+	public RangeCulturaGeneraleView getRangeCulturaGenerale() {
+		return service.getRangeCulturaGenerale();
 	}
 
 	public PercentualeFortunaView getPercentualeFortuna() {
 		return service.getPercentualeFortuna();
 	}
 
-	public void salvaOpzioniPersona(SalvaOpzioniPersonaRequest request) {
+	public void salvaOpzioniPersona(SalvaOpzioniPersonaRequest request) throws CulturaGeneraleNonInRangeException, PercentualeFortunaNonInRangeException {
 		SalvaOpzioniPersonaCommand command = new SalvaOpzioniPersonaCommand(request.getMaxConoscenza(),
 				request.getMinConoscenza(), request.getPercentualeFortuna());
 		service.salvaOpzioniPersona(command);
