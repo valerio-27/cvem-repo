@@ -34,6 +34,7 @@ import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
 import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.core.views.RispostaView;
+import it.academy.gaming.milionario.core.views.SuggerimentoView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
@@ -43,6 +44,8 @@ import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaComm
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaSuggerimentiCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaSuggerimentoCommand;
 import it.academy.gaming.milionario.manager.core.commands.SalvaOpzioniPersonaCommand;
 import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
@@ -235,7 +238,13 @@ public class CvemService {
 		/*
 		 * implementazione
 		 */
-		return new QuesitoView(domandaView, risposteView, difficoltaView, codice);
+		List<SuggerimentoView> suggerimentoView = new ArrayList<>();
+		for (Suggerimento suggerimento : quesito.getSuggerimenti()) {
+			suggerimentoView.add(new SuggerimentoView(suggerimento.getTesto(), suggerimento.getAccuratezza(),
+					suggerimento.getTempoEsposizione()));
+		}
+
+		return new QuesitoView(domandaView, risposteView, suggerimentoView, difficoltaView, codice);
 	}
 
 	private Quesito verificaEsistenzaQuesito(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
@@ -282,6 +291,17 @@ public class CvemService {
 				command.getMaxConoscenza());
 		PercentualeFortuna percentuale = new PercentualeFortuna(command.getPercentualeFortuna());
 		opzioniPersonaRepository.setOpzioni(culturaGenerale, percentuale);
+	}
+
+	public void modificaSuggerimenti(ModificaSuggerimentiCommand command)
+			throws SuggerimentoInvalidoException, CodiceInvalidoException {
+		List<Suggerimento> nuoviSuggerimenti = new ArrayList<>();
+		for (ModificaSuggerimentoCommand modificaCommand : command.getModificaSuggerimentiCommands()) {
+			nuoviSuggerimenti.add(Suggerimento.crea(modificaCommand.getTestoSuggerimento(),
+					modificaCommand.getTempoMinimo(), modificaCommand.getAccuratezza()));
+		}
+		CodiceQuesito codice = CodiceQuesito.parse(command.getCodiceQuesito());
+		quesitoRepository.setSuggerimenti(codice, nuoviSuggerimenti);
 	}
 
 }
