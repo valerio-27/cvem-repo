@@ -239,11 +239,12 @@ public class CvemService {
 		 * implementazione
 		 */
 		List<SuggerimentoView> suggerimentoView = new ArrayList<>();
-//		for (Suggerimento suggerimento : quesito.getSuggerimenti()) {
-//			risposteView.add(new RispostaView(risposta.getTesto(), risposta.isCorretta()));
-//		}
-		
-		return new QuesitoView(domandaView, risposteView,suggerimentoView, difficoltaView, codice);
+		for (Suggerimento suggerimento : quesito.getSuggerimenti()) {
+			suggerimentoView.add(new SuggerimentoView(suggerimento.getTesto(), suggerimento.getAccuratezza(),
+					suggerimento.getTempoEsposizione()));
+		}
+
+		return new QuesitoView(domandaView, risposteView, suggerimentoView, difficoltaView, codice);
 	}
 
 	private Quesito verificaEsistenzaQuesito(CodiceQuesito codiceQuesito) throws QuesitoNonTrovatoException {
