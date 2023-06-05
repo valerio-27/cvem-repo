@@ -40,11 +40,6 @@ public class Quesito {
 		this.valore = Valore.calcola(difficolta);
 	}
 
-	public static Quesito parse(CodiceQuesito codiceQuesito, Domanda domanda, Risposta[] risposte,
-			Difficolta difficolta, Map<Accuratezza, List<Suggerimento>> suggerimentiPerAccuratezza)
-			throws CreazioneQuesitoException {
-		return new Quesito(codiceQuesito, domanda, risposte, difficolta, suggerimentiPerAccuratezza);
-	}
 
 	public Suggerimento getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
 		List<Suggerimento> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);

@@ -28,6 +28,11 @@ public class Suggerimento {
 		this.accuratezza = accuratezza;
 		this.codice=codice;
 	}
+	
+	
+	public static Suggerimento parse(CodiceSuggerimento codiceSuggerimento ,String testo, int tempoMinimo, Accuratezza accuratezza) {
+		return new Suggerimento(testo, tempoMinimo, accuratezza, codiceSuggerimento);
+	}
 
 	public static Suggerimento crea(String testo, int tempoMinimo, Accuratezza accuratezza)
 			throws SuggerimentoInvalidoException {
@@ -142,5 +147,11 @@ public class Suggerimento {
 
 		return output;
 	}
+
+	public CodiceSuggerimento getCodice() {
+		return codice;
+	}
+	
+	
 
 }
