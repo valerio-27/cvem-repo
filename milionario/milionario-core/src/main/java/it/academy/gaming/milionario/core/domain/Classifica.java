@@ -7,4 +7,4 @@ public class Classifica {
 	public Classifica(PartitaGiocataRepository partitaGiocataRepository) {
 		this.partitaGiocataRepository=partitaGiocataRepository;
 	}
-	
+}

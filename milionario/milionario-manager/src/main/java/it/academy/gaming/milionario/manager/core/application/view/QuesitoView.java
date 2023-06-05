@@ -2,6 +2,8 @@ package it.academy.gaming.milionario.manager.core.application.view;
 
 import java.util.List;
 
+import it.academy.gaming.milionario.core.application.views.DomandaView;
+
 public class QuesitoView {
 	private DomandaView domandaView;
 	private List<RispostaView> risposteView;
