@@ -49,6 +49,14 @@ public class Quesito {
 		return new QuesitoBuilder();
 	}
 
+	public List<Suggerimento> getSuggerimenti() {
+		List<Suggerimento> suggerimenti = new ArrayList<>();
+		for (List<Suggerimento> suggerimentiSelezionati : suggerimentiPerAccuratezza.values()) {
+			suggerimenti.addAll(suggerimentiSelezionati);
+		}
+		return suggerimenti;
+	}
+
 	public Map<Accuratezza, List<Suggerimento>> getSuggerimentiPerAccuratezza() {
 		return suggerimentiPerAccuratezza;
 	}
@@ -167,7 +175,6 @@ public class Quesito {
 	public Valore getValore() {
 		return valore;
 	}
-	
 
 	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
 		int risposteCorrettePresenti = 0;
