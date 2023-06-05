@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.core.views;
+package it.academy.gaming.milionario.manager.core.application.view;
 
 public class OpzioniPersonaView {
 	private int maxConoscenza;

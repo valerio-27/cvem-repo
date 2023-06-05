@@ -116,4 +116,10 @@ public class AiutoCasa {
 	public void ripristina() {
 		this.disponibile = true;
 	}
+
+	public boolean isDisponibile() {
+		return disponibile;
+	}
+	
+	
 }

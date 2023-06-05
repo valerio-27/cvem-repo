@@ -41,6 +41,13 @@ public class Quesito {
 		this.valore = Valore.calcola(difficolta);
 	}
 
+	public boolean indovina(LetteraRisposta lettera) {
+		if (getLetteraRispostaCorretta().equals(lettera)) {
+			return true;
+		}
+		return false;
+	}
+
 	public Suggerimento getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
 		List<Suggerimento> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
 		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
@@ -60,6 +67,16 @@ public class Quesito {
 
 	public Map<Accuratezza, List<Suggerimento>> getSuggerimentiPerAccuratezza() {
 		return suggerimentiPerAccuratezza;
+	}
+
+	private LetteraRisposta getLetteraRispostaCorretta() {
+		LetteraRisposta letteraRisposta = null;
+		for (Risposta risposta : risposte) {
+			if (risposta.isCorretta()) {
+				letteraRisposta = risposta.getLettera();
+			}
+		}
+		return letteraRisposta;
 	}
 
 	public static class QuesitoBuilder {
@@ -203,4 +220,5 @@ public class Quesito {
 		}
 		return risposteDisponibili;
 	}
+
 }

@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.core.views;
+package it.academy.gaming.milionario.manager.core.application.view;
 
 import java.util.List;
 

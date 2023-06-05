@@ -1,8 +1,8 @@
 package it.academy.gaming.milionario.manager.grafics.screens;
 
-import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
-import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
-import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
+import it.academy.gaming.milionario.manager.core.application.view.OpzioniPersonaView;
+import it.academy.gaming.milionario.manager.core.application.view.PercentualeFortunaView;
+import it.academy.gaming.milionario.manager.core.application.view.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.OpzioniNonValideException;
 import it.academy.gaming.milionario.manager.grafics.requests.SalvaOpzioniPersonaRequest;

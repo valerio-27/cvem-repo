@@ -30,6 +30,19 @@ public class Aiuti {
 	public Suggerimento usaAiutoCasa(Quesito quesito,Giocatore giocatore) throws AiutoNonDisponibileException {
 		return aiutoCasa.vota(quesito,giocatore);
 	}
+	
+	public boolean isAiutoCasaDisponibile() {
+		return this.aiutoCasa.isDisponibile();
+	}
+	
+	public boolean isAiutoPubblicoDisponibile() {
+		return this.aiutoPubblico.isDisponibile();
+	}
+	
+	public boolean isAiutoComputerDisponibile() {
+		return AiutoComputer.isDisponibile();
+	}
+	
 
 	public void ripristinaAiuti() {
 		AiutoComputer.ripristina();

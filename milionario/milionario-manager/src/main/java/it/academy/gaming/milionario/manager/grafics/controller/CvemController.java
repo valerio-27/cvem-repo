@@ -15,11 +15,11 @@ import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideExcep
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
-import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
-import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
-import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
+import it.academy.gaming.milionario.manager.core.application.view.OpzioniPersonaView;
+import it.academy.gaming.milionario.manager.core.application.view.PercentualeFortunaView;
+import it.academy.gaming.milionario.manager.core.application.view.QuesitoView;
+import it.academy.gaming.milionario.manager.core.application.view.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;

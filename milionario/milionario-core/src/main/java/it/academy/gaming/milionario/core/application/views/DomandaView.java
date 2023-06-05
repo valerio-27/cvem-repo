@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.core.views;
+package it.academy.gaming.milionario.core.application.views;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
 

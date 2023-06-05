@@ -18,6 +18,10 @@ public class Votazione {
 		return new VotazioneBuilder();
 	}
 
+	public PercentualeRisposta[] getPercentualiRisposta() {
+		return percentualiRisposta;
+	}
+
 	public static class VotazioneBuilder {
 		private PercentualeRisposta[] percentualiRisposta = new PercentualeRisposta[4];
 
@@ -43,13 +47,13 @@ public class Votazione {
 			}
 			return this;
 		}
-		
+
 		public Votazione build() throws CreazioneVotazioneException {
 			checkNumeronumeroPercentualiInvalido(percentualiRisposta);
 			checkPercentualeRispostaAssente(percentualiRisposta);
 			checkLettereRisposteIcongruenti(percentualiRisposta);
 			checkSommaPercentualiRisposte(percentualiRisposta);
-			
+
 			return new Votazione(percentualiRisposta);
 		}
 
@@ -109,8 +113,7 @@ public class Votazione {
 
 	@Override
 	public String toString() {
-		return   Arrays.toString(percentualiRisposta);
+		return Arrays.toString(percentualiRisposta);
 	}
-	
-	
+
 }

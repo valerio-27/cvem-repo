@@ -5,8 +5,8 @@ import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
-import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.SuggerimentoView;
+import it.academy.gaming.milionario.manager.core.application.view.QuesitoView;
+import it.academy.gaming.milionario.manager.core.application.view.SuggerimentoView;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.grafics.InputSuggerimento;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
