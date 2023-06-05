@@ -23,7 +23,10 @@ import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteE
 import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
 import it.academy.gaming.milionario.core.views.InformazioniView;
+import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
+import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
 import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.core.views.RangeConoscenzaView;
 import it.academy.gaming.milionario.core.views.RispostaView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
@@ -34,6 +37,7 @@ import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaComm
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
+import it.academy.gaming.milionario.manager.core.commands.SalvaOpzioniPersonaCommand;
 import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
@@ -235,6 +239,31 @@ public class CvemService {
 		throw new QuesitoNonTrovatoException(
 				"Il codice che hai fornito non identifica nessun quesito " + codiceQuesito);
 
+	}
+
+	public int getTempoMassimoPerSuggerimento() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public OpzioniPersonaView getOpzioniPersona() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RangeConoscenzaView getRangeConoscenza() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public PercentualeFortunaView getPercentualeFortuna() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void salvaOpzioniPersona(SalvaOpzioniPersonaCommand command) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
