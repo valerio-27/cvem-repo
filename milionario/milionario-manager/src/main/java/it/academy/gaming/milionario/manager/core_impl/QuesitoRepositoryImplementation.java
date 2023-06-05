@@ -588,4 +588,11 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 			}
 		}
 	}
+
+
+	@Override
+	public void setSuggerimenti(CodiceQuesito codice, List<Suggerimento> nuoviSuggerimenti) {
+		// TODO Auto-generated method stub
+		
+	}
 }
