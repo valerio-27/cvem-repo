@@ -24,6 +24,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposte
 import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.DifficoltaView;
 import it.academy.gaming.milionario.core.views.DomandaView;
@@ -80,10 +81,11 @@ public class CvemService {
 	 * @throws NumeroMassimoRisposteSuperatoException
 	 * @throws DifficoltaNonInRangeException
 	 * @throws SuggerimentiInvalidiException
+	 * @throws SuggerimentoInvalidoException
 	 */
-	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand)
-			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
-			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
+	public void inserisci(InserisciQuesitoCommand inserisciQuesitoCommand) throws CreazioneQuesitoException,
+			CreazioneDomandaException, TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException,
+			DifficoltaNonInRangeException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
 		QuesitoBuilder builder = Quesito.builder();
 		/*
 		 * devo creare tutti gli oggetti fare tutti i set e poi chiamo il build()
@@ -106,10 +108,9 @@ public class CvemService {
 		 */
 		for (InserisciSuggerimentoCommand suggerimentoCommand : inserisciQuesitoCommand.getSuggerimentoCommands()) {
 
-			// SuggerimentoDaCasa suggerimento =
-			// SuggerimentoDaCasa.crea(suggerimentoCommand.getTestoSuggerimento(),suggerimentoCommand.getTempoMinimo(),
-			// suggerimentoCommand.getAccuratezza());
-
+			Suggerimento suggerimento = Suggerimento.crea(suggerimentoCommand.getTestoSuggerimento(),
+					suggerimentoCommand.getTempoMinimo(), suggerimentoCommand.getAccuratezza());
+			builder.aggiungiSuggerimento(suggerimento);
 		}
 
 		Difficolta difficolta = new Difficolta(inserisciQuesitoCommand.getLivelloDifficolta());

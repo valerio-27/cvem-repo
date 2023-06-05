@@ -13,6 +13,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposte
 import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
 import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
@@ -110,7 +111,7 @@ public class CvemController {
 
 	public void inserisci(InserisciQuesitoRequest request)
 			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
-			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException {
+			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
 		/*
 		 * request domanda to command
 		 */

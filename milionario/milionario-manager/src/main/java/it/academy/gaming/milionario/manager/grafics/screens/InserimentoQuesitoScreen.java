@@ -9,6 +9,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoExcep
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
+import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 import it.academy.gaming.milionario.manager.grafics.InputDomanda;
 import it.academy.gaming.milionario.manager.grafics.InputRisposta;
@@ -75,7 +76,7 @@ public class InserimentoQuesitoScreen extends Screen {
 			controller.inserisci(request);
 		} catch (CreazioneQuesitoException | CreazioneDomandaException | TestoRispostaAssenteException
 				| NumeroMassimoRisposteSuperatoException | DifficoltaNonInRangeException
-				| SuggerimentiInvalidiException e) {
+				| SuggerimentiInvalidiException | SuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			show();
 		}
@@ -177,9 +178,11 @@ public class InserimentoQuesitoScreen extends Screen {
 		int tempoMax = controller.getTempoMaxPerSuggerimento();
 		mostraInfo("Inserisci il minimo di tempo di esposizione compreso tra 0 e " + tempoMax);
 
-		int tempoMinimo = scanner.nextInt();
-		scanner.nextLine();
+		int tempoMinimo = 0;
+		
 		try {
+			tempoMinimo = scanner.nextInt();
+			scanner.nextLine();
 			if (tempoMinimo < 0 || tempoMinimo > tempoMax) {
 				throw new IllegalArgumentException("Il tempo che hai inserito non rientra nei limiti dati");
 
