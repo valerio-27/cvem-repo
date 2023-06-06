@@ -141,7 +141,7 @@ public class Partita {
 
 	private void aggiornaQuesito() {
 		try {
-			this.quesitoAttuale = quesitoRepository.findByCategoriaAndDifficolta(Categoria.getRandom(),
+			this.quesitoAttuale = quesitoRepository.findRandomByCategoriaAndDifficolta(Categoria.getRandom(),
 					new Difficolta(livelloDifficolta));
 		} catch (DifficoltaNonInRangeException ignored) {
 		}

@@ -2,6 +2,6 @@ package it.academy.gaming.milionario.core.domain;
 
 public interface QuesitoRepository {
 
-	Quesito findByCategoriaAndDifficolta(Categoria random, Difficolta difficolta);
+	Quesito findRandomByCategoriaAndDifficolta(Categoria random, Difficolta difficolta);
 
 }
