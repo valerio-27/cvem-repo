@@ -9,6 +9,7 @@ import java.util.List;
 
 import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.Categoria;
+import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
@@ -92,36 +93,38 @@ public class QuesitoReader {
 		String urlImmagine = null;
 		String urlDocumentazione = null;
 
-		if (componentiQuesito.length == 6) {
-			String[] jsonInformazione = componentiQuesito[4].split("=");
+		if (componentiQuesito.length == 7) {
+			String[] jsonInformazione = componentiQuesito[5].split("=");
 			if (jsonInformazione[0].contains("Immagine")) {
 				urlImmagine = jsonInformazione[1];
 			} else if (jsonInformazione[0].contains("Documentazione")) {
 				urlDocumentazione = jsonInformazione[1];
 			}
 
-		} else if (componentiQuesito.length == 7) {
-			String[] jsonImmagineUrl = componentiQuesito[4].split("=");
-			String[] jsonDocumentazioneUrl = componentiQuesito[4].split("=");
+		} else if (componentiQuesito.length == 8) {
+			String[] jsonImmagineUrl = componentiQuesito[5].split("=");
+			String[] jsonDocumentazioneUrl = componentiQuesito[5].split("=");
 			urlImmagine = jsonImmagineUrl[1];
 
 			urlDocumentazione = jsonDocumentazioneUrl[1];
 		}
 
-		String categoriaString = componentiQuesito[0].split("=")[1];
+		String codiceQuesitoString = componentiQuesito[0].split("=")[1];
+		CodiceQuesito codiceQuesito = CodiceQuesito.parse(codiceQuesitoString);
+
+		String categoriaString = componentiQuesito[1].split("=")[1];
 		Categoria categoria = Categoria.valueOf(categoriaString.toUpperCase().trim());
-		String domandaString = componentiQuesito[1].split("=")[1];
-		String risposteString = componentiQuesito[2].split("=")[1];
-		int difficoltaInt = Integer.valueOf(componentiQuesito[3].split("=")[1].substring(0, 1));
+
+		String domandaString = componentiQuesito[2].split("=")[1];
+		String risposteString = componentiQuesito[3].split("=")[1];
+		int difficoltaInt = Integer.valueOf(componentiQuesito[4].split("=")[1].substring(0, 1));
 		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(urlImmagine, urlDocumentazione);
 		domanda = new Domanda(domandaString, categoria, informazioniDomanda);
 		builder.setDomanda(domanda);
 		risposte = parseRisposte(risposteString);
 
 		for (Risposta risposta : risposte) {
-
 			builder.aggiungiRisposta(risposta);
-
 		}
 		difficolta = new Difficolta(difficoltaInt);
 		builder.setDifficolta(difficolta);
@@ -135,37 +138,29 @@ public class QuesitoReader {
 			builder.aggiungiSuggerimento(suggerimento);
 		}
 
-		return builder.build();
+		return builder.build(codiceQuesito);
 	}
 
 	private List<Risposta> parseRisposte(String risposteString) throws TestoRispostaAssenteException {
 
 		String[] risposte = risposteString.split(",");
-
 		List<Risposta> listaRisposte = new ArrayList<Risposta>();
 
 		String testo;
 		boolean corretta;
 
 		for (String rispostaString : risposte) {
-
 			if (rispostaString.contains("&")) {
 				corretta = true;
 				testo = rispostaString.replace("&", "");
-
 			} else {
-
 				corretta = false;
 				testo = rispostaString;
 			}
-
 			Risposta risposta = Risposta.crea(testo, corretta);
-
 			listaRisposte.add(risposta);
-
 		}
 		return listaRisposte;
-
 	}
 
 	private Suggerimento parseSuggerimento(String suggerimentoString)
@@ -190,7 +185,7 @@ public class QuesitoReader {
 			DifficoltaNonInRangeException, CreazioneQuesitoException, NumeroMassimoRisposteSuperatoException,
 			SuggerimentiInvalidiException, SuggerimentoInvalidoException, CodiceInvalidoException {
 
-		File file = new File("C:/ChiVuolEssereMilionarioQuesiti");
+		File file = new File("C:/ChiVuolEssereMilionarioQuesiti/FilesQuesiti");
 
 		QuesitoReader reader = new QuesitoReader();
 
