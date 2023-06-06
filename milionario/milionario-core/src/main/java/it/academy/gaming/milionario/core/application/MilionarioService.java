@@ -6,8 +6,11 @@ import it.academy.gaming.milionario.core.application.views.PartitaView;
 import it.academy.gaming.milionario.core.application.views.SuggerimentoView;
 import it.academy.gaming.milionario.core.application.views.VotazioneView;
 import it.academy.gaming.milionario.core.domain.Giocatore;
+import it.academy.gaming.milionario.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.core.domain.Partita;
 import it.academy.gaming.milionario.core.domain.PartitaGiocata;
+import it.academy.gaming.milionario.core.domain.PartitaGiocataRepository;
+import it.academy.gaming.milionario.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.Votazione;
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
@@ -16,7 +19,16 @@ import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 
 public class MilionarioService {
 
+	public static void main(String[] args) {
+
+	}
+
 	private Partita partita;
+
+	public MilionarioService(QuesitoRepository quesitoRepository, OpzioniPersonaRepository opzioniPersonaRepository,
+			PartitaGiocataRepository partitaGiocataRepository) {
+		this.partita = new Partita(quesitoRepository, opzioniPersonaRepository, partitaGiocataRepository);
+	}
 
 	public PartitaView iniziaPartita(IniziaPartitaCommand command) throws PartitaException, NomeNonValidoException {
 		partita.inizia(new Giocatore(command.getNome()));
