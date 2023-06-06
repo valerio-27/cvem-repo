@@ -19,9 +19,6 @@ import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 
 public class MilionarioService {
 
-	public static void main(String[] args) {
-
-	}
 
 	private Partita partita;
 
