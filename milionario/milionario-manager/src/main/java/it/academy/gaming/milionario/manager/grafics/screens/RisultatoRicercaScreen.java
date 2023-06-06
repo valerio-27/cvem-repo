@@ -2,7 +2,7 @@ package it.academy.gaming.milionario.manager.grafics.screens;
 
 import java.util.List;
 
-import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.manager.core.application.view.QuesitoView;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 
 public class RisultatoRicercaScreen extends Screen {

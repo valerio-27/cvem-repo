@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import it.academy.gaming.milionario.core.domain.codici.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneQuesitoException;
 import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposteSuperatoException;
 import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideException;
@@ -40,6 +41,13 @@ public class Quesito {
 		this.valore = Valore.calcola(difficolta);
 	}
 
+	public boolean indovina(LetteraRisposta lettera) {
+		if (getLetteraRispostaCorretta().equals(lettera)) {
+			return true;
+		}
+		return false;
+	}
+
 	public Suggerimento getSuggerimentoDaCasaRandom(Accuratezza accuratezza) {
 		List<Suggerimento> suggerimentiDaCasa = suggerimentiPerAccuratezza.get(accuratezza);
 		return suggerimentiDaCasa.get(random.nextInt(suggerimentiDaCasa.size()));
@@ -49,8 +57,26 @@ public class Quesito {
 		return new QuesitoBuilder();
 	}
 
+	public List<Suggerimento> getSuggerimenti() {
+		List<Suggerimento> suggerimenti = new ArrayList<>();
+		for (List<Suggerimento> suggerimentiSelezionati : suggerimentiPerAccuratezza.values()) {
+			suggerimenti.addAll(suggerimentiSelezionati);
+		}
+		return suggerimenti;
+	}
+
 	public Map<Accuratezza, List<Suggerimento>> getSuggerimentiPerAccuratezza() {
 		return suggerimentiPerAccuratezza;
+	}
+
+	private LetteraRisposta getLetteraRispostaCorretta() {
+		LetteraRisposta letteraRisposta = null;
+		for (Risposta risposta : risposte) {
+			if (risposta.isCorretta()) {
+				letteraRisposta = risposta.getLettera();
+			}
+		}
+		return letteraRisposta;
 	}
 
 	public static class QuesitoBuilder {
@@ -167,7 +193,6 @@ public class Quesito {
 	public Valore getValore() {
 		return valore;
 	}
-	
 
 	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
 		int risposteCorrettePresenti = 0;
@@ -195,4 +220,5 @@ public class Quesito {
 		}
 		return risposteDisponibili;
 	}
+
 }

@@ -1,5 +1,6 @@
 package it.academy.gaming.milionario.core.domain;
 
+import it.academy.gaming.milionario.core.domain.codici.CodiceRisposta;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
 
 public class Risposta {

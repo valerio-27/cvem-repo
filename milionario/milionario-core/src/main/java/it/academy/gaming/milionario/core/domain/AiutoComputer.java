@@ -35,6 +35,10 @@ public class AiutoComputer {
 	static void ripristina() {
 		AiutoComputer.disponibile = true;
 	}
+
+	public static boolean isDisponibile() {
+		return disponibile;
+	}
 	
 
 }

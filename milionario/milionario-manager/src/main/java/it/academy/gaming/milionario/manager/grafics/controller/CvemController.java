@@ -15,11 +15,11 @@ import it.academy.gaming.milionario.core.domain.exceptions.RisposteInvalideExcep
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
-import it.academy.gaming.milionario.core.views.OpzioniPersonaView;
-import it.academy.gaming.milionario.core.views.PercentualeFortunaView;
-import it.academy.gaming.milionario.core.views.QuesitoView;
-import it.academy.gaming.milionario.core.views.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.core.application.CvemService;
+import it.academy.gaming.milionario.manager.core.application.view.OpzioniPersonaView;
+import it.academy.gaming.milionario.manager.core.application.view.PercentualeFortunaView;
+import it.academy.gaming.milionario.manager.core.application.view.QuesitoView;
+import it.academy.gaming.milionario.manager.core.application.view.RangeCulturaGeneraleView;
 import it.academy.gaming.milionario.manager.core.commands.CancellaQuesitoCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.InserisciQuesitoCommand;
@@ -29,6 +29,8 @@ import it.academy.gaming.milionario.manager.core.commands.ModificaDifficoltaComm
 import it.academy.gaming.milionario.manager.core.commands.ModificaDomandaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRispostaCommand;
 import it.academy.gaming.milionario.manager.core.commands.ModificaRisposteCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaSuggerimentiCommand;
+import it.academy.gaming.milionario.manager.core.commands.ModificaSuggerimentoCommand;
 import it.academy.gaming.milionario.manager.core.commands.SalvaOpzioniPersonaCommand;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.core.queries.RecuperaQuesitoQuery;
@@ -42,6 +44,8 @@ import it.academy.gaming.milionario.manager.grafics.requests.ModificaDifficoltaR
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaDomandaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaRispostaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaRisposteRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaSuggerimentiRequest;
+import it.academy.gaming.milionario.manager.grafics.requests.ModificaSuggerimentoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RicercaQuesitoPerCategoriaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RicercaQuesitoPerDifficoltaRequest;
@@ -67,10 +71,10 @@ public class CvemController {
 	private RicercaQuesitoScreen ricercaQuesitoScreen = new RicercaQuesitoScreen(this);
 	private RisultatoRicercaScreen risultatoRicercaScreen = new RisultatoRicercaScreen(this);
 	private ModificaDomandaScreen modificaDomandaScreen = new ModificaDomandaScreen(this);
-	private ModificaSuggerimentiScreen modificaSuggerimentiScreen=new ModificaSuggerimentiScreen(this);
-	private ModificaDifficoltaScreen modificaDifficoltaScreen=new ModificaDifficoltaScreen(this);
-	private ModificaRisposteScreen modificaRisposteScreen=new ModificaRisposteScreen(this);
-	private GestioneOpzioniPersonaScreen gestioneOpzioniPersonaScreen=new GestioneOpzioniPersonaScreen(this);
+	private ModificaSuggerimentiScreen modificaSuggerimentiScreen = new ModificaSuggerimentiScreen(this);
+	private ModificaDifficoltaScreen modificaDifficoltaScreen = new ModificaDifficoltaScreen(this);
+	private ModificaRisposteScreen modificaRisposteScreen = new ModificaRisposteScreen(this);
+	private GestioneOpzioniPersonaScreen gestioneOpzioniPersonaScreen = new GestioneOpzioniPersonaScreen(this);
 
 	public CvemController(CvemService service) {
 		super();
@@ -109,9 +113,9 @@ public class CvemController {
 		return service.getMaxDiDifficolta();
 	}
 
-	public void inserisci(InserisciQuesitoRequest request)
-			throws CreazioneQuesitoException, CreazioneDomandaException, TestoRispostaAssenteException,
-			NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
+	public void inserisci(InserisciQuesitoRequest request) throws CreazioneQuesitoException, CreazioneDomandaException,
+			TestoRispostaAssenteException, NumeroMassimoRisposteSuperatoException, DifficoltaNonInRangeException,
+			SuggerimentiInvalidiException, SuggerimentoInvalidoException {
 		/*
 		 * request domanda to command
 		 */
@@ -244,11 +248,24 @@ public class CvemController {
 		return service.getPercentualeFortuna();
 	}
 
-	public void salvaOpzioniPersona(SalvaOpzioniPersonaRequest request) throws CulturaGeneraleNonInRangeException, PercentualeFortunaNonInRangeException {
+	public void salvaOpzioniPersona(SalvaOpzioniPersonaRequest request)
+			throws CulturaGeneraleNonInRangeException, PercentualeFortunaNonInRangeException {
 		SalvaOpzioniPersonaCommand command = new SalvaOpzioniPersonaCommand(request.getMaxConoscenza(),
 				request.getMinConoscenza(), request.getPercentualeFortuna());
 		service.salvaOpzioniPersona(command);
 
+	}
+
+	public void modificaSuggerimenti(ModificaSuggerimentiRequest request) throws SuggerimentoInvalidoException, CodiceInvalidoException {
+		List<ModificaSuggerimentoCommand> suggerimentoCommands = new ArrayList<ModificaSuggerimentoCommand>();
+		for (ModificaSuggerimentoRequest suggerimentoRequest : request.getModificaSuggerimentiRequests()) {
+			suggerimentoCommands.add(new ModificaSuggerimentoCommand(suggerimentoRequest.getTestoSuggerimento(),
+					suggerimentoRequest.getAccuratezza(), suggerimentoRequest.getTempoMinimo()));
+
+		}
+		ModificaSuggerimentiCommand command = new ModificaSuggerimentiCommand(request.getCodiceQuesito(),
+				suggerimentoCommands);
+		service.modificaSuggerimenti(command);
 	}
 
 }

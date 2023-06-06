@@ -12,14 +12,14 @@ import java.util.Optional;
 
 import it.academy.gaming.milionario.core.domain.Accuratezza;
 import it.academy.gaming.milionario.core.domain.Categoria;
-import it.academy.gaming.milionario.core.domain.CodiceQuesito;
-import it.academy.gaming.milionario.core.domain.CodiceRisposta;
-import it.academy.gaming.milionario.core.domain.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.InformazioniDomanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Quesito.QuesitoBuilder;
+import it.academy.gaming.milionario.core.domain.codici.CodiceQuesito;
+import it.academy.gaming.milionario.core.domain.codici.CodiceRisposta;
+import it.academy.gaming.milionario.core.domain.codici.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.Risposta;
 import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
@@ -587,5 +587,12 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 				suggerimentiResultSet.close();
 			}
 		}
+	}
+
+
+	@Override
+	public void setSuggerimenti(CodiceQuesito codice, List<Suggerimento> nuoviSuggerimenti) {
+		// TODO Auto-generated method stub
+		
 	}
 }

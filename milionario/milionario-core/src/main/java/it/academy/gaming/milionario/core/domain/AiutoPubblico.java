@@ -23,4 +23,8 @@ public class AiutoPubblico {
 		this.disponibile=true;
 	}
 
+	public boolean isDisponibile() {
+		return disponibile;
+	}
+
 }

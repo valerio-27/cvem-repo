@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
+import it.academy.gaming.milionario.core.domain.codici.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 
 public class Suggerimento {

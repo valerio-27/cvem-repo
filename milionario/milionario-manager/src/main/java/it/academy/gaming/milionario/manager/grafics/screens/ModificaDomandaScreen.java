@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
 import it.academy.gaming.milionario.core.domain.exceptions.CodiceInvalidoException;
-import it.academy.gaming.milionario.core.views.QuesitoView;
+import it.academy.gaming.milionario.manager.core.application.view.QuesitoView;
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;

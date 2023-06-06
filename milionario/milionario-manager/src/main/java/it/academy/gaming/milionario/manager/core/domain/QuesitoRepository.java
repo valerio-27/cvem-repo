@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import it.academy.gaming.milionario.core.domain.Categoria;
-import it.academy.gaming.milionario.core.domain.CodiceQuesito;
 import it.academy.gaming.milionario.core.domain.Difficolta;
 import it.academy.gaming.milionario.core.domain.Domanda;
 import it.academy.gaming.milionario.core.domain.Quesito;
 import it.academy.gaming.milionario.core.domain.Risposta;
+import it.academy.gaming.milionario.core.domain.codici.CodiceQuesito;
+import it.academy.gaming.milionario.core.domain.Suggerimento;
 
 public interface QuesitoRepository {
 
@@ -28,6 +29,8 @@ public interface QuesitoRepository {
 	void setRisposte(CodiceQuesito codiceQuesito, List<Risposta> nuoveRisposte);
 
 	void setDomanda(CodiceQuesito codiceQuesito, Domanda domanda);
+
+	void setSuggerimenti(CodiceQuesito codice, List<Suggerimento> nuoviSuggerimenti);
 		
 
 

@@ -10,17 +10,15 @@ public class AiutoCasa {
 	private static Random random = new Random();
 
 	private RangeCulturaGenerale range;
-	private Giocatore giocatore;
 
 	private boolean disponibile = true;
 	private int percentualeAggiuntaCasa = 20;
 
-	public AiutoCasa(RangeCulturaGenerale range, Giocatore giocatore) {
+	public AiutoCasa(RangeCulturaGenerale range) {
 		this.range = range;
-		this.giocatore = giocatore;
 	}
 
-	public Suggerimento vota(Quesito quesito) throws AiutoNonDisponibileException {
+	public Suggerimento vota(Quesito quesito, Giocatore giocatore) throws AiutoNonDisponibileException {
 
 		if (!disponibile) {
 			throw AiutoNonDisponibileException.aiutoCasa();
@@ -115,8 +113,13 @@ public class AiutoCasa {
 
 	}
 
-	public void ripristina(Giocatore giocatore) {
-		this.giocatore = giocatore;
+	public void ripristina() {
 		this.disponibile = true;
 	}
+
+	public boolean isDisponibile() {
+		return disponibile;
+	}
+	
+	
 }

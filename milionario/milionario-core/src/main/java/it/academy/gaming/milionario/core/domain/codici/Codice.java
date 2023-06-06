@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.core.domain;
+package it.academy.gaming.milionario.core.domain.codici;
 
 import org.apache.commons.lang3.StringUtils;
 
