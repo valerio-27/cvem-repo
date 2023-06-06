@@ -17,6 +17,10 @@ public class Valore {
 			euro = 20000;
 		}
 	}
+	
+	public static Valore parse(int euro) {
+		return new Valore(euro);
+	}
 
 	public static Valore calcola(Difficolta difficolta) {
 		int euro = 0;
