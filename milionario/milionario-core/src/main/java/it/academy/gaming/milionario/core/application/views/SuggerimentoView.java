@@ -21,4 +21,11 @@ public class SuggerimentoView {
 		return tempoEsposizione;
 	}
 
+	@Override
+	public String toString() {
+		return "SuggerimentoView [testo=" + testo + ", tempoEsposizione=" + tempoEsposizione + "]";
+	}
+
+	
+	
 }

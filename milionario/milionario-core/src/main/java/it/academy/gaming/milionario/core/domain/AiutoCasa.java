@@ -45,22 +45,21 @@ public class AiutoCasa {
 		// se la conoscenza è negativa ritorno il suggerimento accuratezza astenuta
 		if (conoscenza < 0) {
 			suggerimento = quesito.getSuggerimentoDaCasaRandom(Accuratezza.ASTENUTA);
-			suggerimento.valorizzaBookmarks(giocatore, risposteDisponibili);
-			return suggerimento;
+		} else {
+			ProbabilitaSuggerimenti probabilitaSuggerimenti = generaProbabilita(conoscenza);
+			int numeroRandom = random.nextInt(100) + 1;
+
+			if (numeroRandom < probabilitaSuggerimenti.getProbabilitaSbagliata()) {
+				suggerimento = quesito.getSuggerimentoDaCasaRandom(Accuratezza.SBAGLIATA);
+			} else if (numeroRandom < probabilitaSuggerimenti.getProbabilitaImprecisa()) {
+				suggerimento = quesito.getSuggerimentoDaCasaRandom(Accuratezza.IMPRECISA);
+			} else {
+				suggerimento = quesito.getSuggerimentoDaCasaRandom(Accuratezza.CORRETTA);
+			}
+
 		}
-
-		ProbabilitaSuggerimenti probabilitaSuggerimenti = generaProbabilita(conoscenza);
-
-		int numeroRandom = random.nextInt(100) + 1;
-
-		if (numeroRandom < probabilitaSuggerimenti.getProbabilitaSbagliata()) {
-			return quesito.getSuggerimentoDaCasaRandom(Accuratezza.SBAGLIATA);
-		}
-		if (numeroRandom < probabilitaSuggerimenti.getProbabilitaImprecisa()) {
-			return quesito.getSuggerimentoDaCasaRandom(Accuratezza.IMPRECISA);
-		}
-		return quesito.getSuggerimentoDaCasaRandom(Accuratezza.CORRETTA);
-
+		suggerimento.valorizzaBookmarks(giocatore, risposteDisponibili);
+		return suggerimento;
 	}
 
 	private ProbabilitaSuggerimenti generaProbabilita(int conoscenzaFinale) {
@@ -120,6 +119,5 @@ public class AiutoCasa {
 	public boolean isDisponibile() {
 		return disponibile;
 	}
-	
-	
+
 }

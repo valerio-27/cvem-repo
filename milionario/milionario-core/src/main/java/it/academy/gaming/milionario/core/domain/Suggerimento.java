@@ -19,9 +19,9 @@ public class Suggerimento {
 	private final static int TEMPO_MASSIMO = 30;
 	private Accuratezza accuratezza;
 
-	private static String bookmarkNome = "${N}";
-	private static String bookmarkRispostaCorretta = "${Y}";
-	private static String bookmarkRispostaSbagliata = "${X}";
+	private static String bookmarkNome = "\\$\\{N\\}";
+	private static String bookmarkRispostaCorretta = "\\$\\{Y\\}";
+	private static String bookmarkRispostaSbagliata = "\\$\\{X\\}";
 
 	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza, CodiceSuggerimento codice) {
 		this.testo = testo;
@@ -112,11 +112,13 @@ public class Suggerimento {
 
 		String testoRispostaCorretta = getTestoRispostaCorretta(risposteDisponibili);
 		String testoRispostaSbagliata = getTestoRispostaSbagliata(risposteDisponibili);
-
+		
+		
+		
 		testo = testo.replaceAll(bookmarkNome, giocatore.getNome());
+		
 		testo = testo.replaceAll(bookmarkRispostaCorretta, testoRispostaCorretta);
-
-		testo = testo.replace(bookmarkRispostaSbagliata, testoRispostaSbagliata);
+		testo = testo.replaceAll(bookmarkRispostaSbagliata, testoRispostaSbagliata);
 
 		generaTempoEsposizione();
 
@@ -142,15 +144,6 @@ public class Suggerimento {
 		return testo;
 	}
 
-	public String replaceBookmark(String input, String bookmarkName, String replacement1, String replacement2) {
-		// Creazione del pattern per il bookmark da sostituire
-		String patternString = "\\$\\{" + bookmarkName + "\\}";
-
-		// Sostituzione del bookmark con le due stringhe fornite
-		String output = input.replaceAll(patternString, replacement1 + " " + replacement2);
-
-		return output;
-	}
 
 	public CodiceSuggerimento getCodice() {
 		return codice;

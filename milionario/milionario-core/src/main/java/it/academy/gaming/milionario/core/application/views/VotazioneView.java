@@ -1,11 +1,13 @@
 package it.academy.gaming.milionario.core.application.views;
 
+import java.util.Arrays;
+
 import it.academy.gaming.milionario.core.domain.PercentualeRisposta;
 import it.academy.gaming.milionario.core.domain.Votazione;
 
 public class VotazioneView {
 
-	PercentualeRispostaView[] percentualiRispostaView;
+	PercentualeRispostaView[] percentualiRispostaView= new PercentualeRispostaView[4];
 
 	public VotazioneView(Votazione votazione) {
 		int i = 0;
@@ -16,6 +18,11 @@ public class VotazioneView {
 
 	public PercentualeRispostaView[] getPercentualiRispostaView() {
 		return percentualiRispostaView;
+	}
+
+	@Override
+	public String toString() {
+		return "VotazioneView [percentualiRispostaView=" + Arrays.toString(percentualiRispostaView) + "]";
 	}
 
 }

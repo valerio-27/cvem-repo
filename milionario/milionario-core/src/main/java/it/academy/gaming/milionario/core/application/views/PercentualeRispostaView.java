@@ -22,4 +22,9 @@ public class PercentualeRispostaView {
 		return percentuale;
 	}
 
+	@Override
+	public String toString() {
+		return "PercentualeRispostaView [letteraRisposta=" + letteraRisposta + ", percentuale=" + percentuale + "]";
+	}
+
 }

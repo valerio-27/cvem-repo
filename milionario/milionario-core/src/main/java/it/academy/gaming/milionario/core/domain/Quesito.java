@@ -71,7 +71,7 @@ public class Quesito {
 
 	private LetteraRisposta getLetteraRispostaCorretta() {
 		LetteraRisposta letteraRisposta = null;
-		for (Risposta risposta : risposte) {
+		for (Risposta risposta : getRisposteDisponibili()) {
 			if (risposta.isCorretta()) {
 				letteraRisposta = risposta.getLettera();
 			}

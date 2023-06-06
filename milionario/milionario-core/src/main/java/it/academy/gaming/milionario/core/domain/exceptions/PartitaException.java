@@ -1,6 +1,6 @@
 package it.academy.gaming.milionario.core.domain.exceptions;
 
-public class PartitaException extends Exception{
+public class PartitaException extends Exception {
 
 	private PartitaException(String message) {
 		super(message);
@@ -20,6 +20,14 @@ public class PartitaException extends Exception{
 
 	public static PartitaException nonInCorso() {
 		return new PartitaException("non in corso");
+	}
+
+	public static PartitaException nonInAttesa() {
+		return new PartitaException("non in attesa");
+	}
+
+	public static PartitaException rispostaNonPresente() {
+		return new PartitaException("la risposta non è presente");
 	}
 
 }

@@ -21,7 +21,8 @@ public class Partita {
 	private Aiuti aiuti;
 
 	private boolean iniziata;
-	private boolean terminata=true;
+	private boolean terminata = true;
+	private boolean inAttesa;
 
 	private int livelloDifficolta;
 	private boolean quesitoIndovinato;
@@ -35,27 +36,34 @@ public class Partita {
 	}
 
 	public void inizia(Giocatore giocatore) throws PartitaException {
-		if(!terminata||iniziata) {
+		if (!terminata || iniziata) {
 			throw PartitaException.giaInCorso();
 		}
 		this.livelloDifficolta = 1;
 		terminata = false;
 		iniziata = true;
+		inAttesa = true;
 		this.giocatore = giocatore;
 
 		aggiornaQuesito();
 	}
 
 	public void indovina(LetteraRisposta lettera) throws PartitaException {
-		if(terminata||!iniziata) {
+		if (terminata || !iniziata) {
 			throw PartitaException.nonInCorso();
 		}
+		if (!inAttesa) {
+			throw PartitaException.nonInAttesa();
+		}
+
+		checkRispostaPresente(lettera);
+
 		if (this.quesitoAttuale.indovina(lettera)) {
 			this.quesitoIndovinato = true;
 			if (livelloDifficolta == 15) {
 				this.terminata = true;
 				this.iniziata = false;
-				
+
 				registraPartita();
 			}
 		} else {
@@ -64,6 +72,20 @@ public class Partita {
 			this.iniziata = false;
 
 			registraPartita();
+		}
+		inAttesa = false;
+	}
+
+	private void checkRispostaPresente(LetteraRisposta lettera) throws PartitaException {
+
+		boolean letteraPresente = false;
+		for (Risposta risposta : quesitoAttuale.getRisposteDisponibili()) {
+			if (risposta.getLettera().equals(lettera)) {
+				letteraPresente = true;
+			}
+		}
+		if (!letteraPresente) {
+			throw PartitaException.rispostaNonPresente();
 		}
 	}
 
@@ -74,6 +96,7 @@ public class Partita {
 		livelloDifficolta++;
 		aggiornaQuesito();
 		quesitoIndovinato = false;
+		inAttesa = true;
 	}
 
 	// prendi il valore della domanda appena indovinata
@@ -84,6 +107,7 @@ public class Partita {
 		this.terminata = true;
 		this.iniziata = false;
 		quesitoIndovinato = false;
+		inAttesa = false;
 
 		return registraPartita();
 	}
@@ -140,15 +164,17 @@ public class Partita {
 
 	private void aggiornaQuesito() {
 		try {
-			this.quesitoAttuale = quesitoRepository.findRandomByDifficolta(
-					new Difficolta(livelloDifficolta));
+			this.quesitoAttuale = quesitoRepository.findRandomByDifficolta(new Difficolta(livelloDifficolta));
 		} catch (DifficoltaNonInRangeException ignored) {
 		}
 	}
 
 	private PartitaGiocata registraPartita() {
-		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, quesitoAttuale.getValore());
-		classifica.registra(partitaGiocata);
+		Valore valore = quesitoAttuale.getValore();
+		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, valore);
+		if (valore.getEuro() != 0) {
+			classifica.registra(partitaGiocata);
+		}
 		return partitaGiocata;
 	}
 
