@@ -22,4 +22,10 @@ public class RispostaView {
 		return lettera;
 	}
 
+	@Override
+	public String toString() {
+		return "RispostaView [testo=" + testo + ", lettera=" + lettera + "]";
+	}
+
+	
 }

@@ -1,5 +1,6 @@
 package it.academy.gaming.milionario.core.application.views;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import it.academy.gaming.milionario.core.domain.Aiuti;
@@ -22,10 +23,10 @@ public class PartitaView {
 
 	public PartitaView(Partita partita) {
 
-		Quesito quesito=partita.getQuesitoAttuale();
-		
+		Quesito quesito = partita.getQuesitoAttuale();
+
 		Domanda domanda = quesito.getDomanda();
-		Aiuti aiuti=partita.getAiuti();
+		Aiuti aiuti = partita.getAiuti();
 		Collection<Risposta> risposte = quesito.getRisposteDisponibili();
 
 		InformazioniDomanda informazioni = domanda.getInformazioni();
@@ -43,8 +44,8 @@ public class PartitaView {
 		this.aiutoPubblicoDisponibile = aiuti.isAiutoPubblicoDisponibile();
 
 		this.euro = quesito.getValore().getEuro();
-		
-		this.quesitoIndovinato=  partita.isQuesitoIndovinato();
+
+		this.quesitoIndovinato = partita.isQuesitoIndovinato();
 	}
 
 	public DomandaView getDomandaView() {
@@ -75,6 +76,12 @@ public class PartitaView {
 		return quesitoIndovinato;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "PartitaView [domandaView=" + domandaView + ", risposteView=" + Arrays.toString(risposteView)
+				+ ", aiutoCasaDisponibile=" + aiutoCasaDisponibile + ", aiutoComputerDisponibile="
+				+ aiutoComputerDisponibile + ", aiutoPubblicoDisponibile=" + aiutoPubblicoDisponibile + ", euro=" + euro
+				+ ", quesitoIndovinato=" + quesitoIndovinato + "]";
+	}
+
 }

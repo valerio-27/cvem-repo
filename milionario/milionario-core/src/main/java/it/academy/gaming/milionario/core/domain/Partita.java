@@ -21,7 +21,7 @@ public class Partita {
 	private Aiuti aiuti;
 
 	private boolean iniziata;
-	private boolean terminata;
+	private boolean terminata=true;
 
 	private int livelloDifficolta;
 	private boolean quesitoIndovinato;
@@ -32,7 +32,6 @@ public class Partita {
 		this.quesitoRepository = quesitoRepository;
 		this.aiuti = new Aiuti(opzioniPersonaRepository.getRangeCulturaGenerale(),
 				opzioniPersonaRepository.getPercentualeFortuna());
-
 	}
 
 	public void inizia(Giocatore giocatore) throws PartitaException {
@@ -141,7 +140,7 @@ public class Partita {
 
 	private void aggiornaQuesito() {
 		try {
-			this.quesitoAttuale = quesitoRepository.findRandomByCategoriaAndDifficolta(Categoria.getRandom(),
+			this.quesitoAttuale = quesitoRepository.findRandomByDifficolta(
 					new Difficolta(livelloDifficolta));
 		} catch (DifficoltaNonInRangeException ignored) {
 		}

@@ -7,19 +7,19 @@ public class PartitaException extends Exception{
 	}
 
 	public static PartitaException nonContinuabile() {
-		return null;
+		return new PartitaException("Partita non continuabile");
 	}
 
 	public static PartitaException ritiroNonConsentito() {
-		return null;
+		return new PartitaException("ritiro non consentito");
 	}
 
 	public static PartitaException giaInCorso() {
-		return null;
+		return new PartitaException("gia in corso");
 	}
 
 	public static PartitaException nonInCorso() {
-		return null;
+		return new PartitaException("non in corso");
 	}
 
 }

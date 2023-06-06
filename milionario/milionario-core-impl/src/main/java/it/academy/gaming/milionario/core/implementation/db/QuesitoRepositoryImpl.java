@@ -34,8 +34,11 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 		this.connectionManager = new ConnectionManager(url, user, password);
 	}
 
+	
+	
+	//difficolta
 	@Override
-	public Quesito findRandomByCategoriaAndDifficolta(Categoria categoriaRandom, Difficolta difficolta) {
+	public Quesito findRandomByDifficolta(Difficolta difficolta) {
 
 		List<Quesito> quesiti = new ArrayList<>();
 
@@ -46,12 +49,11 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 		try {
 			dbConnection = connectionManager.creaConnection();
 
-			String sqlScript = "SELECT * FROM Quesito WHERE livello_difficolta = ? AND categoria = ?";
+			String sqlScript = "SELECT * FROM Quesito WHERE livello_difficolta = ?";
 
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 
 			preparedStatement.setInt(1, difficolta.getDifficolta());
-			preparedStatement.setString(2, categoriaRandom.toString());
 
 			quesitiResultSet = preparedStatement.executeQuery();
 
