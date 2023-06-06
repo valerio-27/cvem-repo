@@ -7,5 +7,4 @@ public interface PartitaGiocataRepository {
 	void save(PartitaGiocata partitaGiocata);
 	
 	Collection<PartitaGiocata> getAll();
-	
 }

@@ -8,6 +8,16 @@ public class Valore {
 		this.euro = euro;
 	}
 
+	public void ricalcolaPerCheckpoints() {
+		if (euro < 5000) {
+			euro = 0;
+		} else if (euro < 30000) {
+			euro = 3000;
+		} else {
+			euro = 20000;
+		}
+	}
+
 	public static Valore calcola(Difficolta difficolta) {
 		int euro = 0;
 		switch (difficolta.getDifficolta()) {

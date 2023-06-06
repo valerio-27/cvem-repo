@@ -14,4 +14,12 @@ public class PartitaException extends Exception{
 		return null;
 	}
 
+	public static PartitaException giaInCorso() {
+		return null;
+	}
+
+	public static PartitaException nonInCorso() {
+		return null;
+	}
+
 }

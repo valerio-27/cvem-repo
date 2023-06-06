@@ -34,7 +34,4 @@ public class Difficolta {
 		return MASSIMO;
 	}
 
-	 void incrementa() {
-		 livello++;
-	}
 }

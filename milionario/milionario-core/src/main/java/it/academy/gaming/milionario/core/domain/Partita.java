@@ -23,7 +23,7 @@ public class Partita {
 	private boolean iniziata;
 	private boolean terminata;
 
-	private Difficolta difficolta;
+	private int livelloDifficolta;
 	private boolean quesitoIndovinato;
 
 	public Partita(QuesitoRepository quesitoRepository, OpzioniPersonaRepository opzioniPersonaRepository,
@@ -35,11 +35,11 @@ public class Partita {
 
 	}
 
-	public void inizia(Giocatore giocatore) {
-		try {
-			this.difficolta = new Difficolta(1);
-		} catch (DifficoltaNonInRangeException ignored) {
+	public void inizia(Giocatore giocatore) throws PartitaException {
+		if(!terminata||iniziata) {
+			throw PartitaException.giaInCorso();
 		}
+		this.livelloDifficolta = 1;
 		terminata = false;
 		iniziata = true;
 		this.giocatore = giocatore;
@@ -47,17 +47,24 @@ public class Partita {
 		aggiornaQuesito();
 	}
 
-	public void indovina(LetteraRisposta lettera) {
+	public void indovina(LetteraRisposta lettera) throws PartitaException {
+		if(terminata||!iniziata) {
+			throw PartitaException.nonInCorso();
+		}
 		if (this.quesitoAttuale.indovina(lettera)) {
 			this.quesitoIndovinato = true;
-			if (difficolta.getDifficolta() == 15) {
+			if (livelloDifficolta == 15) {
 				this.terminata = true;
-				this.iniziata=false;
+				this.iniziata = false;
+				
+				registraPartita();
 			}
-
 		} else {
+			quesitoAttuale.getValore().ricalcolaPerCheckpoints();
 			this.terminata = true;
-			this.iniziata=false;
+			this.iniziata = false;
+
+			registraPartita();
 		}
 	}
 
@@ -65,15 +72,21 @@ public class Partita {
 		if (!quesitoIndovinato || terminata) {
 			throw PartitaException.nonContinuabile();
 		}
-		difficolta.incrementa();
+		livelloDifficolta++;
 		aggiornaQuesito();
 		quesitoIndovinato = false;
 	}
-	
-	public void ritirati() throws PartitaException {
-		if(terminata||!quesitoIndovinato) {
+
+	// prendi il valore della domanda appena indovinata
+	public PartitaGiocata ritirati() throws PartitaException {
+		if (terminata || !quesitoIndovinato) {
 			throw PartitaException.ritiroNonConsentito();
 		}
+		this.terminata = true;
+		this.iniziata = false;
+		quesitoIndovinato = false;
+
+		return registraPartita();
 	}
 
 	public void usaAiutoComputer() throws AiutoNonDisponibileException {
@@ -102,8 +115,42 @@ public class Partita {
 		return quesitoIndovinato;
 	}
 
+	public Giocatore getGiocatore() {
+		return giocatore;
+	}
+
+	public Classifica getClassifica() {
+		return classifica;
+	}
+
+	public QuesitoRepository getQuesitoRepository() {
+		return quesitoRepository;
+	}
+
+	public boolean isIniziata() {
+		return iniziata;
+	}
+
+	public boolean isTerminata() {
+		return terminata;
+	}
+
+	public int getLivelloDifficolta() {
+		return livelloDifficolta;
+	}
+
 	private void aggiornaQuesito() {
-		this.quesitoAttuale = quesitoRepository.findByCategoriaAndDifficolta(Categoria.getRandom(), difficolta);
+		try {
+			this.quesitoAttuale = quesitoRepository.findByCategoriaAndDifficolta(Categoria.getRandom(),
+					new Difficolta(livelloDifficolta));
+		} catch (DifficoltaNonInRangeException ignored) {
+		}
+	}
+
+	private PartitaGiocata registraPartita() {
+		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, quesitoAttuale.getValore());
+		classifica.registra(partitaGiocata);
+		return partitaGiocata;
 	}
 
 }

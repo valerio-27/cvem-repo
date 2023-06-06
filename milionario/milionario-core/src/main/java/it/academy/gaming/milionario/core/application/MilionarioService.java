@@ -1,22 +1,25 @@
 package it.academy.gaming.milionario.core.application;
 
 import it.academy.gaming.milionario.core.application.commands.IniziaPartitaCommand;
+import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.core.application.views.PartitaView;
 import it.academy.gaming.milionario.core.application.views.SuggerimentoView;
 import it.academy.gaming.milionario.core.application.views.VotazioneView;
-import it.academy.gaming.milionario.core.domain.LetteraRisposta;
+import it.academy.gaming.milionario.core.domain.Giocatore;
 import it.academy.gaming.milionario.core.domain.Partita;
+import it.academy.gaming.milionario.core.domain.PartitaGiocata;
 import it.academy.gaming.milionario.core.domain.Suggerimento;
 import it.academy.gaming.milionario.core.domain.Votazione;
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
+import it.academy.gaming.milionario.core.domain.exceptions.NomeNonValidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 
 public class MilionarioService {
 
 	private Partita partita;
 
-	public PartitaView iniziaPartita(IniziaPartitaCommand command) {
-		partita.inizia(null);
+	public PartitaView iniziaPartita(IniziaPartitaCommand command) throws PartitaException, NomeNonValidoException {
+		partita.inizia(new Giocatore(command.getNome()));
 		return new PartitaView(partita);
 	}
 
@@ -36,12 +39,19 @@ public class MilionarioService {
 		return new VotazioneView(votazione);
 	}
 
-	public PartitaView indovina(LetteraRisposta lettera) {
+	public PartitaView indovina(IndovinaRispostaCommand command) throws PartitaException {
+		this.partita.indovina(command.getLetteraRisposta());
 		return new PartitaView(partita);
 	}
-	
+
 	public PartitaView continua() throws PartitaException {
 		this.partita.continua();
 		return new PartitaView(partita);
 	}
+
+	public PartitaGiocataView ritirati() throws PartitaException {
+		PartitaGiocata partitaGiocata = this.partita.ritirati();
+		return new PartitaGiocataView(partitaGiocata);
+	}
+
 }
