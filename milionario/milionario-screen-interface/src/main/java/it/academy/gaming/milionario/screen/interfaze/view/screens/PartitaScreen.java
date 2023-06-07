@@ -132,7 +132,7 @@ public class PartitaScreen extends Screen {
 				break;
 			case OPZIONE_AIUTO_CASA:
 				SuggerimentoView suggerimentoView = controller.usaAiutoCasa();
-				TestoUtil.cadenzaFrase(suggerimentoView.getTesto(), suggerimentoView.getTempoEsposizione());
+				TestoUtil.cadenzaLimitata(suggerimentoView.getTesto(), suggerimentoView.getTempoEsposizione());
 				info("");
 				showContinua();
 				break;

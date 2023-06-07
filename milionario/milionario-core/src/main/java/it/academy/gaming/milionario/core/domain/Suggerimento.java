@@ -19,9 +19,12 @@ public class Suggerimento {
 	private final static int TEMPO_MASSIMO = 30;
 	private Accuratezza accuratezza;
 
-	private static String bookmarkNome = "\\$\\{N\\}";
-	private static String bookmarkRispostaCorretta = "\\$\\{Y\\}";
-	private static String bookmarkRispostaSbagliata = "\\$\\{X\\}";
+	private static String bookmarkRispostaCorretta = "${Y}";
+	private static String bookmarkRispostaSbagliata = "${X}";
+	
+	private static String bookmarkValorizzazioneNome = "\\$\\{N\\}";
+	private static String bookmarkValorizzazioneRispostaCorretta = "\\$\\{Y\\}";
+	private static String bookmarkValorizzazioneRispostaSbagliata = "\\$\\{X\\}";
 
 	private Suggerimento(String testo, int tempoMinimo, Accuratezza accuratezza, CodiceSuggerimento codice) {
 		this.testo = testo;
@@ -115,10 +118,10 @@ public class Suggerimento {
 		
 		
 		
-		testo = testo.replaceAll(bookmarkNome, giocatore.getNome());
+		testo = testo.replaceAll(bookmarkValorizzazioneNome, giocatore.getNome());
 		
-		testo = testo.replaceAll(bookmarkRispostaCorretta, testoRispostaCorretta);
-		testo = testo.replaceAll(bookmarkRispostaSbagliata, testoRispostaSbagliata);
+		testo = testo.replaceAll(bookmarkValorizzazioneRispostaCorretta, testoRispostaCorretta);
+		testo = testo.replaceAll(bookmarkValorizzazioneRispostaSbagliata, testoRispostaSbagliata);
 
 		generaTempoEsposizione();
 

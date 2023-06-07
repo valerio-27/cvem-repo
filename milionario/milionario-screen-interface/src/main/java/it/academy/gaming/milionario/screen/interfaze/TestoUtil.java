@@ -1,7 +1,31 @@
 package it.academy.gaming.milionario.screen.interfaze;
 
 public class TestoUtil {
+	
+	public static void main(String[] args) {
+		TestoUtil.cadenzaLimitata("Ciao mi chiamo Valerio vengo da Roma ho 21 anni e tifo Roma blablalbalbaqqqqqqqqqqqqqqqqq", 50);
+	}
 
+	public static void cadenzaLimitata(String testo, int secondiEsposizione) {
+		double contatoreMilliSecondi = 0;
+		
+		long cadenzaInMillisecondi = secondiEsposizione * 1000 / testo.length() ;
+		for (int i = 0; i < testo.length(); i++) {
+
+			if(contatoreMilliSecondi>30000) {
+				break;
+			}
+			String carattere = String.valueOf(testo.charAt(i));
+			try {
+				Thread.sleep(cadenzaInMillisecondi);
+			} catch (InterruptedException e) {
+			}
+
+			System.out.print(carattere);
+			contatoreMilliSecondi += cadenzaInMillisecondi;
+		}
+
+	}
 
 	public static void cadenza(String testo, int cadenzaInMillisecondi) {
 

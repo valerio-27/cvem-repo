@@ -23,61 +23,60 @@ import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
 import it.academy.gaming.milionario.manager.core_impl.QuesitoRepositoryImplementation;
 
 public class Test {
-//	public static void main(String[] args)
-//			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
-//			NumeroMassimoRisposteSuperatoException, CreazioneQuesitoException, CodiceInvalidoException,
-//			FileNotFoundException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
-//		String url = "jdbc:mysql://localhost:3306/milionario";
-//		String user = "root";
-//		String password = "admin";
-//
-//		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
-//
-//		QuesitoBuilder builder = Quesito.builder();
-//
-//		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(null, null);
-//
-//		Domanda domanda = new Domanda(
-//				"In quale di queste isole si trovano sia la villa dell'imperatore Tiberio che la celebre Grotta Azzurra?",
-//				Categoria.GEOGRAFIA, informazioniDomanda);
-//		builder.setDomanda(domanda);
-//
-//		builder.setDifficolta(new Difficolta(3));
-//
-//		/*
-//		 * aggiu ngo le risposte
-//		 */
-//
-//		Risposta risposta = Risposta.crea("Capri", true);
-//		builder.aggiungiRisposta(risposta);
-//
-//		risposta = Risposta.crea("Ponza", false);
-//		builder.aggiungiRisposta(risposta);
-//
-//		risposta = Risposta.crea("Ischia", false);
-//		builder.aggiungiRisposta(risposta);
-//
-//		risposta = Risposta.crea("Palmaria", false);
-//		builder.aggiungiRisposta(risposta);
-//
-//		/*
-//		 * aggiungo i suggerimenti
-//		 */
-//		Suggerimento suggerimento = Suggerimento.crea("${N}sicurissimo che sia ${Y}, non ho dubbi", 10, Accuratezza.CORRETTA);
-//		builder.aggiungiSuggerimento(suggerimento);
-//
-//		suggerimento = Suggerimento.crea("non ricordo bene ,credo ${X} o ${Y}", 10, Accuratezza.IMPRECISA);
-//		builder.aggiungiSuggerimento(suggerimento);
-//
-//		suggerimento = Suggerimento.crea("${N} ci andai tempo fa, sta a ${X} ", 13, Accuratezza.SBAGLIATA);
-//		builder.aggiungiSuggerimento(suggerimento);
-//
-//		suggerimento = Suggerimento.crea("${N} mi dispiace non so proprio cosa dirti...", 8,
-//				Accuratezza.ASTENUTA);
-//		builder.aggiungiSuggerimento(suggerimento);
-//
-//		Quesito quesito = builder.build();
-//		repository.add(quesito);
-//
-//	}
+	public static void main(String[] args)
+			throws CreazioneDomandaException, TestoRispostaAssenteException, DifficoltaNonInRangeException,
+			NumeroMassimoRisposteSuperatoException, CreazioneQuesitoException, CodiceInvalidoException,
+			FileNotFoundException, SuggerimentiInvalidiException, SuggerimentoInvalidoException {
+		String url = "jdbc:mysql://localhost:3306/milionario";
+		String user = "root";
+		String password = "admin";
+
+		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
+
+		QuesitoBuilder builder = Quesito.builder();
+
+		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(null, null);
+
+		Domanda domanda = new Domanda(
+				"Quale attore è protagonista nel film Una settimana da Dio?",
+				Categoria.SPETTACOLO, informazioniDomanda);
+		builder.setDomanda(domanda);
+
+		builder.setDifficolta(new Difficolta(2));
+
+		/*
+		 * aggiu ngo le risposte
+		 */
+
+		Risposta risposta = Risposta.crea("Robert Redford", false);
+		builder.aggiungiRisposta(risposta);
+
+		risposta = Risposta.crea("Jim Carrey", true);
+		builder.aggiungiRisposta(risposta);
+
+		risposta = Risposta.crea("Tom Cruise", false);
+		builder.aggiungiRisposta(risposta);
+
+		risposta = Risposta.crea("Danny Devito", false);
+		builder.aggiungiRisposta(risposta);
+
+		/*
+		 * aggiungo i suggerimenti
+		 */
+		Suggerimento suggerimento = Suggerimento.crea("${N} l'ho visto non troppo tempo fà, è ${Y}", 10, Accuratezza.CORRETTA);
+		builder.aggiungiSuggerimento(suggerimento);
+
+		suggerimento = Suggerimento.crea("non ricordo bene ,credo ${X} o ${Y}", 10, Accuratezza.IMPRECISA);
+		builder.aggiungiSuggerimento(suggerimento);
+
+		suggerimento = Suggerimento.crea("${N} mi ricordo, era ${X} ", 7, Accuratezza.SBAGLIATA);
+		builder.aggiungiSuggerimento(suggerimento);
+
+		suggerimento = Suggerimento.crea("${N} mi dispiace non so proprio cosa dirti...", 8,
+				Accuratezza.ASTENUTA);
+		builder.aggiungiSuggerimento(suggerimento);
+
+		Quesito quesito = builder.build();
+		repository.add(quesito);
+	}
 }
