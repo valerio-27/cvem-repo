@@ -178,4 +178,10 @@ public class Partita {
 		return partitaGiocata;
 	}
 
+	public int getEuroRimanenti() {
+		Valore valore = quesitoAttuale.getValore();
+		valore.ricalcolaPerCheckpoints();
+		return valore.getEuro();
+	}
+
 }
