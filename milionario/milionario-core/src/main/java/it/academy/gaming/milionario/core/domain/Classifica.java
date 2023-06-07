@@ -14,7 +14,9 @@ public class Classifica {
 		partitaGiocataRepository.save(partitaGiocata);
 	}
 	
-	public Collection<PartitaGiocata> listaPartite() {
+	public Collection<PartitaGiocata> getListaPartite() {
 		return partitaGiocataRepository.getAll();
 	}
+
+	
 }
