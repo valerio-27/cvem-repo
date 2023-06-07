@@ -6,6 +6,7 @@ import it.academy.gaming.milionario.core.application.MilionarioService;
 import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.screen.interfaze.view.screens.ClassificaScreen;
 import it.academy.gaming.milionario.screen.interfaze.view.screens.MenuScreen;
+import it.academy.gaming.milionario.screen.interfaze.view.screens.PartitaTerminataScreen;
 
 public class MilionarioController {
 
@@ -13,6 +14,7 @@ public class MilionarioController {
 
 	private MenuScreen menuScreen = new MenuScreen(this);
 	private ClassificaScreen classificaScreen = new ClassificaScreen(this);
+	private PartitaTerminataScreen partitaTerminataScreen= new PartitaTerminataScreen(this);
 
 	public MilionarioController(MilionarioService service) {
 		this.service = service;
@@ -33,6 +35,15 @@ public class MilionarioController {
 	}
 
 	public void showPartitaTerminata() {
+		partitaTerminataScreen.show();
+	}
+
+	public String getNomeGiocatore() {
+		return service.getNomeGiocatore();
+	}
+
+	public int getEuroRimanenti() {
+		return service.getEuroRimanenti();
 	}
 
 	public Collection<PartitaGiocataView> getPartiteGiocate() {

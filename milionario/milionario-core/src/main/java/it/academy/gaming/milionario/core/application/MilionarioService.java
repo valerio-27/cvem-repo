@@ -74,4 +74,12 @@ public class MilionarioService {
 		return partiteGiocateView;
 	}
 
+	public String getNomeGiocatore() {
+		return partita.getGiocatore().getNome();
+	}
+
+	public int getEuroRimanenti() {
+		return partita.getEuroRimanenti();
+	}
+
 }

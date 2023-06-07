@@ -186,4 +186,10 @@ public class Partita {
 		return this.classifica.getListaPartite();
 	}
 
+	public int getEuroRimanenti() {
+		Valore valore = quesitoAttuale.getValore();
+		valore.ricalcolaPerCheckpoints();
+		return valore.getEuro();
+	}
+
 }
