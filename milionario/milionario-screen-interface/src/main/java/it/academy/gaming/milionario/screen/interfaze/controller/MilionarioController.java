@@ -18,11 +18,15 @@ public class MilionarioController {
 	}
 
 	public void showInizioPartita() {
-
 	}
 
 	public void showClassifica() {
-
+	}
+	
+	public void showPartita() {
+	}
+	
+	public void showPartitaTerminata() {
 	}
 
 }

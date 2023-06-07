@@ -27,9 +27,8 @@ public class MilionarioService {
 		this.partita = new Partita(quesitoRepository, opzioniPersonaRepository, partitaGiocataRepository);
 	}
 
-	public PartitaView iniziaPartita(IniziaPartitaCommand command) throws PartitaException, NomeNonValidoException {
+	public void iniziaPartita(IniziaPartitaCommand command) throws PartitaException, NomeNonValidoException {
 		partita.inizia(new Giocatore(command.getNome()));
-		return new PartitaView(partita);
 	}
 
 	public PartitaView usaAiutoComputer() throws AiutoNonDisponibileException {
