@@ -19,7 +19,7 @@ public class PartitaTerminataScreen extends Screen {
 	public void show() {
 		showTitolo();
 
-		info(controller.getNomeGiocatore() + " si è portato a casa" + controller.getEuroRimanenti() + "€");
+		info(controller.getNomeGiocatore() + " si è portato a casa" + controller.getEuroAssicurati() + "€");
 
 		info(OPZIONE_MENU + ")enu");
 

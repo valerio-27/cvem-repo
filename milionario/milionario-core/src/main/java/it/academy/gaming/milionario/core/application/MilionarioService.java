@@ -3,6 +3,7 @@ package it.academy.gaming.milionario.core.application;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import it.academy.gaming.milionario.core.application.commands.IndovinaCommand;
 import it.academy.gaming.milionario.core.application.commands.IniziaPartitaCommand;
 import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.core.application.views.PartitaView;
@@ -33,9 +34,8 @@ public class MilionarioService {
 		partita.inizia(new Giocatore(command.getNome()));
 	}
 
-	public PartitaView usaAiutoComputer() throws AiutoNonDisponibileException {
+	public void usaAiutoComputer() throws AiutoNonDisponibileException {
 		partita.usaAiutoComputer();
-		return new PartitaView(partita);
 	}
 
 	public SuggerimentoView usaAiutoCasa() throws AiutoNonDisponibileException {
@@ -49,19 +49,16 @@ public class MilionarioService {
 		return new VotazioneView(votazione);
 	}
 
-	public PartitaView indovina(IndovinaRispostaCommand command) throws PartitaException {
-		this.partita.indovina(command.getLetteraRisposta());
-		return new PartitaView(partita);
+	public boolean indovina(IndovinaCommand command) throws PartitaException {
+		return this.partita.indovina(command.getLetteraRisposta());
 	}
 
-	public PartitaView continua() throws PartitaException {
+	public void continua() throws PartitaException {
 		this.partita.continua();
-		return new PartitaView(partita);
 	}
 
-	public PartitaGiocataView ritirati() throws PartitaException {
-		PartitaGiocata partitaGiocata = this.partita.ritirati();
-		return new PartitaGiocataView(partitaGiocata);
+	public void ritirati() throws PartitaException {
+		this.partita.ritirati();
 	}
 
 	public Collection<PartitaGiocataView> getPartiteGiocate() {
@@ -80,6 +77,10 @@ public class MilionarioService {
 
 	public int getEuroRimanenti() {
 		return partita.getEuroRimanenti();
+	}
+
+	public PartitaView getPartita() {
+		return new PartitaView(partita);
 	}
 
 }

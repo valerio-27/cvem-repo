@@ -1,6 +1,7 @@
-package it.academy.gaming.milionario.core.implementation.file;
+package it.academy.gaming.milionario.screen.interfaze;
 
 public class TestoUtil {
+
 
 	public static void cadenza(String testo, int cadenzaInMillisecondi) {
 
@@ -16,7 +17,16 @@ public class TestoUtil {
 			System.out.print(carattere);
 
 		}
+	}
 
+	public static String coloraRosso(String testo) {
+		return "\u001B[31m" + testo + "\u001B[0m";
+	}
+
+	public static void cadenzaPerCarattere(String testo) {
+		int numeroCaratteri = testo.length();
+		int cadenzaInMIlliecondi = 60 * numeroCaratteri;
+		cadenzaFrase(testo, cadenzaInMIlliecondi);
 	}
 
 	public static void cadenzaFrase(String testo, int cadenzaFrase) {
@@ -29,15 +39,4 @@ public class TestoUtil {
 
 	}
 
-	public static void main(String[] args) {
-
-		String testo = "Andiamo tutti a Budapest";
-
-		// TestoUtil.cadenza(testo, 1000);
-
-		String testo2 = "Non vedo l'ora che arrivi la finale di settimana prossima";
-
-		TestoUtil.cadenzaFrase(testo2, 10000);
-
-	}
 }

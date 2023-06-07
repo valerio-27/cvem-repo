@@ -3,14 +3,21 @@ package it.academy.gaming.milionario.screen.interfaze.controller;
 import java.util.Collection;
 
 import it.academy.gaming.milionario.core.application.MilionarioService;
+import it.academy.gaming.milionario.core.application.commands.IndovinaCommand;
 import it.academy.gaming.milionario.core.application.commands.IniziaPartitaCommand;
+import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
+import it.academy.gaming.milionario.core.application.views.PartitaView;
+import it.academy.gaming.milionario.core.application.views.SuggerimentoView;
+import it.academy.gaming.milionario.core.application.views.VotazioneView;
+import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 import it.academy.gaming.milionario.core.domain.exceptions.NomeNonValidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
+import it.academy.gaming.milionario.screen.interfaze.view.requests.IndovinaRequest;
 import it.academy.gaming.milionario.screen.interfaze.view.requests.IniziaPartitaRequest;
-import it.academy.gaming.milionario.screen.interfaze.view.screens.IniziaPartitaScreen;
-import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.screen.interfaze.view.screens.ClassificaScreen;
+import it.academy.gaming.milionario.screen.interfaze.view.screens.IniziaPartitaScreen;
 import it.academy.gaming.milionario.screen.interfaze.view.screens.MenuScreen;
+import it.academy.gaming.milionario.screen.interfaze.view.screens.PartitaScreen;
 import it.academy.gaming.milionario.screen.interfaze.view.screens.PartitaTerminataScreen;
 
 public class MilionarioController {
@@ -20,7 +27,8 @@ public class MilionarioController {
 	private MenuScreen menuScreen = new MenuScreen(this);
 	private IniziaPartitaScreen iniziaPartitaScreen = new IniziaPartitaScreen(this);
 	private ClassificaScreen classificaScreen = new ClassificaScreen(this);
-	private PartitaTerminataScreen partitaTerminataScreen= new PartitaTerminataScreen(this);
+	private PartitaTerminataScreen partitaTerminataScreen = new PartitaTerminataScreen(this);
+	private PartitaScreen partitaScreen = new PartitaScreen(this);
 
 	public MilionarioController(MilionarioService service) {
 		this.service = service;
@@ -39,6 +47,7 @@ public class MilionarioController {
 	}
 
 	public void showPartita() {
+		partitaScreen.show();
 	}
 
 	public void showPartitaTerminata() {
@@ -49,7 +58,7 @@ public class MilionarioController {
 		return service.getNomeGiocatore();
 	}
 
-	public int getEuroRimanenti() {
+	public int getEuroAssicurati() {
 		return service.getEuroRimanenti();
 	}
 
@@ -67,4 +76,35 @@ public class MilionarioController {
 
 	}
 
+	public PartitaView getPartita() {
+		return service.getPartita();
+	}
+
+	public boolean indovina(IndovinaRequest request) throws PartitaException {
+		return service.indovina(new IndovinaCommand(request.getLetteraRisposta()));
+
+	}
+
+	public void continua() throws PartitaException {
+		service.continua();
+		showPartita();
+	}
+
+	public void ritirati() throws PartitaException {
+		service.ritirati();
+		showMenu();
+	}
+
+	public void usaAiutoComputer() throws AiutoNonDisponibileException {
+		service.usaAiutoComputer();
+		showPartita();
+	}
+
+	public SuggerimentoView usaAiutoCasa() throws AiutoNonDisponibileException {
+		return service.usaAiutoCasa();
+	}
+
+	public VotazioneView usaAiutoPubblico() throws AiutoNonDisponibileException {
+		return service.usaAiutoPubblico();
+	}
 }

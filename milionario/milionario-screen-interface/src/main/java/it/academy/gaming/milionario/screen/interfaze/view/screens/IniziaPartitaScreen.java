@@ -1,7 +1,5 @@
 package it.academy.gaming.milionario.screen.interfaze.view.screens;
 
-import java.util.Scanner;
-
 import it.academy.games.interface_common.OpzioneStringa;
 import it.academy.games.interface_common.SceltaUtente;
 import it.academy.games.interface_common.Screen;
@@ -27,8 +25,7 @@ public class IniziaPartitaScreen extends Screen {
 		showTitolo();
 
 		info("Benvenuto nel gioco del Chi vuol essere milionario!");
-		info("/n");
-		info("/n");
+		info("\n\n");
 		info(OPZIONE_GIOCA + ")ioca");
 		info(OPZIONE_MENU + ")enu");
 		String scelta = SceltaUtente.scegli(new OpzioneStringa(OPZIONE_GIOCA), new OpzioneStringa(OPZIONE_MENU));
@@ -45,10 +42,9 @@ public class IniziaPartitaScreen extends Screen {
 				info(e.getMessage());
 				show();
 			}
-			controller.showInizioPartita();
 			break;
 		case OPZIONE_MENU:
-			controller.showClassifica();
+			controller.showMenu();
 			break;
 
 		}

@@ -9,7 +9,6 @@ public class PercentualeRispostaView {
 	private int percentuale;
 
 	public PercentualeRispostaView(PercentualeRisposta percentualeRisposta) {
-		super();
 		this.letteraRisposta = percentualeRisposta.getLetteraRisposta();
 		this.percentuale = percentualeRisposta.getPercentuale();
 	}
@@ -24,7 +23,7 @@ public class PercentualeRispostaView {
 
 	@Override
 	public String toString() {
-		return "PercentualeRispostaView [letteraRisposta=" + letteraRisposta + ", percentuale=" + percentuale + "]";
+		return letteraRisposta.toString() + percentuale + "%";
 	}
 
 }

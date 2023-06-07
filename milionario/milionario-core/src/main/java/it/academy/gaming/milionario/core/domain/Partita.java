@@ -2,7 +2,6 @@ package it.academy.gaming.milionario.core.domain;
 
 import java.util.Collection;
 
-import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
@@ -51,7 +50,7 @@ public class Partita {
 		aggiornaQuesito();
 	}
 
-	public void indovina(LetteraRisposta lettera) throws PartitaException {
+	public boolean indovina(LetteraRisposta lettera) throws PartitaException {
 		if (terminata || !iniziata) {
 			throw PartitaException.nonInCorso();
 		}
@@ -77,6 +76,8 @@ public class Partita {
 			registraPartita();
 		}
 		inAttesa = false;
+		
+		return this.terminata;
 	}
 
 	private void checkRispostaPresente(LetteraRisposta lettera) throws PartitaException {
@@ -103,7 +104,7 @@ public class Partita {
 	}
 
 	// prendi il valore della domanda appena indovinata
-	public PartitaGiocata ritirati() throws PartitaException {
+	public void ritirati() throws PartitaException {
 		if (terminata || !quesitoIndovinato) {
 			throw PartitaException.ritiroNonConsentito();
 		}
@@ -112,12 +113,11 @@ public class Partita {
 		quesitoIndovinato = false;
 		inAttesa = false;
 
-		return registraPartita();
+		registraPartita();
 	}
 
 	public void usaAiutoComputer() throws AiutoNonDisponibileException {
 		this.aiuti.usaAiutoComputer(quesitoAttuale);
-
 	}
 
 	public Suggerimento usaAiutoCasa() throws AiutoNonDisponibileException {
@@ -172,13 +172,12 @@ public class Partita {
 		}
 	}
 
-	private PartitaGiocata registraPartita() {
+	private void registraPartita() {
 		Valore valore = quesitoAttuale.getValore();
 		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, valore);
 		if (valore.getEuro() != 0) {
 			classifica.registra(partitaGiocata);
 		}
-		return partitaGiocata;
 	}
 
 	public Collection<PartitaGiocata> getPartiteGiocate() {
