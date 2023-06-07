@@ -1,5 +1,8 @@
 package it.academy.gaming.milionario.core.application;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import it.academy.gaming.milionario.core.application.commands.IniziaPartitaCommand;
 import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.core.application.views.PartitaView;
@@ -59,6 +62,24 @@ public class MilionarioService {
 	public PartitaGiocataView ritirati() throws PartitaException {
 		PartitaGiocata partitaGiocata = this.partita.ritirati();
 		return new PartitaGiocataView(partitaGiocata);
+	}
+
+	public Collection<PartitaGiocataView> getPartiteGiocate() {
+		Collection<PartitaGiocataView> partiteGiocateView = new ArrayList<PartitaGiocataView>();
+		for (PartitaGiocata partitaGiocata : this.partita.getPartiteGiocate()) {
+			partiteGiocateView.add(new PartitaGiocataView(partitaGiocata));
+
+		}
+
+		return partiteGiocateView;
+	}
+
+	public String getNomeGiocatore() {
+		return partita.getGiocatore().getNome();
+	}
+
+	public int getEuroRimanenti() {
+		return partita.getEuroRimanenti();
 	}
 
 }

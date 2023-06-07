@@ -1,5 +1,8 @@
 package it.academy.gaming.milionario.core.domain;
 
+import java.util.Collection;
+
+import it.academy.gaming.milionario.core.application.views.PartitaGiocataView;
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
@@ -176,6 +179,17 @@ public class Partita {
 			classifica.registra(partitaGiocata);
 		}
 		return partitaGiocata;
+	}
+
+	public Collection<PartitaGiocata> getPartiteGiocate() {
+
+		return this.classifica.getListaPartite();
+	}
+
+	public int getEuroRimanenti() {
+		Valore valore = quesitoAttuale.getValore();
+		valore.ricalcolaPerCheckpoints();
+		return valore.getEuro();
 	}
 
 }
