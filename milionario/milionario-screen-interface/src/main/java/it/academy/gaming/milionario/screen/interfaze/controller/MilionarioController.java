@@ -87,7 +87,6 @@ public class MilionarioController {
 
 	public void continua() throws PartitaException {
 		service.continua();
-		showPartita();
 	}
 
 	public void ritirati() throws PartitaException {
@@ -97,7 +96,6 @@ public class MilionarioController {
 
 	public void usaAiutoComputer() throws AiutoNonDisponibileException {
 		service.usaAiutoComputer();
-		showPartita();
 	}
 
 	public SuggerimentoView usaAiutoCasa() throws AiutoNonDisponibileException {

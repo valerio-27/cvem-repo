@@ -58,11 +58,9 @@ public class PartitaScreen extends Screen {
 		return opzioni.toArray(new OpzioneStringa[0]);
 	}
 
-	public void show() {
-		showTitolo();
-
+	private void showContinua() {
 		PartitaView partitaView = controller.getPartita();
-		info("Domanda dal valore di: " + partitaView.getEuro() + "€\n");
+		info("\nDomanda dal valore di: " + partitaView.getEuro() + "€\n");
 
 		DomandaView domandaView = partitaView.getDomandaView();
 		TestoUtil.cadenzaPerCarattere(domandaView.getTesto());
@@ -103,14 +101,14 @@ public class PartitaScreen extends Screen {
 
 				IndovinaRequest request = new IndovinaRequest(LetteraRisposta.valueOf(scelta));
 
-				if (controller.indovina(request)) {
-					info("hai raggiunto il premio di: " + partitaView.getEuro() + "€");
+				if (!controller.indovina(request)) {
+					info("\nhai raggiunto il premio di: " + partitaView.getEuro() + "€");
 					info("disponi di una vincita assicurata di : " + controller.getEuroAssicurati() + "€");
 
 					info("Cosa vuoi fare?\n");
 
-					info(OPZIONE_CONTINUA + "ntinua");
-					info(OPZIONE_RITIRATI + "itirati");
+					info(OPZIONE_CONTINUA + ")ntinua");
+					info(OPZIONE_RITIRATI + ")itirati");
 
 					scelta = SceltaUtente.scegli(new OpzioneStringa(OPZIONE_CONTINUA),
 							new OpzioneStringa(OPZIONE_RITIRATI));
@@ -118,6 +116,7 @@ public class PartitaScreen extends Screen {
 					switch (scelta) {
 					case OPZIONE_CONTINUA:
 						controller.continua();
+						showContinua();
 						break;
 					case OPZIONE_RITIRATI:
 						controller.ritirati();
@@ -129,11 +128,13 @@ public class PartitaScreen extends Screen {
 				break;
 			case OPZIONE_AIUTO_COMPUTER:
 				controller.usaAiutoComputer();
+				showContinua();
 				break;
 			case OPZIONE_AIUTO_CASA:
 				SuggerimentoView suggerimentoView = controller.usaAiutoCasa();
 				TestoUtil.cadenzaFrase(suggerimentoView.getTesto(), suggerimentoView.getTempoEsposizione());
-				show();
+				info("");
+				showContinua();
 				break;
 			case OPZIONE_AIUTO_PUBBLICO:
 				VotazioneView votazioneView = controller.usaAiutoPubblico();
@@ -143,12 +144,17 @@ public class PartitaScreen extends Screen {
 						+ percentualiRispostaView[1].toString() + "\n" + percentualiRispostaView[2].toString() + "	"
 						+ percentualiRispostaView[3].toString();
 				info(votazione);
-				show();
+				showContinua();
 				break;
 			}
 		} catch (PartitaException | AiutoNonDisponibileException ignored) {
 		}
 
+	}
+
+	public void show() {
+		showTitolo();
+		showContinua();
 	}
 
 	private String checkAiuto(boolean isAiutoDisponibile, String showAiuto) {

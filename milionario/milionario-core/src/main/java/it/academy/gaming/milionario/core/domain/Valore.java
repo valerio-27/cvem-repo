@@ -8,16 +8,18 @@ public class Valore {
 		this.euro = euro;
 	}
 
-	 void ricalcolaPerCheckpoints() {
+	void ricalcolaPerCheckpoints() {
 		if (euro < 5000) {
 			euro = 0;
 		} else if (euro < 30000) {
 			euro = 3000;
-		} else {
+		} else if (euro < 1000000) {
 			euro = 20000;
+		} else {
+			euro = 1000000;
 		}
 	}
-	
+
 	public static Valore parse(int euro) {
 		return new Valore(euro);
 	}

@@ -46,6 +46,7 @@ public class Partita {
 		iniziata = true;
 		inAttesa = true;
 		this.giocatore = giocatore;
+		this.aiuti.ripristinaAiuti();
 
 		aggiornaQuesito();
 	}
