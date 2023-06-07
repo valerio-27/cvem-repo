@@ -19,7 +19,6 @@ import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 
 public class MilionarioService {
 
-
 	private Partita partita;
 
 	public MilionarioService(QuesitoRepository quesitoRepository, OpzioniPersonaRepository opzioniPersonaRepository,
