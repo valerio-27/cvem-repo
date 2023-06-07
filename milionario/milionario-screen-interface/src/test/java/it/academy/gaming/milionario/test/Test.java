@@ -16,6 +16,7 @@ import it.academy.gaming.milionario.core.implementation.file.OpzioniPersonaRepos
 public class Test {
 
 	public static void main(String[] args) throws Exception {
+		
 
 		String url = "jdbc:mysql://localhost:3306/milionario";
 		String user = "root";
