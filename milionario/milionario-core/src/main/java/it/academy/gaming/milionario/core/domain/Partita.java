@@ -192,4 +192,8 @@ public class Partita {
 		return valore.getEuro();
 	}
 
+	public int getValore() {
+		return quesitoAttuale.getValore().getEuro();
+	}
+
 }

@@ -83,4 +83,8 @@ public class MilionarioService {
 		return new PartitaView(partita);
 	}
 
+	public int getValore() {
+		return partita.getValore();
+	}
+
 }

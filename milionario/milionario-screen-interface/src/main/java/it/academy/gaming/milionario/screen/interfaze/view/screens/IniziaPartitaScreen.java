@@ -25,7 +25,7 @@ public class IniziaPartitaScreen extends Screen {
 		showTitolo();
 
 		info("Benvenuto nel gioco del Chi vuol essere milionario!");
-		info("\n\n");
+		info("\n");
 		info(OPZIONE_GIOCA + ")ioca");
 		info(OPZIONE_MENU + ")enu");
 		String scelta = SceltaUtente.scegli(new OpzioneStringa(OPZIONE_GIOCA), new OpzioneStringa(OPZIONE_MENU));

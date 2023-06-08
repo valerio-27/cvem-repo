@@ -37,42 +37,42 @@ public class Test {
 
 		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(null, null);
 
-		Domanda domanda = new Domanda(
-				"Quale attore è protagonista nel film Una settimana da Dio?",
-				Categoria.SPETTACOLO, informazioniDomanda);
+		Domanda domanda = new Domanda("Come si chiama il protagonista di Delitto e castigo?", Categoria.SPETTACOLO,
+				informazioniDomanda);
 		builder.setDomanda(domanda);
 
-		builder.setDifficolta(new Difficolta(2));
+		builder.setDifficolta(new Difficolta(8));
 
 		/*
 		 * aggiu ngo le risposte
 		 */
 
-		Risposta risposta = Risposta.crea("Robert Redford", false);
+		Risposta risposta = Risposta.crea("Dmitrij", false);
 		builder.aggiungiRisposta(risposta);
 
-		risposta = Risposta.crea("Jim Carrey", true);
+		risposta = Risposta.crea("Sofja", false);
 		builder.aggiungiRisposta(risposta);
 
-		risposta = Risposta.crea("Tom Cruise", false);
+		risposta = Risposta.crea("Rodja", true);
 		builder.aggiungiRisposta(risposta);
 
-		risposta = Risposta.crea("Danny Devito", false);
+		risposta = Risposta.crea("Dunia", false);
 		builder.aggiungiRisposta(risposta);
 
 		/*
 		 * aggiungo i suggerimenti
 		 */
-		Suggerimento suggerimento = Suggerimento.crea("${N} l'ho visto non troppo tempo fà, è ${Y}", 10, Accuratezza.CORRETTA);
+		Suggerimento suggerimento = Suggerimento.crea("${N} è ${Y}, me lo ricordo bene", 10, Accuratezza.CORRETTA);
 		builder.aggiungiSuggerimento(suggerimento);
 
-		suggerimento = Suggerimento.crea("non ricordo bene ,credo ${X} o ${Y}", 10, Accuratezza.IMPRECISA);
+		suggerimento = Suggerimento.crea("non sono molto sicuro, credo sia ${Y} oppure ${X}", 10,
+				Accuratezza.IMPRECISA);
 		builder.aggiungiSuggerimento(suggerimento);
 
-		suggerimento = Suggerimento.crea("${N} mi ricordo, era ${X} ", 7, Accuratezza.SBAGLIATA);
+		suggerimento = Suggerimento.crea("${N} sono sicuro che sia ${X}", 7, Accuratezza.SBAGLIATA);
 		builder.aggiungiSuggerimento(suggerimento);
 
-		suggerimento = Suggerimento.crea("${N} mi dispiace non so proprio cosa dirti...", 8,
+		suggerimento = Suggerimento.crea("${N} mi dispiace ma non ne ho proprio idea sinceramente...", 8,
 				Accuratezza.ASTENUTA);
 		builder.aggiungiSuggerimento(suggerimento);
 

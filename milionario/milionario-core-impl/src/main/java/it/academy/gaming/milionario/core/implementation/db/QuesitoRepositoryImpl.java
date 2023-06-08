@@ -57,10 +57,11 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 
 			quesitiResultSet = preparedStatement.executeQuery();
 
-			QuesitoBuilder builder = Quesito.builder();
-			builder.setDifficolta(difficolta);
 
 			while (quesitiResultSet.next()) {
+				
+				QuesitoBuilder builder = Quesito.builder();
+				builder.setDifficolta(difficolta);
 
 				CodiceQuesito codiceQuesito = null;
 				try {
@@ -117,7 +118,7 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 
 	private void leggiRisposte(QuesitoBuilder builder, CodiceQuesito codiceQuesito, DbConnection dbConnection)
 			throws SQLException {
-		String sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Quesito q JOIN Risposta r ON q.codice =r.codice_quesito WHERE q.codice= ?";
+		String sqlScript = "SELECT r.codice ,r.testo ,r.corretta  FROM Risposta r WHERE r.codice_quesito= ?";
 
 		PreparedStatement preparedStatement = null;
 		ResultSet risposteResultSet = null;
@@ -156,7 +157,7 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 		PreparedStatement preparedStatement = null;
 		ResultSet suggerimentiResultSet = null;
 		try {
-			String sqlScript = "SELECT s.codice ,s.testo ,s.accuratezza,s.tempo_minimo FROM Quesito q JOIN Suggerimento s ON q.codice =s.codice_quesito WHERE q.codice= ?";
+			String sqlScript = "SELECT s.codice ,s.testo ,s.accuratezza,s.tempo_minimo FROM Suggerimento s WHERE s.codice_quesito= ?";
 
 			preparedStatement = dbConnection.prepareStatement(sqlScript);
 			preparedStatement.setString(1, codiceQuesito.getCodice());

@@ -105,4 +105,8 @@ public class MilionarioController {
 	public VotazioneView usaAiutoPubblico() throws AiutoNonDisponibileException {
 		return service.usaAiutoPubblico();
 	}
+
+	public int getValore() {
+		return service.getValore();
+	}
 }
