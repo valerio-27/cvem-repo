@@ -43,10 +43,11 @@ public class TestoUtil {
 		}
 	}
 
-	public static String coloraRosso(String testo) {
-		return "\u001B[31m" + testo + "\u001B[0m";
+	public static String colora(String testo,Colore colore) {
+		return colore.getAnsi() + testo + "\u001B[0m";
 	}
-
+	
+	
 	public static void cadenzaPerCarattere(String testo) {
 		int numeroCaratteri = testo.length();
 		int cadenzaInMIlliecondi = 60 * numeroCaratteri;
@@ -62,5 +63,28 @@ public class TestoUtil {
 		cadenza(testo, cadenzaCarattere);
 
 	}
-
+	
+	public enum Colore{
+		ROSSO,VERDE,BLU;
+		
+		public String getAnsi() {
+			String ansi="";
+			switch (this) {
+			case ROSSO:
+				ansi="\u001B[31m";
+				break;
+			case VERDE:
+				ansi="\u001B[32m";	
+				break;
+			case BLU:
+				ansi="\u001B[34m";	
+				break;
+				
+					
+			}
+			return ansi;
+		}
+		
+		
+	}
 }

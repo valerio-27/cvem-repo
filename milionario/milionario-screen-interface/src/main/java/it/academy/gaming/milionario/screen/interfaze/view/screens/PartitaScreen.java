@@ -16,6 +16,7 @@ import it.academy.gaming.milionario.core.domain.LetteraRisposta;
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 import it.academy.gaming.milionario.screen.interfaze.TestoUtil;
+import it.academy.gaming.milionario.screen.interfaze.TestoUtil.Colore;
 import it.academy.gaming.milionario.screen.interfaze.controller.MilionarioController;
 import it.academy.gaming.milionario.screen.interfaze.view.requests.IndovinaRequest;
 
@@ -158,6 +159,6 @@ public class PartitaScreen extends Screen {
 	}
 
 	private String checkAiuto(boolean isAiutoDisponibile, String showAiuto) {
-		return ((isAiutoDisponibile) ? showAiuto : TestoUtil.coloraRosso(showAiuto));
+		return ((isAiutoDisponibile) ? TestoUtil.colora(showAiuto,Colore.BLU) : TestoUtil.colora(showAiuto,Colore.ROSSO));
 	}
 }

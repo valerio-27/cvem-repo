@@ -221,4 +221,14 @@ public class Quesito {
 		return risposteDisponibili;
 	}
 
+	public String getTestoRispostaCorretta() {
+		String testoRispostaCorretta = "";
+		for (Risposta risposta : getRisposteDisponibili()) {
+			if (risposta.isCorretta()) {
+				testoRispostaCorretta = risposta.getTesto();
+			}
+		}
+		return testoRispostaCorretta;
+	}
+
 }

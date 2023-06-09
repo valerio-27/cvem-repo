@@ -109,4 +109,8 @@ public class MilionarioController {
 	public int getValore() {
 		return service.getValore();
 	}
+
+	public String getTestoRispostaCorretta() {
+		return service.getTestoRispostaCorretta();
+	}
 }

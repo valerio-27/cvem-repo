@@ -196,4 +196,8 @@ public class Partita {
 		return quesitoAttuale.getValore().getEuro();
 	}
 
+	public String getTestoRispostaCorretta() {
+		return quesitoAttuale.getTestoRispostaCorretta();
+	}
+
 }
