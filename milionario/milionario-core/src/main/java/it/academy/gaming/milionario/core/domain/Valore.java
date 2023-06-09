@@ -9,9 +9,9 @@ public class Valore {
 	}
 
 	void ricalcolaPerCheckpoints() {
-		if (euro < 5000) {
+		if (euro < 3000) {
 			euro = 0;
-		} else if (euro < 30000) {
+		} else if (euro < 20000) {
 			euro = 3000;
 		} else if (euro < 1000000) {
 			euro = 20000;

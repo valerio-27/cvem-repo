@@ -139,7 +139,6 @@ public class CvemController {
 		for (InserisciSuggerimentoRequest suggerimentoRequest : request.getSuggerimenti()) {
 			suggerimentoCommands.add(new InserisciSuggerimentoCommand(suggerimentoRequest.getTestoSuggerimento(),
 					suggerimentoRequest.getAccuratezza(), suggerimentoRequest.getTempoMinimo()));
-
 		}
 		InserisciQuesitoCommand quesitoCommand = new InserisciQuesitoCommand(domandaCommand, arrayRispostaCommands,
 				suggerimentoCommands, request.getLivelloDifficolta());
