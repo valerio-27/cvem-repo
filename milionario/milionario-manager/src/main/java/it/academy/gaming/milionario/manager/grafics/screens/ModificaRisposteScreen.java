@@ -93,7 +93,7 @@ public class ModificaRisposteScreen extends Screen {
 				List<ModificaRispostaRequest> risposteRequest = new ArrayList<>();
 
 				for (int i = 0; i < 4; i++) {
-					boolean corretta = i == indiceRispostaGiusta;
+					boolean corretta = i == indiceRispostaGiusta - 1;
 					risposteRequest.add(new ModificaRispostaRequest(testiRisposteAttuali.get(i), corretta));
 				}
 
@@ -102,6 +102,7 @@ public class ModificaRisposteScreen extends Screen {
 
 				try {
 					controller.modificaRisposte(request);
+					break;
 				} catch (QuesitoNonTrovatoException | RisposteInvalideException | TestoRispostaAssenteException
 						| CodiceInvalidoException e) {
 					mostraInfo(e.getMessage());

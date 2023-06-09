@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Properties;
 
 import it.academy.gaming.milionario.core.domain.PercentualeFortuna;
@@ -16,13 +15,13 @@ import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository
 
 public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 	private Properties properties;
-	private String pathDir;
+	private String absoluteFilePath;
 
-	public OpzioniPersonaRepositoryImpl(String pathDir) throws FileNotFoundException {
+	public OpzioniPersonaRepositoryImpl(String absoluteFilePath) throws FileNotFoundException {
 		super();
 		this.properties = new Properties();
-		this.pathDir = pathDir;
-		loadProperties(pathDir);
+		this.absoluteFilePath = absoluteFilePath;
+		loadProperties(absoluteFilePath);
 	}
 
 	private void loadProperties(String pathDir) {
@@ -69,7 +68,7 @@ public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 		properties.setProperty("percentuale_fortuna", String.valueOf(percentualeFortuna.getPercentualeFortuna()));
 
 		try {
-			FileOutputStream output = new FileOutputStream(new File(pathDir), true); // Aggiunge i dati al file
+			FileOutputStream output = new FileOutputStream(new File(absoluteFilePath), true); // Aggiunge i dati al file
 			properties.store(output, "Opzioni Persona");
 			output.close(); // Chiude lo stream dopo l'utilizzo
 		} catch (IOException e) {

@@ -16,6 +16,7 @@ public abstract class Screen {
 	}
 
 	protected void showTitle() {
+		mostraInfo("\n");
 		mostraInfo(nome);
 		mostraInfo("-----------------------------------------------------------");
 	}

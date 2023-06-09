@@ -12,4 +12,10 @@ public class DifficoltaView {
 		return difficolta;
 	}
 
+	@Override
+	public String toString() {
+		return difficolta + "";
+	}
+	
+
 }

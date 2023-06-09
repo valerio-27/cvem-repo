@@ -17,6 +17,7 @@ public class ModificaDifficoltaScreen extends Screen {
 
 	private static final String OPZIONE_ESCI_DALLE_MODIFICHE = "E";
 	private static final String OPZIONE_SALVA = "S";
+	private static final String OPZIONE_MODIFICA = "M";
 	private static final String OPZIONE_INDIETRO = "I";
 
 	public void show() {
@@ -41,16 +42,16 @@ public class ModificaDifficoltaScreen extends Screen {
 		mostraInfo("Questo e' il livello di difficolta' attuale: "
 				+ quesitoRichiestoView.getDifficoltaView().getLivelloDifficolta());
 		mostraInfo("M)odifica");
-		mostraInfo("I)ndietro");
+		mostraInfo("E)sci dalle modifiche");
 
 		String scelta = scanner.next();
 		scanner.nextLine();
 		try {
 			switch (scelta.toUpperCase()) {
 
-			case "M":
+			case OPZIONE_MODIFICA:
 				acquisisciDatoRelativoAllaDifficolta(controller.getMinimoDiDifficolta(),
-						controller.getMassimoDiDifficolta(),quesitoRichiestoView);
+						controller.getMassimoDiDifficolta(), quesitoRichiestoView);
 				break;
 			case OPZIONE_ESCI_DALLE_MODIFICHE:
 				controller.showModificaQuesitoScreen();

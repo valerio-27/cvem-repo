@@ -44,10 +44,16 @@ public class QuesitoView {
 //TODO aggiungi la view dei suggerimenti
 	@Override
 	public String toString() {
+		String suggerimentoViews = "";
+		for (SuggerimentoView suggerimentoView : suggerimentiView) {
+			suggerimentoViews += suggerimentoView.toString() + "\n";
+
+		}
+
 		return "Quesito: " + domandaView.toString() + ";\n" + "Risposte: " + "\n" + risposteView.get(0).toString()
 				+ "\n" + risposteView.get(1).toString() + "\n" + risposteView.get(2).toString() + "\n"
-				+ risposteView.get(3).toString() + "\n" + "Difficolta= " + difficoltaView.toString() + ";\n" + "Codice="
-				+ codice + ".";
+				+ risposteView.get(3).toString() + "\n" + "Difficolta'= " + difficoltaView.toString() + ";\n"
+				+ "Suggerimenti: " + "\n" + suggerimentoViews + "Codice= " + codice + ".";
 	}
 
 }

@@ -14,15 +14,15 @@ import it.academy.gaming.milionario.core.domain.exceptions.PercentualeFortunaNon
 public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 	private Properties properties;
 
-	public OpzioniPersonaRepositoryImpl(String pathDir) {
+	public OpzioniPersonaRepositoryImpl(String absoluteFilePath) {
 		super();
-		loadProperties(pathDir);
+		loadProperties(absoluteFilePath);
 
 	}
 
-	private void loadProperties(String pathDir) {
+	private void loadProperties(String absoluteFilePath) {
 		properties = new Properties();
-		try (FileInputStream input = new FileInputStream(new File(pathDir))) {
+		try (FileInputStream input = new FileInputStream(new File(absoluteFilePath))) {
 			properties.load(input);
 		} catch (IOException e) {
 			e.printStackTrace();

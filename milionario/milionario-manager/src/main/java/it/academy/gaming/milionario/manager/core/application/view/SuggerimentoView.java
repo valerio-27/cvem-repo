@@ -28,9 +28,8 @@ public class SuggerimentoView {
 
 	@Override
 	public String toString() {
-		return  "\"" +testo +"\", "+ ", accuratezza=" + accuratezza.toString()
-				+ ", tempoMinimo=" + tempoMinimo ;
+		return "\"" + testo + "\", " + ", accuratezza= " + accuratezza.toString() + ", tempoMinimo= " + tempoMinimo
+				+ ";";
 	}
-	
 
 }

@@ -19,8 +19,12 @@ import it.academy.gaming.milionario.core.domain.exceptions.NumeroMassimoRisposte
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentiInvalidiException;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 import it.academy.gaming.milionario.core.domain.exceptions.TestoRispostaAssenteException;
+import it.academy.gaming.milionario.manager.core.application.CvemService;
+import it.academy.gaming.milionario.manager.core.domain.OpzioniPersonaRepository;
 import it.academy.gaming.milionario.manager.core.domain.QuesitoRepository;
+import it.academy.gaming.milionario.manager.core_impl.OpzioniPersonaRepositoryImpl;
 import it.academy.gaming.milionario.manager.core_impl.QuesitoRepositoryImplementation;
+import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 
 public class Test {
 	public static void main(String[] args)
@@ -32,51 +36,57 @@ public class Test {
 		String password = "admin";
 
 		QuesitoRepository repository = new QuesitoRepositoryImplementation(url, user, password);
+		String absoluteFilePath = "C:/Users/aniso/milionario_opzioni_persona.properties";
+		OpzioniPersonaRepository opzioniRepository = new OpzioniPersonaRepositoryImpl(absoluteFilePath);
 
-		QuesitoBuilder builder = Quesito.builder();
+		CvemService service = new CvemService(repository, opzioniRepository);
+		CvemController controller = new CvemController(service);
+		controller.showMenuScreen();
 
-		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(null, null);
-
-		Domanda domanda = new Domanda("Come si chiama il protagonista di Delitto e castigo?", Categoria.SPETTACOLO,
-				informazioniDomanda);
-		builder.setDomanda(domanda);
-
-		builder.setDifficolta(new Difficolta(8));
-
-		/*
-		 * aggiu ngo le risposte
-		 */
-
-		Risposta risposta = Risposta.crea("Dmitrij", false);
-		builder.aggiungiRisposta(risposta);
-
-		risposta = Risposta.crea("Sofja", false);
-		builder.aggiungiRisposta(risposta);
-
-		risposta = Risposta.crea("Rodja", true);
-		builder.aggiungiRisposta(risposta);
-
-		risposta = Risposta.crea("Dunia", false);
-		builder.aggiungiRisposta(risposta);
-
-		/*
-		 * aggiungo i suggerimenti
-		 */
-		Suggerimento suggerimento = Suggerimento.crea("${N} � ${Y}, me lo ricordo bene", 10, Accuratezza.CORRETTA);
-		builder.aggiungiSuggerimento(suggerimento);
-
-		suggerimento = Suggerimento.crea("non sono molto sicuro, credo sia ${Y} oppure ${X}", 10,
-				Accuratezza.IMPRECISA);
-		builder.aggiungiSuggerimento(suggerimento);
-
-		suggerimento = Suggerimento.crea("${N} sono sicuro che sia ${X}", 7, Accuratezza.SBAGLIATA);
-		builder.aggiungiSuggerimento(suggerimento);
-
-		suggerimento = Suggerimento.crea("${N} mi dispiace ma non ne ho proprio idea sinceramente...", 8,
-				Accuratezza.ASTENUTA);
-		builder.aggiungiSuggerimento(suggerimento);
-
-		Quesito quesito = builder.build();
-		repository.add(quesito);
+//		QuesitoBuilder builder = Quesito.builder();
+//
+//		InformazioniDomanda informazioniDomanda = new InformazioniDomanda(null, null);
+//
+//		Domanda domanda = new Domanda("Aereo civile che vola a due volte la velocità del suono", Categoria.SCIENZA,
+//				informazioniDomanda);
+//		builder.setDomanda(domanda);
+//
+//		builder.setDifficolta(new Difficolta(12));
+//
+//		/*
+//		 * aggiu ngo le risposte
+//		 */
+//
+//		Risposta risposta = Risposta.crea("Bell X2 Starbuster", false);
+//		builder.aggiungiRisposta(risposta);
+//
+//		risposta = Risposta.crea("AIRBUS A 380", false);
+//		builder.aggiungiRisposta(risposta);
+//
+//		risposta = Risposta.crea("Concorde", true);
+//		builder.aggiungiRisposta(risposta);
+//
+//		risposta = Risposta.crea("Space Shuttle", false);
+//		builder.aggiungiRisposta(risposta);
+//
+//		/*
+//		 * aggiungo i suggerimenti
+//		 */
+//		Suggerimento suggerimento = Suggerimento.crea("Non è il piu' veloce ma sono sicuro sia il  ${Y}", 10,
+//				Accuratezza.CORRETTA);
+//		builder.aggiungiSuggerimento(suggerimento);
+//
+//		suggerimento = Suggerimento.crea("Sono molto indeciso, credo sia ${Y} oppure ${X}", 10, Accuratezza.IMPRECISA);
+//		builder.aggiungiSuggerimento(suggerimento);
+//
+//		suggerimento = Suggerimento.crea("${N} penso sia ${X}", 7, Accuratezza.SBAGLIATA);
+//		builder.aggiungiSuggerimento(suggerimento);
+//
+//		suggerimento = Suggerimento.crea("${N} mi dispiace non vorrei suggerirti male non la so...", 8,
+//				Accuratezza.ASTENUTA);
+//		builder.aggiungiSuggerimento(suggerimento);
+//
+//		Quesito quesito = builder.build();
+//		repository.add(quesito);
 	}
 }
