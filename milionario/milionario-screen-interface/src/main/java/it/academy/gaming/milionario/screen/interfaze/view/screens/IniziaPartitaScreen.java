@@ -24,7 +24,7 @@ public class IniziaPartitaScreen extends Screen {
 	public void show() {
 		showTitolo();
 
-		info("Benvenuto nel gioco del Chi vuol essere milionario!");
+		info("Benvenuto nel gioco del 'Chi Vuol Essere Milionario?'");
 		info("\n");
 		info(OPZIONE_GIOCA + ")ioca");
 		info(OPZIONE_MENU + ")enu");

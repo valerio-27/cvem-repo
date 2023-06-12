@@ -26,9 +26,14 @@ public class PartitaTerminataScreen extends Screen {
 		if (valore != 1000000) {
 			info("Risposta sbagliata, quella corretta era: "
 					+ TestoUtil.colora(controller.getTestoRispostaCorretta(), Colore.VERDE));
+			if (valore == 0) {
+				info(controller.getNomeGiocatore() + ", purtroppo non hai vinto nessun premio");
+			} else {
+				info(controller.getNomeGiocatore() + ", hai vinto un premio dal valore di: " + valore + "€");
+			}
+		} else {
+			info("Complimenti " + controller.getNomeGiocatore() + ", sei diventato milionario!");
 		}
-
-		info(controller.getNomeGiocatore() + " si è portato a casa " + valore + "€");
 
 		info(OPZIONE_MENU + ")enu");
 

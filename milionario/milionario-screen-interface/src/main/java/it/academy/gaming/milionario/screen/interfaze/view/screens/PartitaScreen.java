@@ -103,8 +103,15 @@ public class PartitaScreen extends Screen {
 				IndovinaRequest request = new IndovinaRequest(LetteraRisposta.valueOf(scelta));
 
 				if (!controller.indovina(request)) {
-					info("\nhai raggiunto il premio di: " + partitaView.getEuro() + "€");
-					info("disponi di una vincita assicurata di : " + controller.getEuroAssicurati() + "€");
+					info("\nHai raggiunto il premio di: " + partitaView.getEuro() + "€");
+					
+					int euroAssicurati = controller.getEuroAssicurati();
+					if(euroAssicurati==0) {
+						info("Non hai raggiunto nessun traguardo");
+					}else {
+						info("Il tuo traguardo attuale è di: " + controller.getEuroAssicurati() + "€");	
+					}
+					
 
 					info("Cosa vuoi fare?\n");
 
