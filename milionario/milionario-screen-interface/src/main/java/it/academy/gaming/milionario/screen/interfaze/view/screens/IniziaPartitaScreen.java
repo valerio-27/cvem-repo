@@ -46,7 +46,6 @@ public class IniziaPartitaScreen extends Screen {
 		case OPZIONE_MENU:
 			controller.showMenu();
 			break;
-
 		}
 	}
 }

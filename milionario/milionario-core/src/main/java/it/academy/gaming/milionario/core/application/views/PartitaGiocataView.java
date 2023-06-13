@@ -27,7 +27,7 @@ public class PartitaGiocataView implements Comparable<PartitaGiocataView> {
 
 	@Override
 	public int compareTo(PartitaGiocataView o) {
-		// Ordinamento decrescente per il valore degli euro
+		/* Ordinamento decrescente per il valore degli euro */
 		return Integer.compare(o.getEuro(), this.euro);
 	}
 

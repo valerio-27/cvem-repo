@@ -40,7 +40,6 @@ public class MilionarioService {
 
 	public SuggerimentoView usaAiutoCasa() throws AiutoNonDisponibileException {
 		Suggerimento suggerimento = partita.usaAiutoCasa();
-
 		return new SuggerimentoView(suggerimento);
 	}
 
@@ -67,7 +66,6 @@ public class MilionarioService {
 			partiteGiocateView.add(new PartitaGiocataView(partitaGiocata));
 
 		}
-
 		return partiteGiocateView;
 	}
 

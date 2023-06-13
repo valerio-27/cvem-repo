@@ -4,6 +4,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileEx
 
 /**
  * rimane instanziato per tutto il ciclo di vita dell'applicazione
+ * 
  * @author Valerio.Crispini
  */
 public class Aiuti {

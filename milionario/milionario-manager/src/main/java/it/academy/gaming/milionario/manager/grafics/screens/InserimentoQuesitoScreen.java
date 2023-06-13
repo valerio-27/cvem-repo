@@ -58,7 +58,6 @@ public class InserimentoQuesitoScreen extends Screen {
 		for (InputSuggerimento inputSuggerimento : suggerimenti) {
 			requestsSuggerimenti.add(new InserisciSuggerimentoRequest(inputSuggerimento));
 		}
-
 		int livelloDiDifficolta = acquisisciDatoRelativoLaDifficolta(controller.getMinimoDiDifficolta(),
 				controller.getMassimoDiDifficolta());
 
@@ -191,7 +190,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciTempoMinSuggerimento();
 		}
-
 		return tempoMinimo;
 	}
 
@@ -208,7 +206,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciDatoRelativoLaDifficolta(minimoDiDifficolta, massimoDiDifficlta);
 		}
-
 		return scelta;
 	}
 
@@ -225,7 +222,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciDatiRelativiAllaRisposta(indiceDellaRisposta);
 		}
-
 	}
 
 	private InputDomanda aquisisciDatiRelativiAllaDomanda() {
@@ -265,5 +261,4 @@ public class InserimentoQuesitoScreen extends Screen {
 			return aquisisciDatiRelativiAllaDomanda();
 		}
 	}
-
 }
