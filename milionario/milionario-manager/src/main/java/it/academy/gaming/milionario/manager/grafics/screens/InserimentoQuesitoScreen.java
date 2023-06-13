@@ -18,7 +18,7 @@ import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
 import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;
-import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggeriMemtoErratoException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggerimentoInvalidoException;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciDomandaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;
@@ -115,7 +115,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoAstenuto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoAstenuto();
 		}
@@ -132,7 +132,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoSbagliato(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoSbagliato();
 		}
@@ -149,7 +149,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoCorretto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoCorretto();
 		}
@@ -167,7 +167,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoImpreciso(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoImpreciso();
 		}

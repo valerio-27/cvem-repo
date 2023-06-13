@@ -7,11 +7,11 @@ public class RisposteInvalideException extends CreazioneQuesitoException {
 	}
 
 	public static RisposteInvalideException presenteRispostaNulla() {
-		return new RisposteInvalideException("Il quesito necessita di 4 risposte");
+		return new RisposteInvalideException("Il quesito deve avere esattamente 4 risposte");
 	}
 
 	public static RisposteInvalideException rispostaEsattaUnivocaAssente() {
-		return new RisposteInvalideException("Il quesito necessita di 1 risposta esatta");
+		return new RisposteInvalideException("Il quesito può avere solamente 1 risposta esatta");
 	}
 
 }

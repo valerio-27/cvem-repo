@@ -7,19 +7,19 @@ public class PartitaException extends Exception {
 	}
 
 	public static PartitaException nonContinuabile() {
-		return new PartitaException("Partita non continuabile");
+		return new PartitaException("La partita non è continuabile");
 	}
 
 	public static PartitaException ritiroNonConsentito() {
-		return new PartitaException("ritiro non consentito");
+		return new PartitaException("Il ritiro non è consentito");
 	}
 
 	public static PartitaException giaInCorso() {
-		return new PartitaException("gia in corso");
+		return new PartitaException("La partita è gia in corso");
 	}
 
 	public static PartitaException nonInCorso() {
-		return new PartitaException("non in corso");
+		return new PartitaException("La partita non è in corso");
 	}
 
 	public static PartitaException nonInAttesa() {
@@ -27,7 +27,7 @@ public class PartitaException extends Exception {
 	}
 
 	public static PartitaException rispostaNonPresente() {
-		return new PartitaException("la risposta non è presente");
+		return new PartitaException("La risposta non è presente");
 	}
 
 }
