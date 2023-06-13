@@ -27,12 +27,12 @@ public class SuggerimentoInvalidoException extends Exception {
 	}
 
 	public static SuggerimentoInvalidoException parametriInvalidi() {
-		return new SuggerimentoInvalidoException("il suggerimento presenta parametri invalidi");
+		return new SuggerimentoInvalidoException("Il suggerimento presenta parametri invalidi");
 	}
 
 	public static SuggerimentoInvalidoException numeroBookmarksRispostaSbagliataInvalidi() {
 		return new SuggerimentoInvalidoException(
-				"impossibile creare un suggerimento con più di un riferimento a una risposta sbagliata");
+				"Impossibile creare un suggerimento con più di un riferimento a una risposta sbagliata");
 	}
 
 }

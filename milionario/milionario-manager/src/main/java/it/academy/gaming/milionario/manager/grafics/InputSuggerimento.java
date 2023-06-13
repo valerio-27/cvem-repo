@@ -1,7 +1,7 @@
 package it.academy.gaming.milionario.manager.grafics;
 
 import it.academy.gaming.milionario.core.domain.Accuratezza;
-import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggeriMemtoErratoException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggerimentoInvalidoException;
 
 public class InputSuggerimento {
 	private String testo;
@@ -28,7 +28,7 @@ public class InputSuggerimento {
 	}
 
 	public static InputSuggerimento creaInputSuggerimentoCorretto(String testoSuggerimento, int tempoMin)
-			throws TestoSuggeriMemtoErratoException {
+			throws TestoSuggerimentoInvalidoException {
 		/*
 		 * mostraInfo("Indica nel testo con \"${y}\" la posizione del riferimento alla risposta corretta (obbligatotio)"
 		 * );
@@ -37,35 +37,35 @@ public class InputSuggerimento {
 		 * 
 		 */
 		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${Y}")) {
-			throw TestoSuggeriMemtoErratoException.testoSuggerimentoCorrettoErrato(testoSuggerimento);
+			throw TestoSuggerimentoInvalidoException.testoSuggerimentoCorrettoErrato(testoSuggerimento);
 		}
 
 		return new InputSuggerimento(testoSuggerimento, tempoMin, Accuratezza.CORRETTA);
 	}
 
 	public static InputSuggerimento creaInputSuggerimentoImpreciso(String testoSuggerimento, int tempoMin)
-			throws TestoSuggeriMemtoErratoException {
+			throws TestoSuggerimentoInvalidoException {
 		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${Y}")
 				|| !testoSuggerimento.contains("${X}")) {
-			throw TestoSuggeriMemtoErratoException.testoSuggerimentoImprecisoErrato(testoSuggerimento);
+			throw TestoSuggerimentoInvalidoException.testoSuggerimentoImprecisoErrato(testoSuggerimento);
 		}
 
 		return new InputSuggerimento(testoSuggerimento, tempoMin, Accuratezza.IMPRECISA);
 	}
 
 	public static InputSuggerimento creaInputSuggerimentoSbagliato(String testoSuggerimento, int tempoMin)
-			throws TestoSuggeriMemtoErratoException {
+			throws TestoSuggerimentoInvalidoException {
 		if (testoSuggerimento.isBlank() || !testoSuggerimento.toUpperCase().contains("${X}")) {
-			throw TestoSuggeriMemtoErratoException.testoSuggerimentoSbagliatoErrato(testoSuggerimento);
+			throw TestoSuggerimentoInvalidoException.testoSuggerimentoSbagliatoErrato(testoSuggerimento);
 		}
 
 		return new InputSuggerimento(testoSuggerimento, tempoMin, Accuratezza.SBAGLIATA);
 	}
 
 	public static InputSuggerimento creaInputSuggerimentoAstenuto(String testoSuggerimento, int tempoMin)
-			throws TestoSuggeriMemtoErratoException {
+			throws TestoSuggerimentoInvalidoException {
 		if (testoSuggerimento.isBlank()) {
-			throw TestoSuggeriMemtoErratoException.testoSuggerimentoAstenutoErrato(testoSuggerimento);
+			throw TestoSuggerimentoInvalidoException.testoSuggerimentoAstenutoErrato(testoSuggerimento);
 		}
 
 		return new InputSuggerimento(testoSuggerimento, tempoMin, Accuratezza.ASTENUTA);

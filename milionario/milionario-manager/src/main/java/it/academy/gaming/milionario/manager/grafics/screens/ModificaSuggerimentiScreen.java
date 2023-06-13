@@ -10,7 +10,7 @@ import it.academy.gaming.milionario.manager.core.application.view.SuggerimentoVi
 import it.academy.gaming.milionario.manager.core.exceptions.QuesitoNonTrovatoException;
 import it.academy.gaming.milionario.manager.grafics.InputSuggerimento;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
-import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggeriMemtoErratoException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggerimentoInvalidoException;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaSuggerimentiRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.ModificaSuggerimentoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.RecuperaQuesitoRequest;
@@ -170,7 +170,7 @@ public class ModificaSuggerimentiScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoAstenuto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoAstenuto();
 		}
@@ -187,7 +187,7 @@ public class ModificaSuggerimentiScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoSbagliato(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoSbagliato();
 		}
@@ -204,7 +204,7 @@ public class ModificaSuggerimentiScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoCorretto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoCorretto();
 		}
@@ -222,7 +222,7 @@ public class ModificaSuggerimentiScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoImpreciso(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoImpreciso();
 		}
