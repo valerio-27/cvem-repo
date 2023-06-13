@@ -110,35 +110,15 @@ public class Suggerimento {
 		return TEMPO_MASSIMO;
 	}
 
-	public void valorizzaBookmarks(Giocatore giocatore, Collection<Risposta> risposteDisponibili) {
-		String testoRispostaCorretta = getTestoRispostaCorretta(risposteDisponibili);
-		String testoRispostaSbagliata = getTestoRispostaSbagliata(risposteDisponibili);
+	public void valorizzaBookmarks(Giocatore giocatore, Quesito quesito) {
+		String testoRispostaCorretta = quesito.getTestoRispostaCorretta();
+		String testoRispostaSbagliata = quesito.getTestoRispostaSbagliata();
 
 		testo = testo.replaceAll(bookmarkValorizzazioneNome, giocatore.getNome());
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaCorretta, testoRispostaCorretta);
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaSbagliata, testoRispostaSbagliata);
 
 		generaTempoEsposizione();
-	}
-
-	private String getTestoRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
-		String testo = "";
-		for (Risposta risposta : risposteDisponibili) {
-			if (!risposta.isCorretta()) {
-				testo = risposta.getTesto();
-			}
-		}
-		return testo;
-	}
-
-	private String getTestoRispostaCorretta(Collection<Risposta> risposteDisponibili) {
-		String testo = "";
-		for (Risposta risposta : risposteDisponibili) {
-			if (risposta.isCorretta()) {
-				testo = risposta.getTesto();
-			}
-		}
-		return testo;
 	}
 
 	public CodiceSuggerimento getCodice() {

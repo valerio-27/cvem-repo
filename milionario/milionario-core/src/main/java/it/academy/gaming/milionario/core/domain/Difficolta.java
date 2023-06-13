@@ -9,12 +9,6 @@ public class Difficolta {
 
 	private int livello;
 
-	/**
-	 * il livello di difficolta deve essere compreso tra il minimo e massimo
-	 * 
-	 * @param difficolta
-	 * @throws DifficoltaNonInRangeException
-	 */
 	public Difficolta(int difficolta) throws DifficoltaNonInRangeException {
 		if (difficolta < MINIMO || difficolta > MASSIMO) {
 			throw new DifficoltaNonInRangeException(livello);

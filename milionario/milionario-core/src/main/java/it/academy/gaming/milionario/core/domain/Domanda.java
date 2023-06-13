@@ -4,11 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import it.academy.gaming.milionario.core.domain.exceptions.CreazioneDomandaException;
 
-//Domanda domanda 
-//.String testo
-//.Enum Categoria categoria
-//.InformazioniDomanda informazioni NON obbligatorio
-
 public class Domanda {
 	private String testo;
 	private Categoria categoria;

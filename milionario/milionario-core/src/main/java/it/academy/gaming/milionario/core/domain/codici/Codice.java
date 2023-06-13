@@ -13,11 +13,8 @@ public abstract class Codice {
 		}
 		this.codice = codice;
 	}
-	
+
 	public String getCodice() {
 		return codice;
 	}
-
-	
-	
 }

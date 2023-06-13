@@ -104,14 +104,6 @@ public class Votazione {
 			}
 		}
 
-		public PercentualeRisposta[] getPercentualiRisposta() {
-			return percentualiRisposta;
-		}
-
-		public void setPercentualiRisposta(PercentualeRisposta[] percentualiRisposta) {
-			this.percentualiRisposta = percentualiRisposta;
-		}
-
 	}
 
 	@Override

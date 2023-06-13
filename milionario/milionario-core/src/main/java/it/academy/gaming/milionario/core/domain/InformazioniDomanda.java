@@ -17,5 +17,4 @@ public class InformazioniDomanda {
 	public String getUrlDocumentazione() {
 		return urlDocumentazione;
 	}
-
 }

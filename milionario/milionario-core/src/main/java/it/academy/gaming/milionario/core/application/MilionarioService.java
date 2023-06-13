@@ -88,5 +88,4 @@ public class MilionarioService {
 	public String getTestoRispostaCorretta() {
 		return partita.getTestoRispostaCorretta();
 	}
-
 }

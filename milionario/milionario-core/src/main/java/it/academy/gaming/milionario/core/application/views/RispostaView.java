@@ -9,7 +9,6 @@ public class RispostaView {
 	private LetteraRisposta lettera;
 
 	public RispostaView(Risposta risposta) {
-
 		this.testo = risposta.getTesto();
 		this.lettera = risposta.getLettera();
 	}

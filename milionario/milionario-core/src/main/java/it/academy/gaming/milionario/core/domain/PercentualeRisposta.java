@@ -5,7 +5,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.PercentualeRispostaIn
 public class PercentualeRisposta {
 
 	private LetteraRisposta letteraRisposta;
-	private int percentuale = 0;
+	private int percentuale;
 
 	public PercentualeRisposta(LetteraRisposta letteraRisposta) throws PercentualeRispostaInvalidaExcpetion {
 		if (letteraRisposta == null) {
@@ -33,5 +33,4 @@ public class PercentualeRisposta {
 	public String toString() {
 		return   letteraRisposta.toString() + percentuale;
 	}
-
 }
