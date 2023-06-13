@@ -21,7 +21,7 @@ public class Suggerimento {
 
 	private static String bookmarkRispostaCorretta = "${Y}";
 	private static String bookmarkRispostaSbagliata = "${X}";
-	
+
 	private static String bookmarkValorizzazioneNome = "\\$\\{N\\}";
 	private static String bookmarkValorizzazioneRispostaCorretta = "\\$\\{Y\\}";
 	private static String bookmarkValorizzazioneRispostaSbagliata = "\\$\\{X\\}";
@@ -44,7 +44,6 @@ public class Suggerimento {
 		if (StringUtils.isBlank(testo) || tempoMinimo < 1 || tempoMinimo > 30 || accuratezza == null) {
 			throw SuggerimentoInvalidoException.parametriInvalidi();
 		}
-
 		if (accuratezza != Accuratezza.ASTENUTA) {
 			int ricorrenzeBookmarkRispostaSbagliata = StringUtils.countMatches(testo, bookmarkRispostaSbagliata);
 			if (ricorrenzeBookmarkRispostaSbagliata > 1) {
@@ -53,22 +52,34 @@ public class Suggerimento {
 		}
 		switch (accuratezza) {
 		case ASTENUTA:
+			/*
+			 * non deve contenere risposte
+			 */
 			if (testo.contains(bookmarkRispostaCorretta) || testo.contains(bookmarkRispostaSbagliata))
 				throw SuggerimentoInvalidoException.astenuta();
 			break;
 		case CORRETTA:
+			/*
+			 * deve contenere una risposta corretta e non deve contenere la risposta
+			 * corretta
+			 */
 			if (!testo.contains(bookmarkRispostaCorretta)) {
 				throw SuggerimentoInvalidoException.corretta();
 			}
 			break;
 		case IMPRECISA:
+			/*
+			 * deve contenere una risposta sbagliata e una risposta corretta
+			 */
 			if (!(testo.contains(bookmarkRispostaCorretta) && testo.contains(bookmarkRispostaSbagliata))) {
 				throw SuggerimentoInvalidoException.imprecisa();
 			}
 			break;
 		case SBAGLIATA:
-			// deve contenere almeno una risposta sbagliata e non deve contenere la risposta
-			// corretta"
+			/*
+			 * deve contenere una risposta sbagliata e non deve contenere la risposta
+			 * corretta
+			 */
 			if (testo.contains(bookmarkRispostaCorretta) || !testo.contains(bookmarkRispostaSbagliata)) {
 				throw SuggerimentoInvalidoException.sbagliata();
 			}
@@ -76,16 +87,6 @@ public class Suggerimento {
 		}
 		return new Suggerimento(testo, tempoMinimo, accuratezza, CodiceSuggerimento.crea());
 	}
-
-//	public SuggerimentoDaCasa(String testo, int tempoMinimo, Accuratezza accuratezza)
-//			throws SuggerimentoInvalidoException {
-//		if (StringUtils.isBlank(testo) || tempoMinimo < 1 || tempoMinimo > 30 || accuratezza == null) {
-//			throw new SuggerimentoInvalidoException();
-//		}
-//		this.testo = testo;
-//		this.tempoMinimo = tempoMinimo;
-//		this.accuratezza = accuratezza;
-//	}
 
 	private void generaTempoEsposizione() {
 		tempoEsposizione = tempoMinimo + random.nextInt(TEMPO_MASSIMO) + 1;
@@ -115,16 +116,13 @@ public class Suggerimento {
 
 		String testoRispostaCorretta = getTestoRispostaCorretta(risposteDisponibili);
 		String testoRispostaSbagliata = getTestoRispostaSbagliata(risposteDisponibili);
-		
-		
-		
+
 		testo = testo.replaceAll(bookmarkValorizzazioneNome, giocatore.getNome());
-		
+
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaCorretta, testoRispostaCorretta);
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaSbagliata, testoRispostaSbagliata);
 
 		generaTempoEsposizione();
-
 	}
 
 	private String getTestoRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
@@ -146,7 +144,6 @@ public class Suggerimento {
 		}
 		return testo;
 	}
-
 
 	public CodiceSuggerimento getCodice() {
 		return codice;

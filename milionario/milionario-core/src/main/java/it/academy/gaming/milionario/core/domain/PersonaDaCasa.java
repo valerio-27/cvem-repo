@@ -10,9 +10,4 @@ public class PersonaDaCasa extends Persona {
 		return new PersonaDaCasa(CulturaGenerale.genera(range));
 	}
 
-//	// TODO range cultura generale
-//	public static Persona genera() {
-//		return new Persona(CulturaGenerale.genera());
-//	}
-
 }

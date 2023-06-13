@@ -4,9 +4,7 @@ import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileEx
 
 /**
  * rimane instanziato per tutto il ciclo di vita dell'applicazione
- * 
  * @author Valerio.Crispini
- *
  */
 public class Aiuti {
 
@@ -16,7 +14,6 @@ public class Aiuti {
 	public Aiuti(RangeCulturaGenerale rangeCulturaGenerale, PercentualeFortuna percentualeFortuna) {
 		this.aiutoPubblico = new AiutoPubblico(rangeCulturaGenerale, percentualeFortuna);
 		this.aiutoCasa = new AiutoCasa(rangeCulturaGenerale);
-		AiutoComputer.ripristina();
 	}
 
 	public void usaAiutoComputer(Quesito quesito) throws AiutoNonDisponibileException {
@@ -27,22 +24,21 @@ public class Aiuti {
 		return aiutoPubblico.vota(quesito);
 	}
 
-	public Suggerimento usaAiutoCasa(Quesito quesito,Giocatore giocatore) throws AiutoNonDisponibileException {
-		return aiutoCasa.vota(quesito,giocatore);
+	public Suggerimento usaAiutoCasa(Quesito quesito, Giocatore giocatore) throws AiutoNonDisponibileException {
+		return aiutoCasa.vota(quesito, giocatore);
 	}
-	
+
 	public boolean isAiutoCasaDisponibile() {
 		return this.aiutoCasa.isDisponibile();
 	}
-	
+
 	public boolean isAiutoPubblicoDisponibile() {
 		return this.aiutoPubblico.isDisponibile();
 	}
-	
+
 	public boolean isAiutoComputerDisponibile() {
 		return AiutoComputer.isDisponibile();
 	}
-	
 
 	public void ripristinaAiuti() {
 		AiutoComputer.ripristina();
