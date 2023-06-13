@@ -19,7 +19,6 @@ public class AiutoCasa {
 	}
 
 	public Suggerimento vota(Quesito quesito, Giocatore giocatore) throws AiutoNonDisponibileException {
-
 		if (!disponibile) {
 			throw AiutoNonDisponibileException.aiutoCasa();
 		}

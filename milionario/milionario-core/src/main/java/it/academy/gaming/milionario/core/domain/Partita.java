@@ -6,14 +6,6 @@ import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileEx
 import it.academy.gaming.milionario.core.domain.exceptions.DifficoltaNonInRangeException;
 import it.academy.gaming.milionario.core.domain.exceptions.PartitaException;
 
-/**
- * viene instanziata sollo allo start dell'applicazione
- * 
- * mi tengo dei checkpoint
- * 
- * @author Valerio.Crispini
- *
- */
 public class Partita {
 
 	private Giocatore giocatore;

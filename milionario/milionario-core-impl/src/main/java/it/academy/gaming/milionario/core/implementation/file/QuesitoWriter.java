@@ -55,11 +55,11 @@ public class QuesitoWriter {
 				.append(quesito.getDomanda().getTesto()).append(SEPARATORE_CAMPI).append(risposte)
 				.append(SEPARATORE_CAMPI);
 
-		if (quesito.getDomanda().hasUrlImmagine() && !quesito.getDomanda().hasUrlDocumentazione()) {
+		if (quesito.getDomanda().haUrlImmagine() && !quesito.getDomanda().haUrlDocumentazione()) {
 			buffer.append(urlImmagine);
-		} else if (!quesito.getDomanda().hasUrlImmagine() && quesito.getDomanda().hasUrlDocumentazione()) {
+		} else if (!quesito.getDomanda().haUrlImmagine() && quesito.getDomanda().haUrlDocumentazione()) {
 			buffer.append(urlDocumentazione);
-		} else if (quesito.getDomanda().hasUrlImmagine() && quesito.getDomanda().hasUrlDocumentazione()) {
+		} else if (quesito.getDomanda().haUrlImmagine() && quesito.getDomanda().haUrlDocumentazione()) {
 			buffer.append(urlImmagine).append(SEPARATORE_CAMPI).append(urlDocumentazione);
 		}
 

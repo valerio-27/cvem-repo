@@ -1,4 +1,4 @@
-package it.academy.gaming.milionario.core.domain;
+package it.academy.gaming.milionario.core.domain.exceptions;
 
 public class CreazioneVotazioneException extends Exception {
 

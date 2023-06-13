@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import it.academy.gaming.milionario.core.domain.exceptions.CreazioneVotazioneException;
+import it.academy.gaming.milionario.core.domain.exceptions.PercentualeRispostaInvalidaExcpetion;
+
 public class Votazione {
 
 	private PercentualeRisposta[] percentualiRisposta;

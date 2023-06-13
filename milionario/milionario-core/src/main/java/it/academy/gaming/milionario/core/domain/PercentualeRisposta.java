@@ -1,5 +1,7 @@
 package it.academy.gaming.milionario.core.domain;
 
+import it.academy.gaming.milionario.core.domain.exceptions.PercentualeRispostaInvalidaExcpetion;
+
 public class PercentualeRisposta {
 
 	private LetteraRisposta letteraRisposta;
@@ -31,7 +33,5 @@ public class PercentualeRisposta {
 	public String toString() {
 		return   letteraRisposta.toString() + percentuale;
 	}
-	
-	
 
 }

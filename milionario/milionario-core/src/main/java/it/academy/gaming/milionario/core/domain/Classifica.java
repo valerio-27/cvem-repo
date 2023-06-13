@@ -17,6 +17,5 @@ public class Classifica {
 	public Collection<PartitaGiocata> getListaPartite() {
 		return partitaGiocataRepository.getAll();
 	}
-
 	
 }

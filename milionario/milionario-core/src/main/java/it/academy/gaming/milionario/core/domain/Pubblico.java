@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import it.academy.gaming.milionario.core.domain.Votazione.VotazioneBuilder;
+import it.academy.gaming.milionario.core.domain.exceptions.CreazioneVotazioneException;
+import it.academy.gaming.milionario.core.domain.exceptions.PercentualeRispostaInvalidaExcpetion;
 
 public class Pubblico {
 

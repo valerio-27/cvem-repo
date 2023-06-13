@@ -42,7 +42,7 @@ public class Domanda {
 		return informazione;
 	}
 
-	public boolean hasUrlImmagine() {
+	public boolean haUrlImmagine() {
 
 		if (informazione.getUrlImmagine() != null) {
 
@@ -51,7 +51,7 @@ public class Domanda {
 		return false;
 	}
 
-	public boolean hasUrlDocumentazione() {
+	public boolean haUrlDocumentazione() {
 
 		if (informazione.getUrlDocumentazione() != null) {
 
