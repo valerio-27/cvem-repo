@@ -2,9 +2,7 @@ package it.academy.gaming.milionario.core.domain;
 
 import java.util.Collection;
 import java.util.Random;
-
 import org.apache.commons.lang3.StringUtils;
-
 import it.academy.gaming.milionario.core.domain.codici.CodiceSuggerimento;
 import it.academy.gaming.milionario.core.domain.exceptions.SuggerimentoInvalidoException;
 
@@ -41,7 +39,7 @@ public class Suggerimento {
 	public static Suggerimento crea(String testo, int tempoMinimo, Accuratezza accuratezza)
 			throws SuggerimentoInvalidoException {
 
-		if (StringUtils.isBlank(testo) || tempoMinimo < 1 || tempoMinimo > 30 || accuratezza == null) {
+		if (StringUtils.isBlank(testo) || tempoMinimo <= 0 || tempoMinimo > TEMPO_MASSIMO || accuratezza == null) {
 			throw SuggerimentoInvalidoException.parametriInvalidi();
 		}
 		if (accuratezza != Accuratezza.ASTENUTA) {
@@ -112,37 +110,15 @@ public class Suggerimento {
 		return TEMPO_MASSIMO;
 	}
 
-	public void valorizzaBookmarks(Giocatore giocatore, Collection<Risposta> risposteDisponibili) {
-
-		String testoRispostaCorretta = getTestoRispostaCorretta(risposteDisponibili);
-		String testoRispostaSbagliata = getTestoRispostaSbagliata(risposteDisponibili);
+	public void valorizzaBookmarks(Giocatore giocatore, Quesito quesito) {
+		String testoRispostaCorretta = quesito.getTestoRispostaCorretta();
+		String testoRispostaSbagliata = quesito.getTestoRispostaSbagliata();
 
 		testo = testo.replaceAll(bookmarkValorizzazioneNome, giocatore.getNome());
-
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaCorretta, testoRispostaCorretta);
 		testo = testo.replaceAll(bookmarkValorizzazioneRispostaSbagliata, testoRispostaSbagliata);
 
 		generaTempoEsposizione();
-	}
-
-	private String getTestoRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
-		String testo = "";
-		for (Risposta risposta : risposteDisponibili) {
-			if (!risposta.isCorretta()) {
-				testo = risposta.getTesto();
-			}
-		}
-		return testo;
-	}
-
-	private String getTestoRispostaCorretta(Collection<Risposta> risposteDisponibili) {
-		String testo = "";
-		for (Risposta risposta : risposteDisponibili) {
-			if (risposta.isCorretta()) {
-				testo = risposta.getTesto();
-			}
-		}
-		return testo;
 	}
 
 	public CodiceSuggerimento getCodice() {

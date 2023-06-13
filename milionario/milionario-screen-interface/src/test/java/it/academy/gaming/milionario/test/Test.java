@@ -27,21 +27,7 @@ public class Test {
 		MilionarioService service = new MilionarioService(quesitoRepository, opzioniPersonaRepository,
 				partitaGiocataRepository);
 
-//		PartitaView view = null;
-//		PartitaGiocataView pgview = null;
-//
-//		service.iniziaPartita(new IniziaPartitaCommand("Paolo"));
-//		service.indovina(new IndovinaRispostaCommand(LetteraRisposta.C));
-//		service.continua();
-//
-//		System.out.println(service.usaAiutoCasa());
-//		view = service.indovina(new IndovinaRispostaCommand(LetteraRisposta.B));
-//
-//		System.out.println(view);
-
 		MilionarioController controller = new MilionarioController(service);
 		controller.showMenu();
-
 	}
-
 }

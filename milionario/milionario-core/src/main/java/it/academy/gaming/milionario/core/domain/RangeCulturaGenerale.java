@@ -13,12 +13,8 @@ public class RangeCulturaGenerale {
 	private int max;
 
 	public RangeCulturaGenerale(int min, int max) throws CulturaGeneraleNonInRangeException {
-		super();
-
 		if (min < LIMITE_MINIMA_CONOSCENZA || max > LIMITE_MASSIMA_CONOSCENZA || min >= max) {
-
 			throw new CulturaGeneraleNonInRangeException();
-
 		}
 		this.min = min;
 		this.max = max;

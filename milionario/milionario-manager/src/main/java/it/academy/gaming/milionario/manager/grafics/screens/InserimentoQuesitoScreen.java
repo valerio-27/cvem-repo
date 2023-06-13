@@ -18,7 +18,7 @@ import it.academy.gaming.milionario.manager.grafics.RangeDifficolta;
 import it.academy.gaming.milionario.manager.grafics.controller.CvemController;
 import it.academy.gaming.milionario.manager.grafics.exceptions.DifficoltaFuoriLimitiException;
 import it.academy.gaming.milionario.manager.grafics.exceptions.FormatoFraseNonCorrettoException;
-import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggeriMemtoErratoException;
+import it.academy.gaming.milionario.manager.grafics.exceptions.TestoSuggerimentoInvalidoException;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciDomandaRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciQuesitoRequest;
 import it.academy.gaming.milionario.manager.grafics.requests.InserisciRispostaRequest;
@@ -58,7 +58,6 @@ public class InserimentoQuesitoScreen extends Screen {
 		for (InputSuggerimento inputSuggerimento : suggerimenti) {
 			requestsSuggerimenti.add(new InserisciSuggerimentoRequest(inputSuggerimento));
 		}
-
 		int livelloDiDifficolta = acquisisciDatoRelativoLaDifficolta(controller.getMinimoDiDifficolta(),
 				controller.getMassimoDiDifficolta());
 
@@ -115,7 +114,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoAstenuto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoAstenuto();
 		}
@@ -132,7 +131,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoSbagliato(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoSbagliato();
 		}
@@ -149,7 +148,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoCorretto(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoCorretto();
 		}
@@ -167,7 +166,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		InputSuggerimento suggerimento = null;
 		try {
 			suggerimento = InputSuggerimento.creaInputSuggerimentoImpreciso(testoSuggerimento, tempoMin);
-		} catch (TestoSuggeriMemtoErratoException e) {
+		} catch (TestoSuggerimentoInvalidoException e) {
 			mostraInfo(e.getMessage());
 			return acquisisciSuggerimentoImpreciso();
 		}
@@ -191,7 +190,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciTempoMinSuggerimento();
 		}
-
 		return tempoMinimo;
 	}
 
@@ -208,7 +206,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciDatoRelativoLaDifficolta(minimoDiDifficolta, massimoDiDifficlta);
 		}
-
 		return scelta;
 	}
 
@@ -225,7 +222,6 @@ public class InserimentoQuesitoScreen extends Screen {
 			mostraInfo(e.getMessage());
 			return acquisisciDatiRelativiAllaRisposta(indiceDellaRisposta);
 		}
-
 	}
 
 	private InputDomanda aquisisciDatiRelativiAllaDomanda() {
@@ -265,5 +261,4 @@ public class InserimentoQuesitoScreen extends Screen {
 			return aquisisciDatiRelativiAllaDomanda();
 		}
 	}
-
 }

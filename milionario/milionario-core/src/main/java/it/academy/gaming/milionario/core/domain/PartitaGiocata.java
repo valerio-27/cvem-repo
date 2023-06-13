@@ -1,7 +1,6 @@
 package it.academy.gaming.milionario.core.domain;
 
 public class PartitaGiocata {
-
 	private Giocatore giocatore;
 	private Valore valore;
 

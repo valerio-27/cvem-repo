@@ -1,5 +1,4 @@
 package it.academy.gaming.milionario.screen.interfaze.view.screens;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class PartitaScreen extends Screen {
 	private final static String OPZIONE_B = "B";
 	private final static String OPZIONE_C = "C";
 	private final static String OPZIONE_D = "D";
-
+	
 	private final static String OPZIONE_AIUTO_COMPUTER = "1";
 	private final static String OPZIONE_AIUTO_CASA = "2";
 	private final static String OPZIONE_AIUTO_PUBBLICO = "3";
@@ -41,22 +40,9 @@ public class PartitaScreen extends Screen {
 		this.controller = controller;
 	}
 
-	private OpzioneStringa[] generaOpzioni(PartitaView partitaView) {
-		List<OpzioneStringa> opzioni = new ArrayList<>();
-		for (RispostaView rispostaView : partitaView.getRisposteView()) {
-			opzioni.add(new OpzioneStringa(rispostaView.getLettera().toString()));
-		}
-		if (partitaView.isAiutoComputerDisponibile()) {
-			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_COMPUTER));
-		}
-		if (partitaView.isAiutoCasaDisponibile()) {
-			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_CASA));
-		}
-		if (partitaView.isAiutoPubblicoDisponibile()) {
-			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_PUBBLICO));
-		}
-
-		return opzioni.toArray(new OpzioneStringa[0]);
+	public void show() {
+		showTitolo();
+		showContinua();
 	}
 
 	private void showContinua() {
@@ -65,12 +51,13 @@ public class PartitaScreen extends Screen {
 
 		DomandaView domandaView = partitaView.getDomandaView();
 		TestoUtil.cadenzaPerCarattere(domandaView.getTesto());
-
+		
 		RispostaView[] risposte = partitaView.getRisposteView();
 
 		String risposteString = "\n";
 
 		boolean aiutoCasaUsato = risposte.length == 2;
+		
 
 		if (aiutoCasaUsato) {
 			risposteString += risposte[0].getLettera() + "): " + risposte[0].getTesto() + "			"
@@ -80,9 +67,7 @@ public class PartitaScreen extends Screen {
 					+ risposte[1].getLettera() + "): " + risposte[1].getTesto() + "\n" + risposte[2].getLettera()
 					+ "): " + risposte[2].getTesto() + "			" + risposte[3].getLettera() + "): "
 					+ risposte[3].getTesto();
-
 		}
-
 		TestoUtil.cadenzaPerCarattere(risposteString);
 
 		String aiuti = "\n\n" + checkAiuto(partitaView.isAiutoComputerDisponibile(), "1) [50:50]   ");
@@ -92,26 +77,23 @@ public class PartitaScreen extends Screen {
 		info(aiuti);
 
 		String scelta = SceltaUtente.scegli(generaOpzioni(partitaView));
-
 		try {
 			switch (scelta) {
 			case OPZIONE_A:
 			case OPZIONE_B:
 			case OPZIONE_C:
 			case OPZIONE_D:
-
 				IndovinaRequest request = new IndovinaRequest(LetteraRisposta.valueOf(scelta));
 
 				if (!controller.indovina(request)) {
 					info("\nHai raggiunto il premio di: " + partitaView.getEuro() + "€");
-					
+
 					int euroAssicurati = controller.getEuroAssicurati();
-					if(euroAssicurati==0) {
+					if (euroAssicurati == 0) {
 						info("Non hai raggiunto nessun traguardo");
-					}else {
-						info("Il tuo traguardo attuale è di: " + controller.getEuroAssicurati() + "€");	
+					} else {
+						info("Il tuo traguardo attuale è di: " + controller.getEuroAssicurati() + "€");
 					}
-					
 
 					info("Cosa vuoi fare?\n");
 
@@ -134,16 +116,19 @@ public class PartitaScreen extends Screen {
 					controller.showPartitaTerminata();
 				}
 				break;
+				
 			case OPZIONE_AIUTO_COMPUTER:
 				controller.usaAiutoComputer();
 				showContinua();
 				break;
+				
 			case OPZIONE_AIUTO_CASA:
 				SuggerimentoView suggerimentoView = controller.usaAiutoCasa();
 				TestoUtil.cadenzaLimitata(suggerimentoView.getTesto(), suggerimentoView.getTempoEsposizione());
 				info("");
 				showContinua();
 				break;
+				
 			case OPZIONE_AIUTO_PUBBLICO:
 				VotazioneView votazioneView = controller.usaAiutoPubblico();
 				PercentualeRispostaView[] percentualiRispostaView = votazioneView.getPercentualiRispostaView();
@@ -157,15 +142,27 @@ public class PartitaScreen extends Screen {
 			}
 		} catch (PartitaException | AiutoNonDisponibileException ignored) {
 		}
-
-	}
-
-	public void show() {
-		showTitolo();
-		showContinua();
 	}
 
 	private String checkAiuto(boolean isAiutoDisponibile, String showAiuto) {
-		return ((isAiutoDisponibile) ? TestoUtil.colora(showAiuto,Colore.BLU) : TestoUtil.colora(showAiuto,Colore.ROSSO));
+		return ((isAiutoDisponibile) ? TestoUtil.colora(showAiuto, Colore.BLU)
+				: TestoUtil.colora(showAiuto, Colore.ROSSO));
+	}
+
+	private OpzioneStringa[] generaOpzioni(PartitaView partitaView) {
+		List<OpzioneStringa> opzioni = new ArrayList<>();
+		for (RispostaView rispostaView : partitaView.getRisposteView()) {
+			opzioni.add(new OpzioneStringa(rispostaView.getLettera().toString()));
+		}
+		if (partitaView.isAiutoComputerDisponibile()) {
+			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_COMPUTER));
+		}
+		if (partitaView.isAiutoCasaDisponibile()) {
+			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_CASA));
+		}
+		if (partitaView.isAiutoPubblicoDisponibile()) {
+			opzioni.add(new OpzioneStringa(OPZIONE_AIUTO_PUBBLICO));
+		}
+		return opzioni.toArray(new OpzioneStringa[0]);
 	}
 }

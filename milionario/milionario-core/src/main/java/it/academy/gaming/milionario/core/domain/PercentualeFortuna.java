@@ -8,12 +8,8 @@ public class PercentualeFortuna {
 	private int percentualeFortuna;
 
 	public PercentualeFortuna(int percentualeFortuna) throws PercentualeFortunaNonInRangeException {
-		super();
-
 		if (percentualeFortuna < LIMITE_DI_FORTUNA_MINIMO || percentualeFortuna > LIMITE_DI_FORTUNA_MASSIMO) {
-
 			throw new PercentualeFortunaNonInRangeException();
-
 		}
 
 		this.percentualeFortuna = percentualeFortuna;

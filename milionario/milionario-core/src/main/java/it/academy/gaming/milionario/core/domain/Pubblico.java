@@ -2,7 +2,6 @@ package it.academy.gaming.milionario.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 import it.academy.gaming.milionario.core.domain.Votazione.VotazioneBuilder;
@@ -32,44 +31,27 @@ public class Pubblico {
 		return new Pubblico(creaPersonePubblico(range), percentualeFortuna);
 	}
 
-	/**
-	 * La persona parte con un livello di conoscenza per la categoria del quesito,
-	 * ogni quesito in base alla propria difficolta aggiunge/diminuisce il livello
-	 * di conoscenza, ora se il quesito ha 2 sole risposte aggiungo un 30%. se la
-	 * percentuale risultante è negativa questa viene sostiuita dalla percentuale
-	 * fortuna.
-	 * 
-	 * @param quesito
-	 * @param range
-	 * @param percentualeFortuna
-	 * @return
-	 */
-
 	public Votazione vota(Quesito quesito) {
 		VotazioneBuilder builder = Votazione.builder();
 
 		Collection<Risposta> risposteDisponibili = quesito.getRisposteDisponibili();
-
-		LetteraRisposta letteraRispostaCorretta = trovaLetteraRispostaCorretta(risposteDisponibili);
+		LetteraRisposta letteraRispostaCorretta = quesito.getLetteraRispostaCorretta();
 
 		for (PersonaPubblico persona : this.persone) {
 
 			Categoria categoria = quesito.getDomanda().getCategoria();
 
 			int conoscenza = persona.getCulturaGenerale().getConoscenzaPerCategoria(categoria);
-
 			conoscenza += SuccessoDomanda.calcola(quesito);
 
 			if (risposteDisponibili.size() == 2) {
 				conoscenza += 30;
 			}
-
 			// se la percentuale è negativa questa viene sostiuita dalla percentuale
 			// fortuna, sennò rimane quella
 			if (conoscenza < 0) {
 				conoscenza = percentualeFortuna.getPercentualeFortuna();
 			}
-
 			int numero = random.nextInt(100) + 1;
 
 			if (numero <= conoscenza) {
@@ -79,7 +61,7 @@ public class Pubblico {
 				}
 			} else {
 				try {
-					builder.vota(daiLetteraRispostaSbagliata(risposteDisponibili));
+					builder.vota(quesito.getLetteraRispostaSbagliata());
 				} catch (PercentualeRispostaInvalidaExcpetion ignored) {
 				}
 			}
@@ -90,27 +72,6 @@ public class Pubblico {
 		} catch (CreazioneVotazioneException ignored) {
 		}
 		return votazione;
-	}
-
-	private static LetteraRisposta daiLetteraRispostaSbagliata(Collection<Risposta> risposteDisponibili) {
-		List<LetteraRisposta> lettereRispostaErrate = new ArrayList<>();
-
-		for (Risposta risposta : risposteDisponibili) {
-			if (!risposta.isCorretta()) {
-				lettereRispostaErrate.add(risposta.getLettera());
-			}
-		}
-		return lettereRispostaErrate.get(random.nextInt(lettereRispostaErrate.size()));
-	}
-
-	private static LetteraRisposta trovaLetteraRispostaCorretta(Collection<Risposta> risposteDisponibili) {
-		LetteraRisposta letteraRisposta = null;
-		for (Risposta risposta : risposteDisponibili) {
-			if (risposta.isCorretta()) {
-				letteraRisposta = risposta.getLettera();
-			}
-		}
-		return letteraRisposta;
 	}
 
 }

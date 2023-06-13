@@ -7,15 +7,15 @@ public class AiutoNonDisponibileException extends Exception {
 	}
 
 	public static AiutoNonDisponibileException aiutoPubblico() {
-		return new AiutoNonDisponibileException("Aiuto pubblico non disponibile");
+		return new AiutoNonDisponibileException("Aiuto del pubblico non disponibile");
 	}
 
 	public static AiutoNonDisponibileException aiutoCasa() {
-		return new AiutoNonDisponibileException("Aiuto Casa non disponibile");
+		return new AiutoNonDisponibileException("Aiuto da Casa non disponibile");
 	}
 
 	public static AiutoNonDisponibileException aiutoComputer() {
-		return new AiutoNonDisponibileException("Aiuto computer non disponibile");
+		return new AiutoNonDisponibileException("Aiuto del computer non disponibile");
 	}
 
 }

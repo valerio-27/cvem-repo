@@ -69,7 +69,18 @@ public class Quesito {
 		return suggerimentiPerAccuratezza;
 	}
 
-	private LetteraRisposta getLetteraRispostaCorretta() {
+	public LetteraRisposta getLetteraRispostaSbagliata() {
+		List<LetteraRisposta> lettereRispostaErrate = new ArrayList<>();
+
+		for (Risposta risposta : getRisposteDisponibili()) {
+			if (!risposta.isCorretta()) {
+				lettereRispostaErrate.add(risposta.getLettera());
+			}
+		}
+		return lettereRispostaErrate.get(random.nextInt(lettereRispostaErrate.size()));
+	}
+
+	public LetteraRisposta getLetteraRispostaCorretta() {
 		LetteraRisposta letteraRisposta = null;
 		for (Risposta risposta : getRisposteDisponibili()) {
 			if (risposta.isCorretta()) {
@@ -77,6 +88,26 @@ public class Quesito {
 			}
 		}
 		return letteraRisposta;
+	}
+	
+	public String getTestoRispostaSbagliata() {
+		String testo = "";
+		for (Risposta risposta : getRisposteDisponibili()) {
+			if (!risposta.isCorretta()) {
+				testo = risposta.getTesto();
+			}
+		}
+		return testo;
+	}
+
+	public String getTestoRispostaCorretta() {
+		String testo = "";
+		for (Risposta risposta : getRisposteDisponibili()) {
+			if (risposta.isCorretta()) {
+				testo = risposta.getTesto();
+			}
+		}
+		return testo;
 	}
 
 	public static class QuesitoBuilder {
@@ -221,14 +252,5 @@ public class Quesito {
 		return risposteDisponibili;
 	}
 
-	public String getTestoRispostaCorretta() {
-		String testoRispostaCorretta = "";
-		for (Risposta risposta : getRisposteDisponibili()) {
-			if (risposta.isCorretta()) {
-				testoRispostaCorretta = risposta.getTesto();
-			}
-		}
-		return testoRispostaCorretta;
-	}
 
 }

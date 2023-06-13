@@ -2,10 +2,6 @@ package it.academy.gaming.milionario.core.domain;
 
 import it.academy.gaming.milionario.core.domain.exceptions.AiutoNonDisponibileException;
 
-/**
- * rimane instanziato per tutto il ciclo di vita dell'applicazione
- * @author Valerio.Crispini
- */
 public class Aiuti {
 
 	private AiutoCasa aiutoCasa;

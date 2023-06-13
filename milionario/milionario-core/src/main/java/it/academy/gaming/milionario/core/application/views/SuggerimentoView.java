@@ -8,7 +8,6 @@ public class SuggerimentoView {
 	private int tempoEsposizione;
 
 	public SuggerimentoView(Suggerimento suggerimento) {
-
 		this.testo = suggerimento.getTesto();
 		this.tempoEsposizione = suggerimento.getTempoEsposizione();
 	}

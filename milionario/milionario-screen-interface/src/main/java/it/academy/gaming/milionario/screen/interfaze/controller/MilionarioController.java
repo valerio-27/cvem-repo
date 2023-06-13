@@ -63,7 +63,6 @@ public class MilionarioController {
 	}
 
 	public Collection<PartitaGiocataView> getPartiteGiocate() {
-
 		return service.getPartiteGiocate();
 	}
 
@@ -73,7 +72,6 @@ public class MilionarioController {
 		service.iniziaPartita(iniziaPartitaCommand);
 
 		showPartita();
-
 	}
 
 	public PartitaView getPartita() {
@@ -82,7 +80,6 @@ public class MilionarioController {
 
 	public boolean indovina(IndovinaRequest request) throws PartitaException {
 		return service.indovina(new IndovinaCommand(request.getLetteraRisposta()));
-
 	}
 
 	public void continua() throws PartitaException {

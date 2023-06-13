@@ -69,21 +69,8 @@ public class Partita {
 			registraPartita();
 		}
 		inAttesa = false;
-		
+
 		return this.terminata;
-	}
-
-	private void checkRispostaPresente(LetteraRisposta lettera) throws PartitaException {
-
-		boolean letteraPresente = false;
-		for (Risposta risposta : quesitoAttuale.getRisposteDisponibili()) {
-			if (risposta.getLettera().equals(lettera)) {
-				letteraPresente = true;
-			}
-		}
-		if (!letteraPresente) {
-			throw PartitaException.rispostaNonPresente();
-		}
 	}
 
 	public void continua() throws PartitaException {
@@ -96,7 +83,6 @@ public class Partita {
 		inAttesa = true;
 	}
 
-	// prendi il valore della domanda appena indovinata
 	public void ritirati() throws PartitaException {
 		if (terminata || !quesitoIndovinato) {
 			throw PartitaException.ritiroNonConsentito();
@@ -138,43 +124,7 @@ public class Partita {
 		return giocatore;
 	}
 
-	public Classifica getClassifica() {
-		return classifica;
-	}
-
-	public QuesitoRepository getQuesitoRepository() {
-		return quesitoRepository;
-	}
-
-	public boolean isIniziata() {
-		return iniziata;
-	}
-
-	public boolean isTerminata() {
-		return terminata;
-	}
-
-	public int getLivelloDifficolta() {
-		return livelloDifficolta;
-	}
-
-	private void aggiornaQuesito() {
-		try {
-			this.quesitoAttuale = quesitoRepository.findRandomByDifficolta(new Difficolta(livelloDifficolta));
-		} catch (DifficoltaNonInRangeException ignored) {
-		}
-	}
-
-	private void registraPartita() {
-		Valore valore = quesitoAttuale.getValore();
-		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, valore);
-		if (valore.getEuro() != 0) {
-			classifica.registra(partitaGiocata);
-		}
-	}
-
 	public Collection<PartitaGiocata> getPartiteGiocate() {
-
 		return this.classifica.getListaPartite();
 	}
 
@@ -190,6 +140,34 @@ public class Partita {
 
 	public String getTestoRispostaCorretta() {
 		return quesitoAttuale.getTestoRispostaCorretta();
+	}
+
+	private void checkRispostaPresente(LetteraRisposta lettera) throws PartitaException {
+
+		boolean letteraPresente = false;
+		for (Risposta risposta : quesitoAttuale.getRisposteDisponibili()) {
+			if (risposta.getLettera().equals(lettera)) {
+				letteraPresente = true;
+			}
+		}
+		if (!letteraPresente) {
+			throw PartitaException.rispostaNonPresente();
+		}
+	}
+
+	private void aggiornaQuesito() {
+		try {
+			this.quesitoAttuale = quesitoRepository.findRandomByDifficolta(new Difficolta(livelloDifficolta));
+		} catch (DifficoltaNonInRangeException ignored) {
+		}
+	}
+
+	private void registraPartita() {
+		Valore valore = quesitoAttuale.getValore();
+		PartitaGiocata partitaGiocata = new PartitaGiocata(giocatore, valore);
+		if (valore.getEuro() != 0) {
+			classifica.registra(partitaGiocata);
+		}
 	}
 
 }

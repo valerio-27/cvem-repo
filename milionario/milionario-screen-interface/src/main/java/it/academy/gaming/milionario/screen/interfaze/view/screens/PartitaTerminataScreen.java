@@ -10,7 +10,6 @@ import it.academy.gaming.milionario.screen.interfaze.controller.MilionarioContro
 public class PartitaTerminataScreen extends Screen {
 
 	private MilionarioController controller;
-
 	private final static String OPZIONE_MENU = "M";
 
 	public PartitaTerminataScreen(MilionarioController controller) {
