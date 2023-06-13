@@ -76,18 +76,4 @@ public class OpzioniPersonaRepositoryImpl implements OpzioniPersonaRepository {
 
 	}
 
-//	public static void main(String[] args) {
-//		try {
-//			OpzioniPersonaRepository opzioniPersonaRepository = new OpzioniPersonaRepositoryImpl(
-//					"C:/Users/aniso/milionario_opzioni_persona.properties");
-////			 opzioniPersonaRepository.setOpzioni(new RangeCulturaGenerale(30, 70), new
-////			 PercentualeFortuna(25));
-//			System.out.println(opzioniPersonaRepository.getRangeCulturaGenerale().toString());
-//			System.out.println(opzioniPersonaRepository.getPercentualeFortuna().toString());
-//		} catch (FileNotFoundException  e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-
 }

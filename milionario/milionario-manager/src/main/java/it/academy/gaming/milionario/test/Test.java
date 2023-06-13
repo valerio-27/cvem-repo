@@ -42,6 +42,7 @@ public class Test {
 		CvemService service = new CvemService(repository, opzioniRepository);
 		CvemController controller = new CvemController(service);
 		controller.showMenuScreen();
+		
 
 //		QuesitoBuilder builder = Quesito.builder();
 //

@@ -45,6 +45,10 @@ public class ModificaSuggerimentiScreen extends Screen {
 	}
 
 	private void modificaSuggerimenti(QuesitoView quesitoRichiestoView) {
+		for (SuggerimentoView suggerimento : quesitoRichiestoView.getSuggerimentiView()) {
+			mostraInfo(suggerimento.toString());
+
+		}
 		InputSuggerimento inputSuggerimentoAstenuto = null;
 		InputSuggerimento inputSuggerimentoCorretto = null;
 		InputSuggerimento inputSuggerimentoImpreciso = null;
@@ -82,55 +86,60 @@ public class ModificaSuggerimentiScreen extends Screen {
 
 			}
 		}
+		while (true) {
+			mostraInfo("Quale suggerimento vuoi modificare");
+			mostraInfo("C)orretto");
+			mostraInfo("I)mpreciso");
+			mostraInfo("S)bagliato");
+			mostraInfo("A)stenuto");
+			mostraInfo("M)odifiche terminate");
+			mostraInfo("E)sci dalle modifiche");
+			String scelta = scanner.next();
+			scanner.nextLine();
+			try {
+				switch (scelta.toUpperCase()) {
+				case OPZIONE_ESCI_DALLE_MODIFICHE:
+					controller.showModificaQuesitoScreen();
+					break;
+				case OPZIONE_MODIFICA:
 
-		mostraInfo("Quale suggerimento vuoi modificare");
-		mostraInfo("C)orretto");
-		mostraInfo("I)mpreciso");
-		mostraInfo("S)bagliato");
-		mostraInfo("A)stenuto");
-		mostraInfo("M)odifiche terminate");
-		mostraInfo("E)sci dalle modifiche");
-		String scelta = scanner.next();
-		scanner.nextLine();
-		try {
-			switch (scelta.toUpperCase()) {
-			case OPZIONE_ESCI_DALLE_MODIFICHE:
-				controller.showModificaQuesitoScreen();
-				break;
-			case OPZIONE_MODIFICA:
+					List<ModificaSuggerimentoRequest> modificaSuggerimentoRequests = new ArrayList<>();
+					modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(
+							inputSuggerimentoAstenuto.getTesto(), inputSuggerimentoAstenuto.getAccuratezza(),
+							inputSuggerimentoAstenuto.getMinimoTempo()));
+					modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(
+							inputSuggerimentoCorretto.getTesto(), inputSuggerimentoCorretto.getAccuratezza(),
+							inputSuggerimentoCorretto.getMinimoTempo()));
+					modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(
+							inputSuggerimentoImpreciso.getTesto(), inputSuggerimentoImpreciso.getAccuratezza(),
+							inputSuggerimentoImpreciso.getMinimoTempo()));
+					modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(
+							inputSuggerimentoSbagliato.getTesto(), inputSuggerimentoSbagliato.getAccuratezza(),
+							inputSuggerimentoSbagliato.getMinimoTempo()));
+					ModificaSuggerimentiRequest request = new ModificaSuggerimentiRequest(
+							quesitoRichiestoView.getCodice(), modificaSuggerimentoRequests);
+					controller.modificaSuggerimenti(request);
+					break;
+				case OPZIONE_MODIFICA_ASTENUTO:
+					inputSuggerimentoAstenuto = acquisisciSuggerimentoAstenuto();
+					break;
+				case OPZIONE_MODIFICA_CORRETTO:
+					inputSuggerimentoCorretto = acquisisciSuggerimentoCorretto();
+					break;
+				case OPZIONE_MODIFICA_IMPRECISO:
+					inputSuggerimentoImpreciso = acquisisciSuggerimentoImpreciso();
+					break;
+				case OPZIONE_MODIFICA_SBAGLIATO:
+					inputSuggerimentoSbagliato = acquisisciSuggerimentoSbagliato();
+					break;
 
-				List<ModificaSuggerimentoRequest> modificaSuggerimentoRequests = new ArrayList<>();
-				modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(inputSuggerimentoAstenuto.getTesto(),
-						inputSuggerimentoAstenuto.getAccuratezza(), inputSuggerimentoAstenuto.getMinimoTempo()));
-				modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(inputSuggerimentoCorretto.getTesto(),
-						inputSuggerimentoCorretto.getAccuratezza(), inputSuggerimentoCorretto.getMinimoTempo()));
-				modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(inputSuggerimentoImpreciso.getTesto(),
-						inputSuggerimentoImpreciso.getAccuratezza(), inputSuggerimentoImpreciso.getMinimoTempo()));
-				modificaSuggerimentoRequests.add(new ModificaSuggerimentoRequest(inputSuggerimentoSbagliato.getTesto(),
-						inputSuggerimentoSbagliato.getAccuratezza(), inputSuggerimentoSbagliato.getMinimoTempo()));
-				ModificaSuggerimentiRequest request = new ModificaSuggerimentiRequest(quesitoRichiestoView.getCodice(),
-						modificaSuggerimentoRequests);
-				controller.modificaSuggerimenti(request);
-				break;
-			case OPZIONE_MODIFICA_ASTENUTO:
-				inputSuggerimentoAstenuto = acquisisciSuggerimentoAstenuto();
-				break;
-			case OPZIONE_MODIFICA_CORRETTO:
-				inputSuggerimentoCorretto = acquisisciSuggerimentoCorretto();
-				break;
-			case OPZIONE_MODIFICA_IMPRECISO:
-				inputSuggerimentoImpreciso = acquisisciSuggerimentoImpreciso();
-				break;
-			case OPZIONE_MODIFICA_SBAGLIATO:
-				inputSuggerimentoSbagliato = acquisisciSuggerimentoSbagliato();
-				break;
+				default:
+					throw new IllegalArgumentException("Opzione non valida");
 
-			default:
-				throw new IllegalArgumentException("Opzione non valida");
-
+				}
+			} catch (Exception e) {
+				show();
 			}
-		} catch (Exception e) {
-			show();
 		}
 
 	}

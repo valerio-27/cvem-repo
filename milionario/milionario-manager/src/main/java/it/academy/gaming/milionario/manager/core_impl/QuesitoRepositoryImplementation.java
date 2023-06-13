@@ -123,6 +123,46 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 		}
 
 	}
+	private void aggiungiSuggerimenti(CodiceQuesito codice,
+			 List<Suggerimento> nuoviSuggerimenti) {
+		PreparedStatement preparedStatement = null;
+
+		DbConnection dbConnection = null;
+
+		try {
+			dbConnection = connectionManager.creaConnection();
+
+
+
+			String sqlScript = "INSERT INTO Suggerimento (codice,codice_quesito,accuratezza,testo,tempo_minimo) VALUES (?,?,?,?,?)";
+			for (Suggerimento suggerimento : nuoviSuggerimenti) {
+				preparedStatement = dbConnection.prepareStatement(sqlScript);
+
+				preparedStatement.setString(1, suggerimento.getCodice().getCodice());
+				preparedStatement.setString(2, codice.getCodice());
+				preparedStatement.setString(3, suggerimento.getAccuratezza().toString());
+				preparedStatement.setString(4, suggerimento.getTesto());
+				preparedStatement.setInt(5, suggerimento.getTempoMinimo());
+
+				preparedStatement.executeUpdate();
+
+			}
+
+		} catch (SQLException e) {
+			throw new DbQuesitoException(e);
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException ignored) {
+				}
+			}
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}
+
+	}
 
 	private void aggiungiRisposte(CodiceQuesito codice, Collection<Risposta> risposte) {
 		PreparedStatement preparedStatement = null;
@@ -591,8 +631,35 @@ public class QuesitoRepositoryImplementation implements QuesitoRepository {
 
 
 	@Override
-	public void setSuggerimenti(CodiceQuesito codice, List<Suggerimento> nuoviSuggerimenti) {
-		// TODO Auto-generated method stub
-		
+	public void setSuggerimenti(CodiceQuesito codiceQuesito, List<Suggerimento> nuoviSuggerimenti) {
+		PreparedStatement preparedStatement = null;
+
+		DbConnection dbConnection = null;
+
+		try {
+			dbConnection = connectionManager.creaConnection();
+
+			String sqlScript = "DELETE FROM Suggerimento WHERE codice_quesito= ?";
+			preparedStatement = dbConnection.prepareStatement(sqlScript);
+
+			preparedStatement.setString(1, codiceQuesito.getCodice());
+
+			preparedStatement.executeUpdate();
+
+			aggiungiSuggerimenti(codiceQuesito, nuoviSuggerimenti);
+
+		} catch (SQLException e) {
+			throw new DbQuesitoException(e);
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException ignored) {
+				}
+			}
+			if (dbConnection != null) {
+				dbConnection.close();
+			}
+		}		
 	}
 }

@@ -12,11 +12,11 @@ public class OpzioniPersonaView {
 		this.percentualeFortuna = percentualeFortuna;
 	}
 
-	public int getMaxConoscenza() {
+	public int getMaxCulturaGenerale() {
 		return maxConoscenza;
 	}
 
-	public int getMinConoscenza() {
+	public int getMinCulturaGenerale() {
 		return minConoscenza;
 	}
 

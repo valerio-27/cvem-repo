@@ -183,7 +183,7 @@ public class InserimentoQuesitoScreen extends Screen {
 		try {
 			tempoMinimo = scanner.nextInt();
 			scanner.nextLine();
-			if (tempoMinimo < 0 || tempoMinimo > tempoMax) {
+			if (tempoMinimo <= 0 || tempoMinimo > tempoMax) {
 				throw new IllegalArgumentException("Il tempo che hai inserito non rientra nei limiti dati");
 
 			}

@@ -241,7 +241,7 @@ public class CvemService {
 		List<SuggerimentoView> suggerimentoView = new ArrayList<>();
 		for (Suggerimento suggerimento : quesito.getSuggerimenti()) {
 			suggerimentoView.add(new SuggerimentoView(suggerimento.getTesto(), suggerimento.getAccuratezza(),
-					suggerimento.getTempoEsposizione()));
+					suggerimento.getTempoMinimo()));
 		}
 
 		return new QuesitoView(domandaView, risposteView, suggerimentoView, difficoltaView, codice);
@@ -303,5 +303,7 @@ public class CvemService {
 		CodiceQuesito codice = CodiceQuesito.parse(command.getCodiceQuesito());
 		quesitoRepository.setSuggerimenti(codice, nuoviSuggerimenti);
 	}
+
+	
 
 }

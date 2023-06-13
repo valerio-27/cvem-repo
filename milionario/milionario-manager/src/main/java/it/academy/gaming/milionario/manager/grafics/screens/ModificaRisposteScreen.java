@@ -48,7 +48,7 @@ public class ModificaRisposteScreen extends Screen {
 
 		/*
 		 * mi prendo tutti i testi e li metto in una list di stringhe nello stesso
-		 * ordine
+		 * ordine perche quando andrò a modificarli sostituirò la stringa nella lista
 		 */
 		List<String> testiRisposteAttuali = new ArrayList<>();
 		for (RispostaView rispostaView : risposteAttuali) {
