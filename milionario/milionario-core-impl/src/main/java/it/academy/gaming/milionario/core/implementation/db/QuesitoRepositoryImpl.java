@@ -34,9 +34,7 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 		this.connectionManager = new ConnectionManager(url, user, password);
 	}
 
-	
-	
-	//difficolta
+	// difficolta
 	@Override
 	public Quesito findRandomByDifficolta(Difficolta difficolta) {
 
@@ -57,9 +55,8 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 
 			quesitiResultSet = preparedStatement.executeQuery();
 
-
 			while (quesitiResultSet.next()) {
-				
+
 				QuesitoBuilder builder = Quesito.builder();
 				builder.setDifficolta(difficolta);
 
@@ -93,7 +90,7 @@ public class QuesitoRepositoryImpl implements QuesitoRepository {
 
 			}
 		} catch (SQLException e) {
-
+			throw new DbQuesitoException(e);
 		} finally {
 			if (preparedStatement != null) {
 				try {

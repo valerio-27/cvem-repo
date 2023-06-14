@@ -89,7 +89,7 @@ public class Quesito {
 		}
 		return letteraRisposta;
 	}
-	
+
 	public String getTestoRispostaSbagliata() {
 		String testo = "";
 		for (Risposta risposta : getRisposteDisponibili()) {
@@ -108,6 +108,53 @@ public class Quesito {
 			}
 		}
 		return testo;
+	}
+
+	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
+		int risposteCorrettePresenti = 0;
+
+		for (Risposta risposta : risposte) {
+			if (risposta == null) {
+				throw RisposteInvalideException.presenteRispostaNulla();
+			}
+			if (risposta.isCorretta()) {
+				risposteCorrettePresenti++;
+			}
+		}
+		if (risposteCorrettePresenti != 1) {
+			throw RisposteInvalideException.rispostaEsattaUnivocaAssente();
+		}
+	}
+
+	public Collection<Risposta> getRisposteDisponibili() {
+		Collection<Risposta> risposteDisponibili = new ArrayList<Risposta>();
+
+		for (Risposta risposta : this.risposte) {
+			if (risposta != null) {
+				risposteDisponibili.add(risposta);
+			}
+		}
+		return risposteDisponibili;
+	}
+
+	public Domanda getDomanda() {
+		return domanda;
+	}
+
+	public Risposta[] getRisposte() {
+		return risposte;
+	}
+
+	public Difficolta getDifficolta() {
+		return difficolta;
+	}
+
+	public CodiceQuesito getCodice() {
+		return codice;
+	}
+
+	public Valore getValore() {
+		return valore;
 	}
 
 	public static class QuesitoBuilder {
@@ -191,66 +238,16 @@ public class Quesito {
 			return new Quesito(domanda, risposte, difficolta, suggerimentiPerAccuratezza);
 		}
 
+		public static int getNumeroMassimoRisposte() {
+			return NUMERO_RISPOSTE;
+		}
+
 		private void checkSuggerimentiValidi() throws SuggerimentiInvalidiException {
 			Set<Accuratezza> keys = this.suggerimentiPerAccuratezza.keySet();
 			if (keys.size() != Accuratezza.values().length) {
 				throw new SuggerimentiInvalidiException();
 			}
-
-		}
-
-		public static int getNumeroMassimoRisposte() {
-			return NUMERO_RISPOSTE;
-		}
-
-	}
-
-	public Domanda getDomanda() {
-		return domanda;
-	}
-
-	public Risposta[] getRisposte() {
-		return risposte;
-	}
-
-	public Difficolta getDifficolta() {
-		return difficolta;
-	}
-
-	public CodiceQuesito getCodice() {
-		return codice;
-	}
-
-	public Valore getValore() {
-		return valore;
-	}
-
-	public static void checkRisposteValide(Collection<Risposta> risposte) throws RisposteInvalideException {
-		int risposteCorrettePresenti = 0;
-
-		for (Risposta risposta : risposte) {
-			if (risposta == null) {
-				throw RisposteInvalideException.presenteRispostaNulla();
-			}
-			if (risposta.isCorretta()) {
-				risposteCorrettePresenti++;
-			}
-		}
-		if (risposteCorrettePresenti != 1) {
-			throw RisposteInvalideException.rispostaEsattaUnivocaAssente();
 		}
 	}
-
-	public Collection<Risposta> getRisposteDisponibili() {
-		Collection<Risposta> risposteDisponibili = new ArrayList<Risposta>();
-
-		for (Risposta risposta : this.risposte) {
-			if (risposta != null) {
-				risposteDisponibili.add(risposta);
-			}
-		}
-		return risposteDisponibili;
-	}
-
 
 }
